@@ -1,0 +1,479 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GIM · Instrumentos Musicales</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>:root{--bg:#f5eff7;--sf:#fff;--s2:#f1e7f4;--ln:#e5d9e9;--ink:#211927;--mu:#766b7c;--ac:#743a83;--ok:#16794b;--wn:#9a6700;--er:#b42318;--sh:0 4px 14px rgba(58,28,66,.09)}
+body.dark{--bg:#12141c;--sf:#1b1e29;--s2:#232736;--ln:#2f3447;--ink:#e8eaf2;--mu:#9aa3b8;--ac:#b79cf5;--ok:#4cc38a;--wn:#e0b04a;--er:#f08080;--sh:0 4px 14px rgba(0,0,0,.35)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,sans-serif}
+header{background:linear-gradient(115deg,#35143f,#51205d 55%,#71387e);color:#fff;padding:14px 20px;position:sticky;top:0;z-index:10;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+body.dark header{background:linear-gradient(115deg,#1a1830,#2a2145)}
+header img{height:50px;background:#fff;border-radius:8px;padding:3px}
+header b{font-size:16px}
+header small{display:block;opacity:.8;font-size:11px;letter-spacing:.5px}
+header select{background:rgba(255,255,255,.15);color:#fff;border-color:transparent}
+header option{color:#000}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav button{background:none;color:#e9dcef;border:0;padding:8px 12px;border-radius:99px;cursor:pointer}
+nav .on{background:rgba(255,255,255,.2);color:#fff}
+main{max-width:1150px;margin:auto;padding:16px}
+.ban{background:var(--ac);color:#fff;padding:8px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600}
+body.dark .ban{color:#12141c}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}
+h2,h3{margin:0 0 8px}
+.mu{color:var(--mu)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+button,input,select,textarea{font:inherit}
+input,select,textarea{padding:8px 10px;border:1px solid var(--ln);border-radius:10px;background:var(--s2);color:var(--ink);max-width:100%}
+textarea{width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ac)}
+.b{background:linear-gradient(135deg,#7a3f8b,#51205d);color:#fff;border:0;border-radius:10px;padding:8px 14px;cursor:pointer;display:inline-block}
+body.dark .b{background:linear-gradient(135deg,#7c5ce0,#5a3fb8)}
+.b.s{background:var(--s2);color:var(--ink);border:1px solid var(--ln)}
+.b.r{background:var(--er);color:#fff}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{background:var(--s2);color:var(--ac);font-size:12px;text-align:left}
+td,th{padding:7px;border-bottom:1px solid var(--ln)}
+table:not(.hz):not(.sus) tbody tr:nth-child(even) td{background:rgba(116,58,131,.04)}
+tr.off td{opacity:.5}
+.gs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.gc{border:1px solid var(--ln);border-left:7px solid var(--ga);background:color-mix(in srgb,var(--ga) 14%,var(--sf));color:var(--ink);padding:8px 14px;border-radius:12px;cursor:pointer}
+.gc.on{outline:2px solid var(--ga)}
+.pill{padding:2px 10px;border-radius:99px;font-size:12px;background:var(--s2)}
+.pill.ok{color:var(--ok)}
+.pill.er{color:var(--er)}
+.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:9px}
+.k{border:2px solid var(--ln);border-radius:12px;padding:10px;background:var(--sf);color:var(--ink);cursor:pointer;text-align:left}
+.k strong{display:block;font-size:17px}
+.k small{color:var(--mu)}
+.k.ok{border-color:color-mix(in srgb,var(--ok) 50%,var(--ln))}
+.k.rev{border-color:var(--ln);background:color-mix(in srgb,var(--mu) 12%,var(--sf))}.k.det{border-color:var(--wn);background:color-mix(in srgb,var(--wn) 14%,var(--sf))}
+.k.inc{border-color:var(--er);background:color-mix(in srgb,var(--er) 10%,var(--sf))}
+.k.ret{opacity:.45}
+.inc-c.closed{border-left:6px solid var(--ok)}
+.inc-c.open{border-left:6px solid var(--er)}
+#modal{position:fixed;inset:0;background:#0009;display:none;justify-content:center;align-items:flex-start;overflow:auto;padding:16px;z-index:30}
+#modal>div{background:var(--sf);color:var(--ink);border-radius:16px;padding:18px;width:min(680px,100%)}
+#toast{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:10px;display:none;z-index:40}
+#toast.e{background:var(--er)}
+.auth{max-width:400px;margin:8vh auto}
+.auth input{width:100%;margin-bottom:8px}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+#imp{display:none}
+@media print{@page{size:A4;margin:14mm}body.p{background:#fff}body.p>*:not(#imp){display:none!important}body.p #imp{display:block}}
+#imp{color:#211927;font-size:10pt}
+.lh{display:flex;gap:14px;align-items:center;border-bottom:1px solid #d9c8df;padding-bottom:10px}
+.lh img{height:52px}
+.lh small{letter-spacing:1.2px;color:#743a83;font-weight:700;font-size:8pt}
+.lh h1{margin:2px 0 0;font-size:15pt}
+.bar{height:4px;background:linear-gradient(90deg,#51205d,#743a83 60%,#c9a3d4);margin:6px 0 14px}
+#imp table{font-size:9pt}
+#imp th{background:#f1e7f4;color:#51205d}
+#imp td,#imp th{border-bottom:1px solid #e7dce9}
+#imp tr{break-inside:avoid}
+#imp .ft{border-top:1px solid #d9c8df;margin-top:18px;padding-top:6px;font-size:8pt;color:#766b7c}
+#imp .inc{border:1px solid #e0d3e5;border-radius:8px;padding:8px;margin:8px 0;break-inside:avoid}
+.trace-1 td{background:color-mix(in srgb,#d92d20 34%,var(--sf))}.trace-2 td{background:color-mix(in srgb,#d92d20 20%,var(--sf))}.trace-3 td{background:color-mix(in srgb,#f08c00 28%,var(--sf))}.trace-4 td{background:color-mix(in srgb,#f08c00 20%,var(--sf))}.trace-5 td{background:color-mix(in srgb,#f7dc3d 30%,var(--sf))}.trace-6 td{background:color-mix(in srgb,var(--mu) 16%,var(--sf))}.k2.det{border-color:var(--wn);color:var(--wn)}.inc-c.open.deterioro{border-left-color:var(--wn)}.pf-s{width:100%;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:6px 12px;border-radius:10px;background:color-mix(in srgb,var(--ac) 10%,var(--sf))}#imp,#imp *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+details summary{cursor:pointer;margin:6px 0}
+@media print{body.p.dark,body.p{--sf:#fff;--s2:#f1e7f4;--ln:#e5d9e9;--ink:#211927;--mu:#766b7c;--er:#b42318;--wn:#9a6700}}
+.by{display:block;font-size:10px;font-style:italic;letter-spacing:.4px;opacity:.55;margin-top:2px}
+details.card>summary{cursor:pointer;font-size:16px}
+details.card[open]>summary{margin-bottom:10px}
+.k2{border:1px solid var(--ln);background:var(--s2);color:var(--ink);border-radius:8px;padding:2px 9px;cursor:pointer;font-weight:600}
+.k2.inc{border-color:var(--er);color:var(--er)}
+.auth{max-width:400px;margin:8vh auto}
+.auth input{width:100%;margin-bottom:8px}
+.auth-shell{min-height:100vh;display:grid;place-items:center;padding:28px 16px;background:
+ radial-gradient(ellipse at 12% 12%,rgba(116,58,131,.15),transparent 38%),
+ radial-gradient(ellipse at 90% 88%,rgba(201,163,212,.22),transparent 35%),var(--bg)}
+.auth{width:min(460px,100%);max-width:460px;margin:0;padding:0;overflow:hidden;border:1px solid var(--ln);border-radius:24px;background:var(--sf);box-shadow:0 24px 70px rgba(58,28,66,.16)}
+.auth-brand{padding:26px 28px 23px;background:linear-gradient(125deg,#35143f,#51205d 58%,#794486);color:#fff}
+.auth-brand-row{display:flex;gap:15px;align-items:center}
+.auth-brand img{width:68px;height:68px;object-fit:contain;background:#fff;border-radius:15px;padding:5px}
+.auth-brand h1{font-size:22px;line-height:1.15;margin:0 0 5px;font-weight:800;letter-spacing:-.4px}
+.auth-brand p{margin:0;font-size:11px;letter-spacing:1px;opacity:.86}
+.auth-main{padding:25px 28px 28px}
+.auth-main h2{font-size:21px;margin:0 0 5px;letter-spacing:-.3px}
+.auth-main .intro{margin:0 0 20px;color:var(--mu);font-size:13px}
+.auth-main .tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--s2);padding:4px;border-radius:12px;margin-bottom:17px}
+.auth-main .tabs button{border-radius:9px;padding:9px}
+.auth-main label{display:block;font-size:12px;font-weight:700;margin:12px 0 6px}
+.auth-main input{width:100%;padding:12px 13px;background:var(--sf);border-radius:11px}
+.auth-main .auth-submit{width:100%;padding:12px;margin-top:16px;font-weight:700}
+.auth-main a{color:var(--ac);font-weight:600;font-size:13px;text-decoration:none}
+.auth-main a:hover{text-decoration:underline}
+.auth-note{font-size:12px;line-height:1.5;color:var(--mu);margin:17px 0 0;text-align:center}
+.auth-message{font-size:13px;line-height:1.45;margin:12px 0 0;overflow-wrap:anywhere}
+.auth-message.error{color:var(--er)}
+.auth-message.ok{color:var(--ok)}
+.auth-footer{text-align:center;padding:0 20px 22px;font-size:11px;color:var(--mu)}
+@media(max-width:430px){.auth-brand{padding:22px 20px}.auth-brand img{width:56px;height:56px}.auth-brand h1{font-size:19px}.auth-main{padding:22px 20px}}.hz{border-collapse:separate;border-spacing:5px}.hz th{background:none;padding:6px 8px}.hz td{border:0;border-radius:12px;padding:8px 10px;min-width:118px;height:62px}.hz-g{border-left:5px solid var(--ga);background:color-mix(in srgb,var(--ga) 16%,var(--sf))}.hz-e{background:color-mix(in srgb,var(--mu) 8%,var(--sf))}.hz-o{background:color-mix(in srgb,var(--mu) 24%,var(--sf));color:var(--mu)}.hz-r{background:color-mix(in srgb,var(--wn) 16%,var(--sf));text-align:center;color:var(--wn);font-weight:600}.hz-leg{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:12px}.hz-leg span{padding:4px 12px;border-radius:8px}.pf{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--ln)}.pf:last-child{border:0}.pf-n{font-size:18px;font-weight:700;padding:9px 18px;border-radius:12px;background:var(--s2);min-width:200px}.pf-i{flex:1;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.pf-a{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.gmini{padding:3px 11px;font-size:13px;cursor:pointer}.lnk{cursor:pointer;text-decoration:underline dotted}header .pill{background:rgba(255,255,255,.18);color:#fff;font-weight:600}tr.off td:last-child{opacity:1}#imp.live{display:block;background:#fff;width:186mm;box-sizing:border-box;padding:0 3mm}#imp{--sf:#fff;--s2:#f1e7f4;--ln:#e5d9e9;--ink:#211927;--mu:#766b7c;--er:#b42318;--wn:#9a6700;--ac:#743a83}.ug{columns:250px 4;column-gap:18px}.ui{padding:5px 0;border-bottom:1px solid var(--ln);break-inside:avoid}details.acc{border:1px solid var(--ln);border-radius:12px;padding:8px 14px;margin:10px 0}details.acc>summary{cursor:pointer;font-size:15px}details.acc[open]>summary{margin-bottom:8px}details.acc2{border-bottom:1px solid var(--ln);padding:6px 0}details.acc2>summary{cursor:pointer}</style></head><body><div id="app"></div><div id="modal"></div><div id="toast"></div><div id="imp"></div>
+<script>
+const SU='https://bbdvflbykohleyctiinj.supabase.co',SK='sb_publishable_URQ87m7Tiq96RUHGtvX29Q_lYroaqM4'; // Clave publishable pública del proyecto compartido. Nunca usar service_role.
+const LOGO='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKMAAABFCAYAAAAmcVYfAAAYTWlDQ1BJQ0MgUHJvZmlsZQAAWIWVeQk4lV3X/77PfI75HPM8z2Se53meZxKO6ZjiGEOJJGOiQkglGSuVQiUiDUoZekiSSIZKoaJC9d2Gep73ef/X/7u+fV373r+z9tprrb3WHu51bgC4qnwjI8MQjACER8RQHUwN+N3cPfixbwEOsAMiQABNX3J0pL6dnRWAy+/2P8vKMIA22qcyG7L+u///W5j8A6LJAEB2MPbzjyaHw/gqAKhyciQ1BgDMBl0oPiZyA8MVMFNhA2GcuYGDtnD5Bvbbwpc2eZwcDGHcDQCO1teXGgQAfT9M548jB8Ey6BfhPmKEPyUCABYUjHXCw3f7A8BlBPOIwzyRMN6Yh5rfP+QE/YdMvz8yfX2D/uCtuWwWnBElOjLMd8//0R3/ewkPi/2tQxSutMFUM4eNOcN+GwndbbmBaWE8H+FnYwtjIoy/Ufw3+WGMIATHmjlv8SO4ydGGsM8AK4zl/H2NLGHMDWOTiDAbq226XyDFxBzG8ApBJFBizJ1gzA7jzIBoY8dtntPU3Q7buhDNgVRD/W36A1/qpt4NXeOxoc762/I/BQeYb8tH0icGO7nCmABj4TiKiw2M6WEsGx3qaLnNo5UYbGjzm4ca67BhvzCMHQIiTA225CPjAqkmDtv82eHRv+eLPB1MMbfZxldigp3MtvyD7Cb7btoPzwXZHxCh7/xbTkC0m9XvufgHGBlvzR05FxDh7Lgt51tkjIHD1lgUITLMbpsfJRgQZrpBF4SxUnSc4/ZYlEsMvCC35KMCI2PsnLbsRCWG+FrYbdmDOgKsgCEwAvwgFq5+YDcIAZQn8y3z8K+tHhPgC6ggCAQAmW3K7xGumz0R8NMRJIIPMAoA0X/GGWz2BoA4mP7jD3XrKQMCN3vjNkeEghkYhwNLEAb/jt0cFfFHmwt4A1Mo/6XdF65k2N4wuG70/7/pv6l/U/RhitU2Jfa3Rn6G35wYY4wRxgxjgpFAcaJ0UJooK/ipB1cFlBpK/fc8/uZHz6AH0K/RQ+gJ9PNdlDTqv6y0BhOwfJNtX/j90xcoUVimMsoApQ1LhyWjWFGcQAalBOvRR+nCmpVhquG23Rte4f+X7P+YwT+isc2Hl8Mj8Gx4Pbz4v0fSS9Ir/5Gy4et/+mfLVr8//jb80/Nv/Yb/8L4/3Fr+mxOZiWxC3kd2InuQbcgWwI/sQLYie5G3NvCf1fVmc3X91uawaU8oLIfyX/p+R3bDk9FyDXJv5da3+mICEjbOaGC4O3IPlRIUHMOvD98IAfzmEWRZaX4FOQVlADbul63j67PD5r0Bsfb9TSMfBEAVPp/xq3/Twj8DcAne+/zWf9NEvOHthwGgdoYcS43boqE2Hmj4lGCAdxoH4AVCQByejwJQAZpADxgDC2ALnIA78IatD4bXORXEg2SQCjJADjgCjoNScAqcBbXgArgCWkAb6AT3wCPQD4bAC3j1TIP3YBGsgDUIgrAQHUSCOCA+SASSghQgNUgHMoasIAfIHfKBgqAIKBZKhg5AOVAhVAqdgeqgy9B1qBPqgQag59Ak9Bb6BK0ikAhaBDOCByGK2IFQQ+gjLBFOiJ2IIEQUIhGRjjiMKEFUIs4jmhGdiEeIIcQE4j1iGQmQNEhWpABSBqmGNETaIj2QgUgqch8yG1mErEReRN6A4/wUOYGcR35HYVAkFD9KBl7BZihnFBkVhdqHykWVompRzahu1FPUJGoR9RNNh+ZGS6E10OZoN3QQOh6dgS5CV6Ovoe/Ce2kavYLBYFgxYhhVeC+6Y0IwSZhczElMI+Y2ZgAzhVnGYrEcWCmsNtYW64uNwWZgT2DPYzuwg9hp7DccDY4Pp4AzwXngInBpuCJcPa4dN4ibxa3hGfEieA28Ld4fvwefj6/C38D34afxawQmghhBm+BECCGkEkoIFwl3CWOEzzQ0NII06jT2NBSa/TQlNJdoHtBM0nynJdJK0hrSetHG0h6mraG9Tfuc9jMdHZ0onR6dB10M3WG6Oro7dON03+hJ9LL05vT+9Cn0ZfTN9IP0HxnwDCIM+gzeDIkMRQxNDH0M84x4RlFGQ0Zfxn2MZYzXGZ8xLjORmOSZbJnCmXKZ6pl6mOaIWKIo0ZjoT0wnniXeIU6RkCQhkiGJTDpAqiLdJU0zY5jFmM2ZQ5hzmC8wP2FeZCGyKLG4sCSwlLHcYplgRbKKspqzhrHms15hHWZdZeNh02cLYMtiu8g2yPaVnYtdjz2APZu9kX2IfZWDn8OYI5SjgKOF4yUnilOS054znrOC8y7nPBczlyYXmSub6wrXKDeCW5LbgTuJ+yx3L/cyDy+PKU8kzwmeOzzzvKy8erwhvMd423nf8pH4dPgofMf4Ovje8bPw6/OH8Zfwd/MvCnALmAnECpwReCKwJigm6CyYJtgo+FKIIKQmFCh0TKhLaFGYT9haOFm4QXhUBC+iJhIsUixyX+SrqJioq+gh0RbROTF2MXOxRLEGsTFxOnFd8SjxSvG/JDASahKhEicl+iURksqSwZJlkn1SCCkVKYrUSakBabS0unSEdKX0MxlaGX2ZOJkGmUlZVlkr2TTZFtmPO4R3eOwo2HF/x085ZbkwuSq5F/JEeQv5NPkb8p8UJBXICmUKfynSKZoopii2Ki4pSSkFKFUojSiTlK2VDyl3Kf9QUVWhqlxUeasqrOqjWq76TI1ZzU4tV+2BOlrdQD1FvU39u4aKRozGFY0FTRnNUM16zTktMa0ArSqtKW1BbV/tM9oTOvw6PjqndSZ0BXR9dSt1X+sJ6fnrVevN6kvoh+if1/9oIGdANbhm8NVQw3Cv4W0jpJGpUbbRE2OisbNxqfG4iaBJkEmDyaKpsmmS6W0ztJmlWYHZM3Mec7J5nfmiharFXotuS1pLR8tSy9dWklZUqxvWCGsL66PWYzYiNhE2LbbA1tz2qO1LOzG7KLub9hh7O/sy+xkHeYdkh/uOJMddjvWOK04GTvlOL5zFnWOdu1wYXLxc6ly+uhq5FrpOuO1w2+v2yJ3TneLe6oH1cPGo9lj2NPY87jntpeyV4TW8U2xnws4eb07vMO9buxh2+e5q8kH7uPrU+6z72vpW+i77mfuV+y2SDcnF5Pf+ev7H/N8GaAcUBswGagcWBs4FaQcdDXobrBtcFDxPMaSUUpZCzEJOhXwNtQ2tCf0V5hrWGI4L9wm/HkGMCI3o3s27O2H3QKRUZEbkRJRG1PGoRaoltToait4Z3RrDDL/I98aKxx6MnYzTiSuL+xbvEt+UwJQQkdC7R3JP1p7ZRJPEc0moJHJSV7JAcmry5F79vWf2Qfv89nWlCKWkp0zvN91fm0pIDU19nCaXVpj25YDrgRvpPOn706cOmh5syKDPoGY8O6R56FQmKpOS+SRLMetE1s9s/+yHOXI5RTnrueTch3nyeSV5vw4HHn6Sr5JfcQRzJOLIcIFuQW0hU2Fi4dRR66PNx/iPZR/7cnzX8Z4ipaJTxYTi2OKJEquS1hPCJ46cWC8NLh0qMyhrLOcuzyr/etL/5GCFXsXFUzynck6tnqacHjljeqa5UrSy6CzmbNzZmSqXqvvn1M7VVXNW51T/qImomah1qO2uU62rq+euz29ANMQ2vD3vdb7/gtGF1osyF880sjbmXAKXYi+9u+xzefiK5ZWuJrWmi1dFrpZfI13Lboaa9zQvtgS3TLS6tw5ct7jedUPzxrWbsjdr2gTaym6x3MpvJ7Snt//qSOxYvh15e74zqHOqa1fXiztud/7qtu9+ctfy7oN7Jvfu3Ne/3/FA+0Fbj0bP9YdqD1seqTxq7lXuvfZY+fG1JypPmvtU+1r71ftvDGgNtA/qDnY+NXp67y/zvx4N2QwNDDsPjzzzejYx4j8y9zzs+dJo3Ojai/1j6LHsl4wvi8a5xytfSbxqnFCZuDVpNNn72vH1iyny1Ps30W/Wp9Nn6GaKZvlm6+YU5tremrztf+f5bvp95Pu1+YwPTB/KP4p/vLqgt9C76LY4vURd+vUp9zPH55ovSl+6lu2Wx1fCV9a+Zn/j+Fb7Xe37/VXX1dm1+HXseskPiR83flr+HPsV/utXpC/Vd/NVAAlXRGAgAJ9qAKBzB4AE52cEz638b7sg4ZcPBNy6QLLQe0Q6fKP2oTLQJhgk5hG2BBeBtyJI0GBp5mkH6VroaxiqGRuZWoldpEfM/SwjrK/Y5tjfcyxxrnL94EHwYvkI/HQCREGiEKswuwibKLsYtziPBL8kv5SgtLCMqKzYDmk5OXlFBRVFDSVdZWMVc1VzNRN1Ew0TTUMtfW0tHQ1dJT1ZfVEDHkNmI4LRL+PPJjOmz816zdssai2PWqVYh9i42RrbKduLOXA5MjrhnJEukCvCDeWO92D05PAS3injLbFL2IfPl9OPhUzyJwaQAlmDuIIFKdIhqqEmYS7hlIjk3YWRVVGnqSXRBTG5sVlx2fGHE0r21Ca2J73YC/ZJp+zafyL1xQHB9N0HOw9hMoWyFLINchxzA/MSDxfk1x65XTBauHyM6bhMkUVxYMmBExWl18sGy9+cXD6FPc1xRrJS66xtld+5mOqDNUW1tXXX6x82jJ5/d+F7I+4S22XxK7pN7lejrmU1n2xpbO243nOj72Z/26NbXe2XO8pup3Tu6tK4Q7wz0339bv298vs5DxJ6/B6aP5Ltpe+df3z3SXlfZL/BAGlgavDK09S/7IdEhlHDb5/1jjQ+LxyNeeEypvaS8+X6+Pirzolzk1mvd085v9GaFoZX2crsX3NX3xa/S3kfNk/+QP4YuZCzeG1p4bPelzMrpK8l36VWn6yn/NT49esf8VdAzqEK0ZYYFsxLbBMuFx9EMKKRpGWgXaebpR9hGGF8xfSG+IH0mXmF5QfrGtsP9p8cPzhXuD5zL/DM8I7xDfLfFbguWC2UIxwmYiUqKYYXeyfeI1EnmS1FkbaUkZGlk13YMSB3Vb5YIVmRrGSvbKCioCqgRlT7pf5RY0yzR6tZu1InVzdez0ffwkDBkNMIYfTW+InJJdMCs2hzJwsVSzbLNatX1nds6m0L7JLsAx0cHfWd5J0FXEiuWNdVt/fuYx69nre8Gnee9j6665BPsi/Vj0L29fcIcAq0D7IJtqRYhpiFaobJhgtEsOymiURErkd9o36P/hGLjiPGCyVo7HFKjE4qSm7bO5NCs58vVSZN+4BNut/B+Iy8Q9WZHVmj2V9zmfMUDtvnRxzJK2gofHD0zbFfRZzFyiV2J0JLD5adKm892V8xd+rnGeZKibPaVXbnyNWxNYdqS+Bzrrdh4QLxomKj46Woy/lXGpq6r45d+9SCaeW4LnlD46ZFm9utwPaYjpTbqZ0Hug7eyeg+dDfzXvb93Ad5PXkP8x7l9eY+znmS1XeoP30gdXDv07i/ooZ2D0c+ixlJen5w9OiLyrGml/fGn7/6MAleE6cE38hP68yYz/rNnX774b3yfNKH9o8/FzWX4j5d/PxmmX3F8mvKt6bvs2vc6w4/sn92b8ffGKGP3IH8iOpEH8I4YsWxS7jr+AyCAw03zTjtWbpwenUGBEMnYzqTBZGB2E86wmzLwsDymDWbzYQdYm/liOAU4hzhyuHW4f7AU8ZrxvuFr4LfjP+jwDFBDcExob3C/MLtIt4i66IlYkpiveIB4usSRyWlJDukHKVmpFNlRGRGZHN3GOz4Ilcj76lAp9ChGKkkoDSonKaioDKpmq+mrfZBvUzDXGNZ86yWvdZP7QYdd12s7jU9sj5R/7ZBpCG/Yb9RmrGS8axJqakt/N5x0zzKQsrijWWFlYc1q/VTm0JbBzuS3bD9CQdvR2HHd06XnRNdjF0ZXEfdqt2jPQw8aT2HvU7tDPZW8F7bddenwNfLT8JvhdztfzTAN1AxCBU0HFxPSQlxCpUOQ4e9Cr8RUbI7PtI1SoPKG42Kno8Ziu2Ma4yvSMjfk5oYnxSa7L935z63FKf9Dqn2afYHHNKdDrpn7DwUkBmaFZ2dkpOZW5hXcbguv/nInYKBwvGjH4+jiiSKvUqOnLhbulYue9Kv4viph6fXKxXOBlSVnuurQdVq1cXXNza8vyB5MaSx/tLCFZWm/Vd7mzlawlq7b/DdTGl73W7V0dYp33W+W+ru5fsGD0YfJvTyPe7vyxtweio6BIbfj7wZffcSvBKZ3DVVP4OeS3wPPlQtkj/rrqh9d14v2Yj/1v+AGwWjAsDxQwBs/M/jUAdA7nkAxPYAwAbnnnZ0ADipA4SAKYCWuwBkof3n/oDgxJMASIAHSAI1YAbnl2FwTlkMGkEPmAI/IHZIGXKEoqHjUCv0Es75pBEuiFREI2IcyYA0QMYjLyBn4CzNC1WGegFnYj7oc+gPGBVMKuYJlgcbju3AkXAUXCeeEx+LHyQoEooJ6zRkmse06rS1dOx0ufQI+iT6rwyxDCuMiUwQUzaRlVhFUiP1M4ewYFnOsRqzzrBlskux93PEcHJwtnP5c9NwX+Hx4EXyXuDzhDOCAYF8QVshJqGnwsUinqICojNi58WjJTQkIckeqQJpT3h1LsoO7miTq5YvVNinSFFyVNZQ4VOFVCfU2tSPaYRoamvRa41p1+nE6Orq4fQG9JsMrhq2GN0wbje5Y9pj1mc+bDFuOWu1ZL1mi7NjtRd1UHO0ciI7J7uUuLa7zXmQPPW9IndWeg/5EHz1/ZLIrf5fA9WCkoI7QwihzmFV4cu7zSIrohaitWJyYsfjlRKO7FlKck2+t087pT3VMm0qPStDOxNkDeRcyivPLywwO4o8dreooCSg1LBcukLwtEilUpVNdVRtWf2jC6BR9bJNk/u14Jbk68dvXrk12LHSxdttdi/mwemHT3p/9MkM7Hx6eOj2CGmUPHZhfH6Se0ptWm9W/i39u2fzhz/uWOhcMvvU/UVhuXRl9Zv993OrS+saP1J+3t48P7biT4TjLwFUgQlwBSFgHzgGGkA3GAffIBIkB9lAEdARqAl6jgAICTjLT0NcRryG83grZDqyA7mG0kYdQPWi2dGB6GYMHuONacYyYsOwj3DSuHzcMt4Lf48gSyimQdJE0UzSOtM+pDOka6fXor8FZ7EPGO0Zx+E89RfxGEmW9Jg5As48W1l92WjYWtkDOVg57nPu4ZLmmuQu5rHlxfF28e3nNxDACDwWLBLyFZYVXhfpFa0QixI3luCS+CT5UOqsdIqMp6zmDgk5dnm8/LrCguKU0jPlhyo3Vc+rlaof0qBqemoZakvqMOos647qtes3Glw2bDJqMb5p0mHabfbQvN/imeUrq1nrJZs1O5w9q4OYo7qTtbO/y17XUrfr7qMeP7wEd1p4x+w67dPnB5FV/CMC6gJngkUpISGXQ1fDTSOKds9FaVH3RnfEouKs4osTZhLVkw4nz+4zTqlNpU/bc2AWPk/6My2y7ueY5fYedsifKEg5ynvsdlFgCf2J1jL/k6SKe6f3Vqqc/XTuck1snVYD5vzQxXOXkq94XVVppm+Zun715oFbNh3stye76rqp97QeYHuGH9U93t/nNaDzVGSIafjBiPPz6ReJL5nHr0w4Ta5P1U67zzLM9bzLnLf8yLjwbOn055Blla+Ib32rZetBPxW3448EGEC7eQKIAxV4BbiBcHAQnAI3wSi8/wUhCygWqoKGETQII3jndyFxSHvkKeQnlAWqBo1HU9GvME7wbrfBDuHIuO/4IoI6YZrmBK0e7RhdEj0/fQ9DPKMk4xTTKaIfSYL0lfk+SwVrEpsnux6HFCc7Fw03gnudZ5V3nR8IYOE3UB5hWRFtUQexIPH9Eickr8F596Is4w4FOVf5fQpVin1KayoSqu5qheqDmsxa7tpVOgt62vp5Bq+MFI1zTCbNtMyLLD5Z2VlfsKW1C7N/6CjplOP8ztXCrd4D70nxuu8tuuugz7SfIbk6ABnoH3SHIhqSEToXbhXRGMkSlUCdiDGKvRjPnrBvz/skN3ifqqTUpHKkHU5HHUzO+JTpkXU5+1euU17N4dUjjgUXjxKOUY7fK5YqyT2xUOZafqtC9FQBfPb7n+09p1ldU8tUl1g/c97xQluj6KX8yytN3lfvNcu0HGldvGF/8+ItQntgR3snsSvgTvNd1D27+2UPph5KPKL0Vj+e7OPstx84OHj16eshwrDcM4cR6vPDo3Uv7owNvZwZX3q1Pgm9xk5h3mCmwfTqzIfZ8bnHb1vfVb7PnI/4YP1RagG78GqxdSnrk8dnic+fvrQtp60YfcV87f6W8l3z+9LquTWPdcJ68w/yT7qfV365b8R/69vR5v3BCMBprg00cGlm8d/fbba+K/0jN/l3CzZvl42ycbtstvBNA/4HO2LQ5fETrEsAAABWZVhJZk1NACoAAAAIAAGHaQAEAAAAAQAAABoAAAAAAAOShgAHAAAAEgAAAESgAgAEAAAAAQAAAKOgAwAEAAAAAQAAAEUAAAAAQVNDSUkAAABTY3JlZW5zaG904QJehQAAAdVpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDYuMC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+Njk8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+MTYzPC9leGlmOlBpeGVsWERpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6VXNlckNvbW1lbnQ+U2NyZWVuc2hvdDwvZXhpZjpVc2VyQ29tbWVudD4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CpWMfXoAABDPSURBVHgB7VxpkFTVFT6vl9l7ZthlX2QHI2tAtoCsgmErShGRSKgIpWXFmPyKpf5I/KEpJCggZSKhQAIlslMQgxCCVIpNCIJCsQwEZB+Yhdl6ppec7za3ffP6dffrYXp42PdUve737rvLued+99xzznvvakEmUqQkYAMJOGzAg2JBSUBIQIFRAcE2ElBgtM1QKEYUGBUGbCMBBUbbDIViRIFRYcA2ElBgtM1QKEYUGBUGbCMBBUbbDIViRIFRYcA2ElBgtM1QKEYUGBUGbCMBBUbbDIViRIFRYcA2ElBgtM1QKEZccUXgD1LNgQIKVtVEZnU4yN2/HWm5GZH3kpQSLK+m6kMXSQsEIltwOihteBcipxZxLxgIUrCwjLQm2aRxvniE/gZulf2QTdPI+UgukSt+WRQK3Cnno4Ic+Znk4DaJyyuKLYG4YAxWVlPpC6vId/lORE1auosa7XmN3D9tH3EvWQmBy0VUPGU5UaXJ5MhJp+aX3yGN/40UvF1ORROWUv6W+eRs28h4O+K6at3XVPbWdtLyQhNNczkpb82L5OrZMiKvMaFq/VEqf+cfRA4GIE+C7LcnUca0x43Z1LVBAnHBiPxBn5/IZ6aJOK2BXxQXL6aDFzN+zNLudRh9CFwvNS9nEIroc0kluX/SmnJXzRF3NdZsWl6mSc7aSYEyL5W9uZ0BOJEyp/ch37mbFGBtrii+BCyBMX41MXLowRprqbKaL0ZT9X7L7SBHY15iEyDN66NguZec7Vj78srh6tUqgdKpnTWpYKxcfZC8206EJZw5cwCls7YwUvm7/6Sary+Fk7NeHkFpI7uGrx/USaCogmoO/080D7vP2alpXFa0Rllst3am0pf+Tp73plHa2B6kpTnjllMZ2BxPphB831wl7/pj4Sbcj7ehSGuOqGb/efJuPxnOlz6xV/j8QZ74Tl2ncrYbQe4hnSj7jQkhOzAWU2wnej6aSeXv7aLS+WvJ1aUZeZbNJFePR2KVUvdYAkkF48Mu4bQnOlH+578KdQPOCA4L5GDb0vPHyZT14mAq/fV6uvv6BnacFigNGUd21uIUcSqJehtjJwcR/1FsxqDFfFHbSdYN8IVQDg6LQAyzwmWdXZpT1u/GkO+7axSsUE5MWDZRTuJrxgwXeVa+QFTli6yCB8jVrUVk+r2UrPnDKWNi7/B9R8cm4XP9ieedKRR8fUw4ydk9ep0Iy+RtfInjjJGfe2sATYY7XE+sk8DVEqpY/C/K+u1ocjT3mGYNcvjIf6kofM/xiIe1m4v8525R5V//w8v2eNI8tWOsvtM3qHr3acqYzKEcl0bVW75hJ6YlaVkhvsr+sJPSn+xK7qGPhutVJyEJxAUj4mvpT3ark7ycjzYlHPHI9Zh1jxMxxIwJPeNVGXmfA90i4M39AQU4AF656ThlzB1sCkZ40b7vrlPR+A9Ffo0nXt6nc8nVtw35OdZZtfk4Zf1mVAQYnY2zyLvrNFUs2kOYLs72jSn3w2cFiBF4924/Qc7W+QqMQqq1fzSrO0rs3LmTiouLa5dO4MrBT2umTp1K6emRLkx1dTVt27aN8F9Xys3NpQkTJpDTGcVzReioggPlWWlsLnArfB3ka6GxTMwHEVs1rAYaymK5xtMc1ppaNl+bEcc7A8UVRP4AwbuGNpUklmv2rjHJFdWWwA9Sqp0ecXXq1Cm6evVqRLrVBIDk6aefNgWjz+ej48ePU0UFD2AdqUWLFjRu3LjoYATg9ODh66hgYh4EWHJ+AAyC7QE+WL8KQMYqCxvT0TTHtCcC0KZ3GjYR/UEg305kGYx2YrouvED4OKChE6W7d+/Sl19+SdeuXSOPx0PPPPOM6aRKtN5k5EcfoxHAh/tbt26lRo0a0YgRI6JlfSDpKQPGvXv30rlz52jOnDkJA+mLL74QmnvQoEFUVVVFNTU1CdcRa3SxMoBcrvsbjgC/PLJ9+3YqKCiIaK537940ZswYAcYzZ85Qy5bxn7FHVJLkhPvrfZKZq8/qb9++LTSb38/P2RMgr9crBrdXr140adKkpCxtn332mQD39OnT76t+aL3Lly9TWVkZ9e/fv9Yq0KqVdScxAfHUa9akgRFLQseOHSkrO/Rs18nLYzTnAuk9evQIOzCVlZV0nmd30Ow1sXrsPgZP2k0AKa7Bi0xDU3CqAEgsz0jXl8F9WQ7Lv9EE0OeF1sJhrB91FBYWUmZm9JcwoDlRFzSnnjeUNSMswTHtZ7NCnIY20Jbsi7Et2R/8o9+4H21MY8klSvPJewKDDo0fP546deoUbtvYOXkDHvbMmTPlJV25coWWLl1KNUkEI+zAHTt20NChQ4VjdvToUSHgnj170rBhw8jtdtPFixdp3759wrGCA1daWir6g+W6pKSEDhw4QBcuXAiDdfDgwWJSyX5ieW/atCk1adJE1IMyrVu3prFjxxK8/zt37tCuXbsIWhuDum7dOtEu5JaTk0OXLl2iQ4cO0Y0bNwRQ4KSNHDmSmjdvHpZVfZ2gDfQVdjFA36VLFxo+nOPEGaE4KniEvCZOnEgnTpygkydPinzQwHotDCf04MGDdPbsWYJSycrKon79+olDyiUaz0nTjKJBnjnxGJCMWc0n89/vP2w/CBTChw0IEN68eZMQwgIvGHRMKKnJkIZzaddt3rxZCLt79+5iiT127BitWbOG5s+fT+3atRPggY2KgYNmheaHdj1y5AgVFRXRvHnzRBf02g714wBhqV2/fr2w7TDYqGP//v0CoK+++mpcmxXaCwconmwRJfnkk09EW5iImDRfffUVXb9+nZ577jnRZ/CDvgCUkAvACtsUPEKrwyYFwdHDBIVZgwn37bffijxQODKPyGjyk1wwmjRopyQ5YABG48aNhXOyfPlyIUAMCkA1efJkIfRu3brVshkRpoKwoUFBMEmWLFkinCSUkwRtOnv2bOratasABQby8OHDApBoE3YiVgJokBkzZog8AA+Wublz5wqvF2VA0FJbtmyhW7duUZs2bWQTEf+YYB9//HEYhAACeEhLi4yLQgZ79uwRfZk1a5bgA2l5eXm0YcMGwVv79u1FGzAzMKGwimWz+YW48+LFiwVIJdCgTWEiSI2KSb5o0SKC0wSAxpoYDQtGDhZHJQSTHwBhyQUoQBAgvEzMbAgeJIWHf3mOdCy9GDTYlNCsuIfBhsbVE0ADIEsCaLG8l5eXi3b1derbgIaUbaBO2HLygQHai0XoB8wjCWJMGKlxjeWgcdFf8AjTBQcI2g4ywPItwYj0IUOGCCDiHMCEyQBNKgn2Kgg8om7wDX6wZMejBgOj/0oxFY9bYsoP3qDO3/Gy+F7ENEMSE/VgQDNYNgGyeATthCUJdp10MORA6ssa65egiNcG7kObICQF2xLAwADLSaJvw3gOQMAulW0Z7+uvARLYeViCYVZIQvsApJwAMl3fH5wD8HqeAExoWtSFiYp6IBcr3nyDgZFq/OLtFdkp/b94m5ofnT0shBm/du1aAUIssxh8DOqKFSvqrQvff/+9sEFhkyKkBGBggDdt2lRvbaAiABbHwIEDaSTbyXoC2GA+WCWYFhs3bhQO4ZQpUwgOF4C6cuVKS1U0HBgtsfNwZIKmgnEPuxGGPAi2YV0Jgy5DJbIOLJ3QhKNHjxaDivT7eRwr6zX+A+SYTAgvwYOXS7sxn5VrmB5YKQYMGBB2VjBx9do0Vj0hyzhWDnUvQgKwgWAfAjDwMmHII+yBwagLwWYFuBGwBuCwvMEewxJ3/vx5oXWRvnv3bkvVQ0tDiyK8Ig/Ub0YwS+Ctox140JhU6AecIHjvifQJtimWdfQDMoFsELrC5LVCKaMZpaDkLIUGgOCMdhVApreTkB/X0muGUKFJRo0aJcCxcOFCoU2wnMJZkaEf5EMZowcr29VrIMQnL3JMc9myZUI7LViwQISa4KHi8R5sMPDRp08fYX/py6IdScgDLxfAXbVqlUwW//Bq4S0b+4NrxFoBHLQDOxgywURo27Yt9e3bV5SXfBvlhT4iLwhaFjFSePzwoJG3Q4cO1Llz51ryE5lNfiy/Qvb+++8ntEyAkZc45vbovaC3/+JtKuz4lgkL/BIMvzvY5MzboY/dOQfsJRH0juM16iuDffLaa/wNNwvHjKAtpMaBYGHLQAvAJtIDBp6rzIeBgqCRD4CERpSEdMQLYbADAPB80QbAKPNhgCVAZDksvdA20HxyYFEX8qI+pOfn54tycIzgKIEnaE/cAy/6srJe+Q9nBPwbCX2U9h8cCrQtr5EX8kC61GIIWyG8IycXzAj0FekyDeXANwhLvCTkQz2QGbxtuVTr25N59f8poxkxa3FIAiAx6EYCkCSYcA9gwqAYCekAiAwL4b5+QMyukYbJYmwXdQFgOPSEQTe+0GAsq8+Pcwx4vEE3toNykAf6adZX3Ad49X1FGsjYZ6QZ69GDF/ejUYOBEe/xpf/8MVM+8Pa2/gVU00x2T2TtFrzrFe9MYvsUnGuZrKXxKYQiSxJoMDDiO5P8rQssMZWsTPg+JVhaVW/bseCt7YoP9lLG8wPJ2SyHSmb9jXL+NI2cnZtR6bzV/H3NGHIP6pCs7vzo6k2paevdzG+Tf7Sv/gYRsdPT7KXyDhL44CVwrSS0QRZrSWylYrpZVv21/qOrqcE0o90kF+S9dKDZHC1D9iB2KMMHU9Dg4l419hfyE74ExNeKjiY55D/L++bwLhPYjIB4Ccbua9lvPsVbmfDjRF/0oD1A6S+4TYEbpeTkLyRF/gf0+NNu46DnxzIYmzVrFnbh9RVEO4dBrPdSo+UzS4eRD8MdnqdVgjcLR8AqVfJOYTX7CygPn+EylS/eS0HeJ8fz3lSq+vwYVa09QpTOIY4aBhkv7WlP9eQtWC5TkD9xdfVrS56lz4oPrkqfX0m5q39BrjahZ7IR7fOTpbI3tpL/fCFpvD1eDW/n53l3WlT7OaJ8CiVYBiNiVImSDF0kWg5hmldeeSXRYuFQiaWC0GTVodf9kT/ISy4eWQrie0HeTSzvU94+j7XfnbEfkv9aKeWv+6VYfu8MWyg0oqMpvzjMAMbXglGJNWA2244OtimJvwgs//Meqtr4XwVGE4FZBmNdgWXSpqWkhm7PyJSbtZ/YHJTtP1eHxpT2sy78WWsaObBhqJvfOQQIrRC0Ne9GVrn6EPl4mfefuNqgm6taYdEueVLKgakldIAklkbTZ05g+dcXwzl22i2Z8RfyXSgU2tD1REfxcb8xn7rmWGcqCCHI2xkHbt4lbGmieUKbCEDrwROGQ+IvKKTqPaeTIopAaSX5ztykzFkDyd23LQW5PUXmErC8TJsXfzhSvf8+Q2W/3yocnNwVswXTaSM6k6NVHhU9uZi05jnkYg/ZcW/7ZQSr9VsxYz8dTe7hw1pS4y1MxL7hOGenROzxI8+xhOOc39HEvoz4mD9jRl8qeWEl2438UVdeRsIbkD4cUr5/Li0/m77/ph5gDezRis3iGVAOBgPAAsIWJYHrrC05bCM29OTN9LFTBEIxQXZiJDiDd6tIS+enKfc2/RTajR0bPGmBZkWIRzx1Ka4MaV6k8/YmjhxuC09guC4/xyA1BiqADK/dYdgw6gFKxzZNpwYYbSNuxUgsCaSEzRhLAOqefSSgwGifsUh5ThQYUx4C9hGAAqN9xiLlOVFgTHkI2EcACoz2GYuU50SBMeUhYB8BKDDaZyxSnhMFxpSHgH0EoMBon7FIeU4UGFMeAvYRgAKjfcYi5TlRYEx5CNhHAAqM9hmLlOfk/ykUU+cI1EUVAAAAAElFTkSuQmCC';
+function groupPalette(group){
+  const raw=String(group||'').trim();
+  const g=raw.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'');
+  if(/4ESO/.test(g)||/OPTATIVA/.test(g)) return {bg:'hsl(210 62% 93%)',tint:'hsl(210 72% 97%)',accent:'hsl(210 58% 43%)'};
+  const m=g.match(/^(\d+)/),level=m?Number(m[1]):0;
+  const suffix=g.match(/([A-Z])$/),letter=suffix?suffix[1]:'A';
+  const idx=Math.max(0,Math.min(5,letter.charCodeAt(0)-65));
+  let hue,light,sat=66,accentLight;
+  if(level===2){
+    // 2.º ESO: amarillo A -> naranja -> rojo intenso F.
+    const hues=[48,37,27,16,5,352], lights=[91,90,90,89,88,86], accents=[43,42,42,41,40,37];
+    hue=hues[idx];light=lights[idx];accentLight=accents[idx];
+  }else if(level===3){
+    // 3.º ESO: transición continua de verde claro A a verde intenso E/F.
+    const hues=[145,137,129,121,113,105], lights=[94,92,90,88,86,84], accents=[42,40,38,36,34,31];
+    hue=hues[idx];light=lights[idx];accentLight=accents[idx];
+  }else{
+    // Otros niveles: familia azul-verde diferenciada de 2.º y 3.º.
+    const hues=[218,210,202,194,186,178], lights=[92,91,90,89,88,86], accents=[43,42,41,40,39,37];
+    hue=hues[idx];light=lights[idx];accentLight=accents[idx];
+  }
+  return {bg:`hsl(${hue} ${sat}% ${light}%)`,tint:`hsl(${hue} 72% 97%)`,accent:`hsl(${hue} 56% ${accentLight}%)`};
+}
+const TIPOS=[{key:'X',name:'Xilófonos',prefix:'X'},{key:'U',name:'Ukeleles',prefix:'U'}];
+const sb=supabase.createClient(SU.replace(/\/(rest\/v1)?\/*$/,''),SK.trim()),$=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fd=d=>d?new Date(d).toLocaleDateString('es-ES'):'',pad=n=>String(n).padStart(2,'0');
+const TOKEN=new URLSearchParams(location.search).get('t'),T=!!TOKEN;
+const S={tab:'grupos',g:null,fil:'abiertas',D:null,cursos:[],cid:null,enl:[]};
+const D=()=>S.D,G=id=>D().grupos.find(g=>g.id==id),opt=(a,sel)=>a.map(([v,t])=>`<option value="${esc(v)}" ${v==sel?'selected':''}>${esc(t)}</option>`).join('');
+function toast(m,e){const t=$('#toast');t.textContent=m;t.className=e?'e':'';t.style.display='block';setTimeout(()=>t.style.display='none',3500)}
+async function q(p){const r=await p;if(r.error){toast(r.error.message,1);throw r.error}return r.data}
+function modal(h){$('#modal').innerHTML=`<div>${h}</div>`;$('#modal').style.display='flex'}function cerrar(){$('#modal').style.display='none'}
+function theme(t){if(t==null)t=!document.body.classList.contains('dark');document.body.classList.toggle('dark',t);localStorage.setItem('gim_theme',t?'d':'l')}theme(localStorage.getItem('gim_theme')=='d');
+
+
+// ===== ACCESO =====
+
+
+
+sb.auth.onAuthStateChange(async ev=>{if(ev=='PASSWORD_RECOVERY'){const p=prompt('Nueva contraseña (mínimo 6 caracteres):');if(p){const{error}=await sb.auth.updateUser({password:p});toast(error?error.message:'Contraseña actualizada',!!error)}cargar()}});
+async function salir(){if(T){history.replaceState(null,'',location.pathname);$('#app').innerHTML='<main><div class="card"><h2>Sesión cerrada</h2><p class="mu">Ya puedes cerrar esta pestaña.</p></div></main>';window.close()}else{await sb.auth.signOut();authView()}}
+
+// ===== DATOS =====
+async function cargar(){S.cal=null;
+ if(T){const d=await q(sb.rpc('gim2_prof_datos',{p_token:TOKEN}));S.D={...d,curso:{...d.curso,config:d.config||{}},tipos:d.curso.tipos||TIPOS}}
+ else{const{data:{session}}=await sb.auth.getSession();if(!session)return authView();
+  S.cursos=await q(sb.from('gim2_cursos').select('*').order('nombre',{ascending:false}));if(!S.cursos.find(c=>c.id==S.cid))S.cid=S.cursos[0]?.id;
+  const c=S.cursos.find(c=>c.id==S.cid);S.D=null;
+  if(c){const sel=(t,o)=>q(sb.from(t).select('*').eq('curso_id',c.id).order(o,{ascending:o=='fecha_reporte'?false:true}));
+   const[g,a,i,n,e]=await Promise.all([sel('gim2_grupos','nombre'),sel('gim2_alumnos','numero'),sel('gim2_instrumentos','num'),sel('gim2_incidencias','fecha_reporte'),sel('gim2_enlaces','creado_en')]);
+   S.D={curso:c,grupos:g,alumnos:a,instrumentos:i,incidencias:n,tipos:c.config?.tipos||TIPOS};S.enl=e}}
+ if(S.D&&!G(S.g))S.g=S.D.grupos[0]?.id;render()}
+const cod=(a,k)=>a.asignaciones?.[k]||'';
+async function guardaAl(a){
+ if(T)await q(sb.rpc('gim2_prof_alumno',{p_token:TOKEN,p_id:a.id||null,p_grupo:a.grupo,p_numero:a.numero,p_nombre:a.nombre,p_modalidad:a.modalidad,p_activo:a.activo,p_asig:a.asig||{}}));
+ else{const row={grupo_id:D().grupos.find(g=>g.nombre==a.grupo).id,numero:a.numero,nombre:a.nombre,modalidad:a.modalidad,activo:a.activo,asignaciones:a.asig||{},profesor:a.profesor||''};
+  await q(a.id?sb.from('gim2_alumnos').update(row).eq('id',a.id):sb.from('gim2_alumnos').insert({...row,curso_id:D().curso.id}))}cargar()}
+function updAl(id,ch){const a=D().alumnos.find(x=>x.id==id);return guardaAl({id,grupo:G(a.grupo_id).nombre,numero:a.numero,nombre:a.nombre,modalidad:a.modalidad,activo:a.activo,asig:a.asignaciones,profesor:a.profesor,...ch})}
+function asig(id,k,v){const a=D().alumnos.find(x=>x.id==id),n={...a.asignaciones};v?n[k]=v:delete n[k];updAl(id,{asig:n})}
+function addAl(){const n=$('#an').value.trim(),l=+$('#al').value;if(!n||!l)return toast('Indica nº de lista y nombre',1);guardaAl({grupo:G(S.g).nombre,numero:l,nombre:n,modalidad:$('#am').value,activo:true,asig:{}})}
+
+// ===== INCIDENCIAS =====
+const abierta=id=>D().incidencias.find(n=>n.instrumento_id==id&&n.estado=='open');
+
+function dup(x){cerrar();alert(x?`Este instrumento ya tiene una incidencia abierta.\nRegistrada por ${x.reportado_por} el ${fd(x.fecha||x.fecha_reporte)}.\n«${x.descripcion}»`:'Este instrumento ya tiene una incidencia abierta.')}
+
+
+const usu=n=>(n.usuarios||[]).map(u=>`${esc(u.grupo)} nº${u.numero} ${esc(u.nombre)}`).join('; ')||'—';
+const incHtml=(n,u)=>`<b>${esc(n.codigo)}</b> · ${fd(n.fecha_reporte)} · ${esc(n.grupo)} · por ${esc(n.reportado_por)} · ${n.estado=='open'?'ABIERTA':'Reparada '+fd(n.fecha_cierre)}<br>${esc(n.tipo_dano)}: ${esc(n.descripcion)}${u===false?'':`<br><small>Usuarios: ${usu(n)}</small>`}${n.actuacion?`<br><small>Actuación: ${esc(n.actuacion)}</small>`:''}${n.resolucion?`<br><small>Resolución: ${esc(n.resolucion)}</small>`:''}`;
+const lista=()=>D().incidencias.filter(n=>(S.fil=='todas'||n.estado=='open')&&(!S.fg||n.grupo==S.fg||(n.usuarios||[]).some(u=>u.grupo==S.fg)));
+
+async function guardaInst(id){await q(sb.from('gim2_instrumentos').update({revision:$('#fr').checked,retirado:$('#ft').checked,nota:$('#fn').value}).eq('id',id));cerrar();cargar()}
+
+// ===== INFORMES (A4, vectoriales) =====
+
+
+
+
+// ===== ENLACES Y ADMIN (solo jefe) =====
+const urlEnl=t=>location.origin+location.pathname+'?t='+t;
+
+async function copiaEnl(t){try{await navigator.clipboard.writeText(urlEnl(t));toast('Enlace copiado')}catch{prompt('Copia el enlace:',urlEnl(t))}}
+async function revEnl(id,v){await q(sb.from('gim2_enlaces').update({revocado:v}).eq('id',id));cargar()}
+
+
+async function fechas(){await q(sb.from('gim2_cursos').update({fecha_inicio:$('#f1').value||null,fecha_fin:$('#f2').value||null,revision_inicial:$('#f3').value||null}).eq('id',D().curso.id));toast('Guardado');cargar()}
+
+function pegar(){modal(`<h3>Pegar lista de ${esc(G(S.g).nombre)}</h3><p class="mu">Una línea por alumno: <b>nº ; nombre</b> (admite pegar desde Excel).</p><textarea id="bk" rows="10"></textarea><div class="row"><button class="b" onclick="subirLista()">Importar</button><button class="b s" onclick="cerrar()">Cancelar</button></div>`)}
+async function subirLista(){const rows=$('#bk').value.split('\n').map(l=>l.split(/[;\t]/).map(s=>s.trim())).filter(r=>+r[0]>0&&r[1]).map(r=>({curso_id:D().curso.id,grupo_id:S.g,numero:+r[0],nombre:r[1]}));if(!rows.length)return toast('Ninguna línea válida',1);await q(sb.from('gim2_alumnos').insert(rows));cerrar();cargar()}
+
+async function importOld(f){if(!f)return;let x;try{x=JSON.parse(await f.text());if(!Array.isArray(x.courses))throw 0}catch{return toast('No parece una copia de la app anterior',1)}
+ for(const c of x.courses){const cu=await q(sb.from('gim2_cursos').insert({nombre:c.name,fecha_inicio:c.start||null,fecha_fin:c.end||null,revision_inicial:c.inspection||null,config:{tipos:(c.instrumentTypes||TIPOS).map(t=>({key:t.key,name:t.name,prefix:t.prefix})),horario:c.schedule||{},calendario:c.calendar||[],profesores:(c.teachers||[]).map(t=>typeof t=='string'?t:(t.name||t.nombre||'')),knownGood:c.knownGood||{}}}).select().single());
+  const gn=[...new Set([...(c.groups||[]),...c.students.map(s=>s.group)])],gs=await q(sb.from('gim2_grupos').insert(gn.map(n=>({curso_id:cu.id,nombre:n}))).select()),gid=Object.fromEntries(gs.map(g=>[g.nombre,g.id]));
+  if(c.students.length)await q(sb.from('gim2_alumnos').insert(c.students.map(s=>({curso_id:cu.id,grupo_id:gid[s.group],numero:s.number,nombre:s.name,modalidad:s.mode||'xilofono',profesor:s.teacher||'',activo:s.active!==false,asignaciones:{...(s.assignments||{}),...(s.x?{X:s.x}:{}),...(s.u?{U:s.u}:{})}}))));
+  const is=await q(sb.from('gim2_instrumentos').insert(c.inventory.map(i=>({curso_id:cu.id,codigo:i.code,tipo:i.type,num:i.num,retirado:!!i.retired,revision:!!i.review,nota:i.note||''}))).select()),iid=Object.fromEntries(is.map(i=>[i.codigo,i.id])),open=new Set();
+  const inc=(c.incidents||[]).filter(i=>iid[i.code]).map(i=>{let st=i.status=='closed'?'closed':'open';if(st=='open'){if(open.has(i.code))st='closed';open.add(i.code)}return{curso_id:cu.id,instrumento_id:iid[i.code],codigo:i.code,estado:st,fecha_reporte:i.createdAt||i.detectedAt||undefined,fecha_cierre:i.closedAt||null,reportado_por:i.teacher||'Jefatura',grupo:i.group||'',tipo_dano:i.damage||'',descripcion:i.description||'',actuacion:i.action||'',resolucion:i.repair||'',usuarios:(i.snapshotUsers||[]).map(u=>({nombre:u.name,grupo:u.group,numero:u.number})),extra:{detectedAt:i.detectedAt||'',teacher:i.teacher||'',studentReporter:i.studentReporter||'',knownGood:i.knownGood||''}}});
+  if(inc.length)await q(sb.from('gim2_incidencias').insert(inc));S.cid=cu.id}toast('Copia importada');cargar()}
+
+// ===== VISTAS =====
+
+const V={};
+// ===== MÓDULOS v2: horario, calendario, rastreo, profesorado =====
+const PERIODS=[['1.ª','08:30','09:25'],['2.ª','09:25','10:20'],['3.ª','10:20','11:15'],['4.ª','11:45','12:40'],['5.ª','12:40','13:35'],['6.ª','13:35','14:30']],DAYS=['Lunes','Martes','Miércoles','Jueves','Viernes'];
+const CF=()=>D().curso.config||{},COMPIS=()=>[...new Set([...(CF().profesores||[]).map(t=>typeof t=='string'?t:(t.name||t.nombre||'')),...S.enl.filter(e=>!e.sustituye).map(e=>e.profesor)])].filter(n=>n&&n!=JEFE),PROFS=()=>[JEFE,...COMPIS()],tc=n=>`hsl(${[...n].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7)%360} 55% 50%)`;
+const isoL=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,16);
+async function cfg(p){const c={...CF(),...p};await q(sb.from('gim2_cursos').update({config:c}).eq('id',D().curso.id));D().curso.config=c}
+function LC(){const d=D(),c=CF();return{schedule:c.horario||{},calendar:c.calendario||[],knownGood:c.knownGood||{},inspection:d.curso.revision_inicial||'',students:d.alumnos.map(a=>({...a,name:a.nombre,number:a.numero,group:G(a.grupo_id)?.nombre,active:a.activo,assignments:a.asignaciones}))}}
+function LI(n){const e=n.extra||{};return{code:n.codigo,detectedAt:e.detectedAt||isoL(new Date(n.fecha_reporte)),group:n.grupo,teacher:e.teacher||'',studentReporter:e.studentReporter||'',knownGood:e.knownGood||''}}
+const isExcluded=(c,date)=>c.calendar.some(x=>x.type!=='excepcion'&&x.start&&x.end&&x.start<=date&&date<=x.end);
+function trace(i){
+ let c=LC(),det=(i.detectedAt||'').split('T'),date=det[0],clock=det[1]||'',validClock=/^(?:[01]\d|2[0-3]):[0-5]\d/.test(clock),timeMin=validClock?Number(clock.slice(0,2))*60+Number(clock.slice(3,5)):NaN;
+ let start=i.knownGood||c.knownGood[i.code]||c.inspection||'',itype=null,periodAt=-1;
+ if(validClock){for(let k=0;k<PERIODS.length;k++){let [sh,sm]=PERIODS[k][1].split(':').map(Number),[eh,em]=PERIODS[k][2].split(':').map(Number);if(timeMin>=sh*60+sm&&timeMin<eh*60+em){periodAt=k;break}}}
+ let rows=[{date,time:clock||'Hora no indicada',group:i.group||'No consta',teacher:i.teacher||'No consta',student:i.studentReporter||'No indicado',source:'Detección registrada',priority:'ALUMNO/A QUE NOTIFICA'}];
+ if(periodAt<0)return {message:'Sesión no determinada: la hora no coincide con una franja lectiva. Revisa fecha y hora si procede.',rows};
+ let cursor=new Date(date+'T12:00:00'),period=periodAt,foundEquivalent=false,maxDays=400,sessionRank=0,stop=false;
+ for(let steps=0;steps<maxDays*7&&!stop&&sessionRank<12;steps++){
+  period--;if(period<0){cursor.setDate(cursor.getDate()-1);period=5}
+  let iso=[cursor.getFullYear(),String(cursor.getMonth()+1).padStart(2,'0'),String(cursor.getDate()).padStart(2,'0')].join('-'),dow=(cursor.getDay()+6)%7;
+  if(dow>4||isExcluded(c,iso))continue;if(start&&iso<start)break;
+  let slot=c.schedule[dow+'-'+period];if(!slot?.group)continue;
+  let daysBack=Math.round((new Date(date+'T12:00:00')-new Date(iso+'T12:00:00'))/86400000),equivalent=daysBack>=7&&slot.group===i.group&&period===periodAt;
+  if(equivalent)foundEquivalent=true;
+  let users=c.students.filter(st=>st.active!==false&&st.group===slot.group&&Object.values(st.assignments||{}).includes(i.code)).sort((a,b)=>a.number-b.number);
+  if(users.length){sessionRank++;let priority,level,detail;
+   const R=[['SOSPECHOSO PRINCIPAL','trace-1'],['SOSPECHOSO · MUY ALTO','trace-2'],['SOSPECHOSO · ALTO','trace-3'],['SOSPECHOSO · MEDIO','trace-4'],['SOSPECHOSO · POSIBLE','trace-5']][sessionRank-1]||['MÁS LEJANO','trace-6'];priority=R[0];level=R[1];detail='';
+   for(let st of users)rows.push({date:iso,time:PERIODS[period][1]+'–'+PERIODS[period][2],group:slot.group,teacher:slot.teacher||'No asignado',student:st.name,number:st.number,source:'Uso previsto según horario y asignación',priority,level,detail,sessionRank});
+  }
+  if(equivalent)stop=true;
+ }
+ let msg=start?`Usos previstos desde la última revisión en buen estado (${start}), del más reciente al más antiguo.`:'No consta la última revisión en buen estado. Se muestran hasta 12 usos anteriores registrados en el horario.';
+ 
+ msg+=' CRITERIO DE RASTREO: el alumno asignado en la última sesión anterior figura como SOSPECHOSO PRINCIPAL; los usos siguientes se clasifican por niveles decrecientes de proximidad temporal. Son hipótesis de investigación basadas en la asignación prevista, que deben contrastarse con la recogida del instrumento, la comunicación al profesor y las entrevistas.';
+ return {message:msg,rows};
+}
+
+function slotNow(){const n=new Date(),dw=(n.getDay()+6)%7,m=n.getHours()*60+n.getMinutes(),k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),[c,d]=p[2].split(':').map(Number);return m>=a*60+b&&m<c*60+d});return CF().horario?.[dw+'-'+k]||{}}
+function kgAuto(){const i=D().instrumentos.find(x=>x.id==$('#ii').value);$('#ik').value=(CF().knownGood||{})[i?.codigo]||D().curso.revision_inicial||''}
+
+
+function pdfInc(){pdf('Historial de incidencias',lista().map(n=>{const t=trace(LI(n));return `<div class="inc">${incHtml(n)}<table style="margin-top:6px"><tr><th>Fecha</th><th>Grupo</th><th>Profesor/a</th><th>Alumno/a</th><th>Prioridad</th></tr>${t.rows.map(r=>`<tr style="background:${TRC[r.level]||'#fff'}"><td>${fd(r.date)} ${esc(r.time)}</td><td>${esc(r.group)}</td><td>${esc(profLbl(r.teacher,r.date))}</td><td>${esc((r.number?'nº'+r.number+' ':'')+(r.student||''))}</td><td>${esc(r.priority||'')}</td></tr>`).join('')}</table></div>`}).join('')||'<p>Sin incidencias.</p>')}
+
+async function setSlot(dw,k,f,v){const h={...(CF().horario||{})},key=dw+'-'+k,s={...(h[key]||{}),[f]:v};if(!s.group&&!s.teacher)delete h[key];else h[key]=s;await cfg({horario:h});render()}
+
+const calOk=x=>(x.name||'').trim()&&x.start&&x.end&&x.end>=x.start;
+async function calGuarda(){await cfg({calendario:S.cal.filter(calOk)});toast('Calendario guardado ✓');render()}
+async function calSet(i,f,v){S.cal[i][f]=v;const x=S.cal[i];if(x.start&&x.end&&x.end<x.start)return toast('La fecha final es anterior a la inicial',1);if(calOk(x))await calGuarda();else render()}
+async function calDel(i){S.cal.splice(i,1);await calGuarda()}
+const calHtml=()=>{if(!S.cal)S.cal=JSON.parse(JSON.stringify(CF().calendario||[]));
+ return `<p class="mu">Cada periodo se guarda solo al completar nombre y fechas. “No lectivo” se excluye del rastreo de usos; “Excepción” solo se anota.</p>${S.cal.map((x,i)=>`<div class="row"><input value="${esc(x.name)}" placeholder="Nombre (ej. Navidad)" onchange="calSet(${i},'name',this.value)"><select onchange="calSet(${i},'type',this.value)">${opt([['nolectivo','No lectivo'],['excepcion','Excepción']],x.type=='excepcion'?'excepcion':'nolectivo')}</select><input type="date" value="${x.start||''}" onchange="calSet(${i},'start',this.value)"><input type="date" value="${x.end||''}" onchange="calSet(${i},'end',this.value)"><button class="b s" onclick="calDel(${i})" title="Quitar">✕</button>${calOk(x)?'<span class="pill ok">Guardado</span>':'<span class="pill">Sin completar</span>'}</div>`).join('')||'<p class="mu">Sin periodos.</p>'}<div class="row"><button class="b s" onclick="S.cal.push({name:'',type:'nolectivo',start:'',end:''});render()">+ Periodo</button><b>${(CF().calendario||[]).length} periodos guardados en Supabase</b></div>`};
+
+async function crearEnlace(p,c,sus){const tk=[...crypto.getRandomValues(new Uint8Array(24))].map(x=>pad(x.toString(16))).join('');await q(sb.from('gim2_enlaces').insert({curso_id:D().curso.id,profesor:p,token:tk,caduca:c||null,...(sus?{sustituye:sus}:{})}));cargar()}
+
+
+
+
+// Copias: exportar e importar ahora son compatibles entre sí (y con la app anterior)
+function exportar(){const x={formato:'gim2',curso:D().curso,grupos:D().grupos,alumnos:D().alumnos,instrumentos:D().instrumentos,incidencias:D().incidencias},a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(x,null,1)],{type:'application/json'}));a.download='GIM-copia-'+D().curso.nombre+'.json';a.click()}
+async function importar(f){if(!f)return;let x;try{x=JSON.parse(await f.text())}catch{return toast('Archivo no válido',1)}if(x.formato=='gim2')return importGim2(x);return importOld(f)}
+async function importGim2(x){const c=x.curso,cu=await q(sb.from('gim2_cursos').insert({nombre:c.nombre.slice(0,18)+' copia '+new Date().toTimeString().slice(0,5),fecha_inicio:c.fecha_inicio,fecha_fin:c.fecha_fin,revision_inicial:c.revision_inicial,config:c.config||{}}).select().single());
+ const gs=await q(sb.from('gim2_grupos').insert(x.grupos.map(g=>({curso_id:cu.id,nombre:g.nombre}))).select()),gm={};x.grupos.forEach(g=>gm[g.id]=gs.find(n=>n.nombre==g.nombre).id);
+ if(x.alumnos.length)await q(sb.from('gim2_alumnos').insert(x.alumnos.map(a=>({curso_id:cu.id,grupo_id:gm[a.grupo_id],numero:a.numero,nombre:a.nombre,modalidad:a.modalidad,profesor:a.profesor,activo:a.activo,asignaciones:a.asignaciones}))));
+ const is=await q(sb.from('gim2_instrumentos').insert(x.instrumentos.map(i=>({curso_id:cu.id,codigo:i.codigo,tipo:i.tipo,num:i.num,retirado:i.retirado,revision:i.revision,nota:i.nota}))).select()),im=Object.fromEntries(is.map(i=>[i.codigo,i.id]));
+ if(x.incidencias.length)await q(sb.from('gim2_incidencias').insert(x.incidencias.map(n=>({curso_id:cu.id,instrumento_id:im[n.codigo],codigo:n.codigo,estado:n.estado,fecha_reporte:n.fecha_reporte,fecha_cierre:n.fecha_cierre,reportado_por:n.reportado_por,grupo:n.grupo,tipo_dano:n.tipo_dano,descripcion:n.descripcion,actuacion:n.actuacion,resolucion:n.resolucion,usuarios:n.usuarios,extra:n.extra}))));
+ S.cid=cu.id;toast('Copia importada como curso nuevo');cargar()}
+
+// ===== Estructura final: acceso, cabecera, vistas y administración =====
+const JEFE='Manuel Esteve',GRUPOS_DEF=['2ºA','2ºB','2ºC','2ºD','2ºE','2ºF','3ºA','3ºB','3ºC','3ºD','3ºE','3ºF','4ºESO'];
+S.op={curso:1};
+const nTabs=()=>T?[['grupos','Grupos'],['horario','Horario'],['inventario','Inventario'],['incidencias','Incidencias']]:[['grupos','Grupos'],['horario','Horario'],['inventario','Inventario'],['incidencias','Incidencias'],['profes','Profesorado'],['admin','Administración']];
+function authView(m='in',message='',isError=false){
+ const title=m==='up'?'Crear acceso':m==='rs'?'Recuperar contraseña':'Acceso a GIM';
+ $('#app').innerHTML=`<div class="auth-shell"><section class="auth">
+ <div class="auth-brand"><div class="auth-brand-row"><img src="${LOGO}" alt="Logo del IES Infanta Elena"><div><h1>GIM</h1><p>GESTIÓN DE INSTRUMENTOS MUSICALES</p><span class="byline" style="display:block;font-size:11px;opacity:.65;margin-top:7px">by Manuel Esteve</span></div></div></div>
+ <div class="auth-main"><h2>${title}</h2><p class="intro">IES Infanta Elena · Departamento de Música</p>
+ ${m==='rs'?'':`<div class="tabs"><button class="b ${m==='in'?'':'s'}" onclick="authView('in')">Iniciar sesión</button><button class="b ${m==='up'?'':'s'}" onclick="authView('up')">Crear cuenta</button></div>`}
+ <form id="authForm" onsubmit="event.preventDefault();auth('${m}')">
+ <label for="ae">Correo electrónico</label><input id="ae" type="email" autocomplete="email" placeholder="profesor@murciaeduca.es" required>
+ ${m==='rs'?'':`<label for="ap">Contraseña</label><input id="ap" type="password" autocomplete="${m==='up'?'new-password':'current-password'}" placeholder="${m==='up'?'Crea una contraseña segura':'Introduce tu contraseña'}" minlength="6" required>`}
+ <button class="b auth-submit" id="authSubmit" type="submit">${m==='in'?'Entrar en GIM':m==='up'?'Crear cuenta':'Enviar enlace de recuperación'}</button>
+ </form>
+ ${m==='in'?'<p style="margin:14px 0 0"><a href="#" onclick="authView(&#39;rs&#39;);return false">He olvidado mi contraseña</a></p>':''}
+ <p id="am" class="auth-message ${message?(isError?'error':'ok'):''}" role="status">${esc(message)}</p>
+ <p class="auth-note">Usa la misma cuenta de Supabase que en Audiciones Musicales. No necesitas crear otra cuenta si ya tienes acceso a esa aplicación.</p>
+ </div><div class="auth-footer">IES Infanta Elena · Departamento de Música · Región de Murcia</div></section></div>`;
+}
+async function auth(m){
+ const e=$('#ae')?.value.trim(),p=$('#ap')?.value;
+ const msg=(t,error=false)=>{const el=$('#am');if(el){el.textContent=t;el.className='auth-message '+(error?'error':'ok')}};
+ const btn=$('#authSubmit'); if(!e)return msg('Introduce tu correo electrónico.',true);
+ if(btn){btn.disabled=true;btn.textContent='Un momento…'}
+ try{
+  if(m==='in'){
+   if(!p)return msg('Introduce tu contraseña.',true);
+   const {error}=await sb.auth.signInWithPassword({email:e,password:p});
+   if(error){msg(error.message==='Invalid login credentials'?'El correo o la contraseña no son correctos.':error.message,true);return}
+   await cargar();return;
+  }
+  if(m==='up'){
+   if(!p||p.length<6){msg('La contraseña debe tener al menos 6 caracteres.',true);return}
+   const {data,error}=await sb.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin+location.pathname}});
+   if(error){msg(error.message,true);return}
+   msg(data?.session?'Cuenta creada. Entrando…':'Te hemos enviado un correo de confirmación. Confírmalo y vuelve a esta página.');
+   return;
+  }
+  const {error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});
+  msg(error?error.message:'Si la cuenta existe, recibirás un enlace para restablecer la contraseña.',!!error);
+ }catch(err){msg(err?.message||'No se ha podido conectar con Supabase. Comprueba la conexión y la configuración del proyecto.',true)}
+ finally{if(btn&&document.body.contains(btn)){btn.disabled=false;btn.textContent=m==='in'?'Entrar en GIM':m==='up'?'Crear cuenta':'Enviar enlace de recuperación'}}
+}
+function render(){const d=S.D;$('#app').innerHTML=`<header><img src="${LOGO}"><div><b>GIM · Instrumentos Musicales</b><small>IES INFANTA ELENA · DEPARTAMENTO DE MÚSICA</small><i class="by">by Manuel Esteve</i></div>${T?`<span class="pill">${esc(d?.curso.nombre)}</span>`:`<select onchange="S.cid=this.value;S.g=null;cargar()">${opt(S.cursos.map(c=>[c.id,c.nombre]),S.cid)}</select>`}<nav>${d?nTabs().map(([k,n])=>`<button class="${S.tab==k?'on':''}" onclick="S.tab='${k}';S.ed=false;render()">${n}</button>`).join(''):''}<button onclick="theme()">◐</button><button onclick="salir()">Salir</button></nav></header>${T?`<div class="ban">Modo profesor/a · ${esc(d?.profesor)}</div>`:''}
+ <main>${d?V[S.tab]():`<div class="card"><h2>Bienvenido/a</h2><p class="mu">Crea tu primer curso (con los grupos e instrumentos habituales) o importa la copia de la app anterior.</p><div class="row"><button class="b" onclick="nuevoCurso()">+ Crear curso</button><label class="b s">Importar copia (.json)<input type="file" accept=".json" hidden onchange="importar(this.files[0])"></label></div></div>`}</main>`}
+// --- cursos, grupos e instrumentos ---
+
+async function addGrupos(ns){const ex=new Set(D().grupos.map(g=>g.nombre)),rows=ns.filter(n=>!ex.has(n)).map(n=>({curso_id:D().curso.id,nombre:n}));if(rows.length)await q(sb.from('gim2_grupos').insert(rows));cargar()}
+function nuevoGrupo(){const n=(prompt('Nombre del grupo:')||'').trim();if(n)addGrupos([n])}
+async function delGrupo(id){if(D().alumnos.some(a=>a.grupo_id==id))return toast('El grupo tiene alumnado: no se puede eliminar',1);if(!confirm('¿Eliminar '+G(id).nombre+'?'))return;await q(sb.from('gim2_grupos').delete().eq('id',id));cargar()}
+// --- profesorado y enlaces ---
+const crearComp=i=>crearEnlace(COMPIS()[i],$('#ec').value||D().curso.fecha_fin);
+function baja(id){const a=D().alumnos.find(x=>x.id==id);if(confirm('¿Dar de baja a '+a.nombre+'? Sale del listado pero se conserva su historial y podrás reactivarlo.'))updAl(id,{activo:false})}
+async function addProf(){const n=$('#pn').value.trim();if(!n)return;await cfg({profesores:[...COMPIS(),n]});render()}
+async function delProf(i){if(!confirm('¿Quitar a '+COMPIS()[i]+'? Sus enlaces no se revocan.'))return;await cfg({profesores:COMPIS().filter((_,k)=>k!=i)});render()}
+// --- vistas ---
+const irGrupo=n=>{const g=D().grupos.find(x=>x.nombre==n);if(g){S.g=g.id;S.tab='grupos';S.ed=false;render();scrollTo(0,0)}};
+const fichaCodigo=c=>{const i=D().instrumentos.find(x=>x.codigo==c);if(i)fichaInst(i.id)};
+const chipInst=(a,k)=>{const c=cod(a,k),i=D().instrumentos.find(x=>x.codigo==c);return c?`<button class="k2 ${i&&abierta(i.id)?(grav(abierta(i.id))=='rotura'?'inc':'det'):''}" onclick="fichaCodigo('${esc(c)}')">${esc(c)}</button>`:'<span class="mu">—</span>'};
+const celdaAsig=(a,t)=>t.key=='X'&&a.modalidad=='flauta'?'<span class="pill">Flauta propia</span>':`<select onchange="asig('${a.id}','${t.key}',this.value)"><option value="">—</option>${opt(D().instrumentos.filter(i=>i.tipo==t.key&&(i.codigo==cod(a,t.key)||!i.retirado&&!usados(a,t.key).has(i.codigo))).map(i=>[i.codigo,i.codigo]),cod(a,t.key))}</select>`;
+const filaAl=(a,ed)=>ed?`<tr class="${a.activo?'':'off'}"><td>${a.numero}</td><td>${esc(a.nombre)}</td><td><select onchange="updAl('${a.id}',{modalidad:this.value})">${opt([['xilofono','Xilófono'],['flauta','Flauta']],a.modalidad)}</select></td>${D().tipos.map(t=>`<td>${celdaAsig(a,t)}</td>`).join('')}<td>${a.activo?`<button class="b s" onclick="baja('${a.id}')">Dar de baja</button>`:`<span class="pill">De baja</span> <button class="b s" onclick="updAl('${a.id}',{activo:true})">Reactivar</button>`}</td></tr>`
+ :`<tr><td>${a.numero}</td><td>${esc(a.nombre)}</td><td>${a.modalidad=='flauta'?'Flauta':'Xilófono'}</td>${D().tipos.map(t=>`<td>${t.key=='X'&&a.modalidad=='flauta'?'<span class="pill">Flauta propia</span>':chipInst(a,t.key)}</td>`).join('')}</tr>`;
+const grpChips=()=>D().grupos.map(x=>{const p=groupPalette(x.nombre);return `<button class="gc ${x.id==S.g?'on':''}" style="--ga:${p.accent}" onclick="S.g='${x.id}';render()"><b>${esc(x.nombre)}</b> <small class="mu">${D().alumnos.filter(a=>a.grupo_id==x.id&&a.activo).length}</small></button>`}).join('');
+const alumnadoEd=()=>{if(!G(S.g))return '<p class="mu">Crea primero algún grupo.</p>';if(T&&!misGrupos().has(G(S.g).nombre))return `<div class="gs">${grpChips()}</div><p class="mu">Solo puedes editar los grupos donde figuras en el horario.</p>`;const al=D().alumnos.filter(a=>a.grupo_id==S.g),nx=Math.max(0,...al.map(a=>a.numero))+1;
+ return `<div class="gs">${grpChips()}</div><div class="row"><input id="al" type="number" value="${nx}" style="width:72px"><input id="an" placeholder="Apellidos, Nombre" style="flex:1"><select id="am">${opt([['xilofono','Xilófono'],['flauta','Flauta']])}</select><button class="b" onclick="addAl()">Añadir alumno/a</button>${T?'':'<button class="b s" onclick="pegar()">Pegar lista</button>'}</div>
+ <div class="tw"><table><tr><th>Nº</th><th>Alumno/a</th><th>Modalidad</th>${D().tipos.map(t=>`<th>${esc(t.name)}</th>`).join('')}<th>Estado</th></tr>${al.slice().sort((a,b)=>(+b.activo)-(+a.activo)||a.numero-b.numero).map(a=>filaAl(a,true)).join('')}</table></div>`};
+V.grupos=()=>{if(T&&S.ed)return `<div class="card"><div class="row"><b>Alumnado</b><button class="b s" onclick="S.ed=false;render()">✔ Terminar edición</button></div>${alumnadoEd()}</div>`;
+ const g=G(S.g),al=D().alumnos.filter(a=>a.grupo_id==S.g&&a.activo);
+ return `<div class="gs">${grpChips()}</div>`+(g?`<div class="card"><div class="row"><b>${esc(g.nombre)}</b><span class="mu">${al.length} alumnos/as</span><button class="b s" onclick="pdfGrupo()">PDF</button>${T?(misGrupos().has(g.nombre)?'<button class="b s" onclick="S.ed=true;render()">✏️ Editar alumnado</button>':'<span class="pill">Solo lectura · no es tu grupo</span>'):''}</div>
+ <div class="tw"><table><tr><th>Nº</th><th>Alumno/a</th><th>Modalidad</th>${D().tipos.map(t=>`<th>${esc(t.name)}</th>`).join('')}</tr>${al.map(a=>filaAl(a,false)).join('')}</table></div></div>`:'<div class="card mu">No hay grupos: créalos en Administración.</div>')};
+V.inventario=function(){const d=D();return `<div class="card"><div class="row"><b>Inventario</b><button class="b s" onclick="pdfInv()">PDF</button><button class="b r" onclick="nuevaInc()">Reportar incidencia</button></div><p class="mu" style="margin:0 0 8px">Verde: en buen estado · Gris: sin revisar · Amarillo: deterioro (se puede tocar) · Rojo: rotura / fuera de uso</p>${d.tipos.map(t=>`<h3>${esc(t.name)}</h3><div class="gr">${d.instrumentos.filter(i=>i.tipo==t.key).map(i=>`<button class="k ${estI(i)}" onclick="fichaInst('${i.id}')"><strong>${esc(i.codigo)}</strong><small>${d.alumnos.filter(a=>a.activo&&Object.values(a.asignaciones||{}).includes(i.codigo)).length} usuarios</small></button>`).join('')||'<span class="mu">Sin instrumentos (créalos en Administración)</span>'}</div>`).join('')}</div>`};
+const horarioHtml=ed=>{const h=CF().horario||{},sel=(dw,k,f,v,lst,ph)=>`<select onchange="setSlot(${dw},${k},'${f}',this.value)"><option value="">${ph}</option>${opt(lst.map(x=>[x,x]),v)}</select>`,
+ cel=(dw,k)=>{const s=h[dw+'-'+k]||{},cls=s.group?'hz-g':s.teacher?'hz-o':'hz-e';return `<td class="${cls}" style="${s.group?'--ga:'+groupPalette(s.group).accent:''}">${ed?sel(dw,k,'group',s.group,D().grupos.map(g=>g.nombre),'—')+sel(dw,k,'teacher',s.teacher,PROFS(),'Profesor/a'):s.group?`<b class="lnk" onclick="irGrupo('${esc(s.group)}')">${esc(s.group)}</b><br><small>${esc(s.teacher||'')}${subEn(s.teacher,hoyISO())?' · sust.: '+esc(subEn(s.teacher,hoyISO()).sustituto):''}</small>`:s.teacher?`<small>${esc(s.teacher)}</small><br><small class="mu">Optativa · sin instrumentos</small>`:''}</td>`};
+ return `<div class="tw"><table class="hz"><tr><th></th>${DAYS.map(x=>`<th>${x}</th>`).join('')}</tr>${PERIODS.map((p,k)=>`${k==3?'<tr><th>Recreo<br><small>11:15–11:45</small></th><td colspan="5" class="hz-r">☕ Recreo</td></tr>':''}<tr><th>${p[0]}<br><small>${p[1]}–${p[2]}</small></th>${DAYS.map((_,dw)=>cel(dw,k)).join('')}</tr>`).join('')}</table></div><div class="hz-leg"><span class="hz-g" style="--ga:var(--ac)">Clase de música</span><span class="hz-o">Profesor/a en otra actividad (optativa)</span><span class="hz-e">Sin profesor/a</span><span class="hz-r">Recreo</span></div>`};
+V.horario=()=>`<div class="card"><div class="row"><b>Horario semanal del aula</b><button class="b s" onclick="pdfHorario()">PDF</button></div>${T&&!D().config?'<p class="mu">El horario no está disponible todavía. Avisa al jefe de departamento.</p>':''}${horarioHtml(false)}</div>`;
+const sec=(id,t,h)=>`<details class="card" ${S.op[id]?'open':''} ontoggle="S.op.${id}=this.open"><summary><b>${t}</b></summary>${h}</details>`;
+V.admin=()=>{const c=D().curso;return sec('curso','Curso lectivo',`<p class="mu">Inicio y fin del curso (ej. septiembre–junio) delimitan el rastreo de usos y la caducidad por defecto de los enlaces. La <b>revisión inicial</b> es el día en que revisas todos los instrumentos al empezar el curso: el rastreo de un desperfecto parte de la última revisión buena y, si no hay, de esta fecha.</p>${c.revision_inicial?'':'<p style="color:var(--wn);font-weight:600">⚠ Falta la fecha de revisión inicial: sin ella el rastreo no tiene punto de partida para los instrumentos sin otra revisión.</p>'}<div class="row"><label>Inicio <input id="f1" type="date" value="${c.fecha_inicio||''}"></label><label>Fin <input id="f2" type="date" value="${c.fecha_fin||''}"></label><label>Revisión inicial <input id="f3" type="date" value="${c.revision_inicial||''}"></label><button class="b" onclick="fechas()">Guardar</button></div><button class="b s" onclick="nuevoCurso()">+ Nuevo curso lectivo</button>`)
+ +sec('grupos','Grupos',`<div class="row">${D().grupos.map(g=>{const p=groupPalette(g.nombre);return `<span class="gc" style="--ga:${p.accent};cursor:default">${esc(g.nombre)} <a style="cursor:pointer" title="Eliminar" onclick="delGrupo('${g.id}')">✕</a></span>`}).join('')||'<span class="mu">Sin grupos</span>'}</div><div class="row"><button class="b s" onclick="nuevoGrupo()">+ Grupo</button><button class="b s" onclick="addGrupos(GRUPOS_DEF)">Añadir los habituales (2º–3º A–F, 4ºESO)</button></div>`)
+ +sec('alumnado','Alumnado e instrumentos',alumnadoEd())+sec('horario','Horario semanal',horarioHtml(true))+sec('calendario','Calendario',calHtml())
+ +sec('inv','Inventario',`<p class="mu">Indica cuántos instrumentos operativos hay de cada tipo: se crean los que falten y se retiran los sobrantes que no tengan usuarios ni incidencia abierta. Un instrumento retirado se puede reactivar desde su ficha.</p><div class="row">${D().tipos.map(t=>`<label>${esc(t.name)} <input id="n${t.key}" type="number" min="0" max="99" value="${D().instrumentos.filter(i=>i.tipo==t.key).length||32}" style="width:80px"></label>`).join('')}<button class="b" onclick="generar()">Ajustar inventario</button></div>`)
+ +sec('copias','Copias',`<div class="row"><button class="b s" onclick="exportar()">Exportar copia (.json)</button><label class="b s">Importar copia<input type="file" accept=".json" hidden onchange="importar(this.files[0])"></label></div>`)};
+
+
+// ===== Gravedad, sustituciones y permisos por grupo =====
+const GRAV={deterioro:['Pintadas o escritura','Suciedad o pegatinas','Arañazo o golpe leve','Otro deterioro'],rotura:['Cuerda/pitón','Lámina/barra','Mástil/cuerpo','Maza/accesorio','No funciona','Otra rotura']},TRC={'trace-1':'#f2a199','trace-2':'#f8c4be','trace-3':'#fbcf9a','trace-4':'#fcdcb6','trace-5':'#fcf0a6','trace-6':'#e4e4e4'};
+const grav=n=>n.gravedad||'deterioro',hoyISO=()=>new Date().toISOString().slice(0,10),subs=()=>CF().sustituciones||[],subEn=(n,f)=>subs().find(x=>x.titular==n&&x.desde<=f&&(!x.hasta||f<=x.hasta)),profEn=(n,f)=>subEn(n,f)?.sustituto||n,profLbl=(n,f)=>{const s=n&&subEn(n,f);return s?`${n} (sust.: ${s.sustituto})`:n};
+const estI=i=>{if(i.retirado)return 'ret';const n=abierta(i.id);return n?(grav(n)=='rotura'?'inc':'det'):i.revision?'rev':'ok'};
+const usados=(a,k)=>new Set(D().alumnos.filter(x=>x.grupo_id==a.grupo_id&&x.activo&&x.id!=a.id).map(x=>cod(x,k)));
+const misGrupos=()=>{const ns=[D().profesor,D().sustituye].filter(Boolean);return new Set(Object.values(CF().horario||{}).filter(s=>s.group&&ns.includes(s.teacher)).map(s=>s.group))};
+const tiposCon=(g,cur)=>{const l=GRAV[g].slice();if(cur&&!l.includes(cur))l.unshift(cur);return l.map(x=>[x,x])};
+function tiposGrav(){$('#it').innerHTML=opt(tiposCon($('#igv').value,''),'')}
+function nuevaInc(id){const s=slotNow(),ins=D().instrumentos.find(i=>i.id==id),kg=(ins&&(CF().knownGood||{})[ins.codigo])||D().curso.revision_inicial||'',pr=[...new Set([...PROFS(),...subs().filter(x=>!x.hasta).map(x=>x.sustituto)])];
+ modal(`<h3>Registrar desperfecto</h3><div class="row"><select id="ii" onchange="kgAuto()">${opt(D().instrumentos.filter(i=>!i.retirado&&permitido(i)).map(i=>[i.id,i.codigo]),id)}</select><label>Detección <input id="idt" type="datetime-local" value="${isoL(new Date())}"></label><label>Última revisión OK <input id="ik" type="date" value="${kg}"></label></div>${kg?'':'<p style="color:var(--wn);margin:0 0 8px">⚠ No consta fecha de última revisión: el rastreo no tendrá punto de partida.</p>'}
+ <div class="row"><select id="ig">${opt(D().grupos.map(g=>[g.nombre,g.nombre]),s.group||G(S.g)?.nombre)}</select><select id="ip"><option value="">Profesor/a…</option>${opt(pr.map(x=>[x,x]),profEn(s.teacher,hoyISO())||(T?D().profesor:''))}</select><input id="ir" placeholder="Alumno/a que lo notifica"></div>
+ <div class="row"><select id="igv" onchange="tiposGrav()">${opt([['deterioro','🟡 Deterioro · se puede seguir tocando'],['rotura','🔴 Rotura / fuera de uso']],'deterioro')}</select><select id="it">${opt(tiposCon('deterioro',''),'')}</select></div>
+ <textarea id="id" rows="3" placeholder="Describe el desperfecto"></textarea><textarea id="ia" rows="2" placeholder="Actuación inicial (opcional)"></textarea><p class="mu">Se guardan los alumnos que tenían el instrumento. Solo puede haber una incidencia abierta por instrumento.</p><div class="row"><button class="b" onclick="guardarInc()">Guardar</button><button class="b s" onclick="cerrar()">Cancelar</button></div>`)}
+async function guardarInc(){const iid=$('#ii').value,ins=D().instrumentos.find(i=>i.id==iid),d=$('#id').value.trim(),grupo=$('#ig').value,tipo=$('#it').value,gv=$('#igv').value,kg=$('#ik').value,ex={detectedAt:$('#idt').value,teacher:$('#ip').value,studentReporter:$('#ir').value.trim(),knownGood:kg,action:$('#ia').value.trim()};if(!d)return toast('Describe la incidencia',1);
+ const ab=abierta(iid);if(ab)return dup(ab);
+ if(T){const r=await q(sb.rpc('gim2_prof_incidencia',{p_token:TOKEN,p_instrumento:iid,p_grupo:grupo,p_tipo:tipo,p_desc:d,p_extra:ex,p_gravedad:gv}));if(!r.ok){await cargar();return dup(r.existente)}}
+ else{const us=D().alumnos.filter(a=>a.activo&&Object.values(a.asignaciones||{}).includes(ins.codigo)).map(a=>({alumno_id:a.id,nombre:a.nombre,grupo:G(a.grupo_id).nombre,numero:a.numero})),{action,...extra}=ex;
+  const{error}=await sb.from('gim2_incidencias').insert({curso_id:D().curso.id,instrumento_id:iid,codigo:ins.codigo,grupo,tipo_dano:tipo,gravedad:gv,descripcion:d,actuacion:action,usuarios:us,extra});
+  if(error){await cargar();return error.code=='23505'?dup(null):toast(error.message,1)}
+  if(kg)await cfg({knownGood:{...(CF().knownGood||{}),[ins.codigo]:kg}})}
+ cerrar();S.tab='incidencias';toast('Incidencia registrada');cargar()}
+async function guardaInc2(id){const g=$('#g'+id).value,tp=$('#t'+id).value,d=$('#d'+id).value.trim();if(!d)return toast('La descripción no puede quedar vacía',1);
+ if(T)await q(sb.rpc('gim2_prof_incidencia_editar',{p_token:TOKEN,p_id:id,p_gravedad:g,p_tipo:tp,p_desc:d}));
+ else await q(sb.from('gim2_incidencias').update({gravedad:g,tipo_dano:tp,descripcion:d,actuacion:$('#a'+id).value,resolucion:$('#r'+id).value}).eq('id',id));
+ toast('Guardado');cargar()}
+const tipoEd=id=>{$('#t'+id).innerHTML=opt(tiposCon($('#g'+id).value,''),'')};
+
+V.incidencias=()=>{const mine=n=>!T||(n.estado=='open'&&[D().profesor,D().sustituye].includes(n.reportado_por));
+ return `<div class="row"><button class="b r" onclick="nuevaInc()">+ Nueva incidencia</button>${T?'':`<select onchange="S.fil=this.value;render()">${opt([['abiertas','Abiertas'],['todas','Todas (con archivo)']],S.fil)}</select>`}<select onchange="S.fg=this.value;render()"><option value="">Todos los grupos</option>${opt(D().grupos.map(g=>[g.nombre,g.nombre]),S.fg)}</select><button class="b s" onclick="pdfInc()">PDF</button></div>
+ ${lista().map(n=>{const g=grav(n),ed=mine(n),id=n.id;return `<div class="card inc-c ${n.estado} ${g}">${incHtml(n,false)}<div class="row"><span class="pill">${g=='rotura'?'🔴 Rotura / fuera de uso':'🟡 Deterioro'}</span>${T&&!ed?'<span class="mu">Solo lectura: la registró otra persona</span>':''}</div>${usuTab(n)}${traceHtml(n)}
+ ${ed?`<div class="row"><select id="g${id}" onchange="tipoEd('${id}')">${opt([['deterioro','Deterioro · se puede tocar'],['rotura','Rotura / fuera de uso']],g)}</select><select id="t${id}">${opt(tiposCon(g,n.tipo_dano),n.tipo_dano)}</select></div><textarea id="d${id}" rows="2">${esc(n.descripcion)}</textarea>${T?'':`<textarea id="a${id}" rows="2" placeholder="Actuación">${esc(n.actuacion)}</textarea><textarea id="r${id}" rows="2" placeholder="Resolución / reparación">${esc(n.resolucion)}</textarea>`}<div class="row" style="margin-top:8px"><button class="b s" onclick="guardaInc2('${id}')">Guardar cambios</button>${T?'':`${n.estado=='open'?`<button class="b" onclick="cierraInc('${id}',true)">Marcar reparada y archivar</button>`:`<button class="b s" onclick="cierraInc('${id}',false)">Reabrir</button>`}<button class="b s" onclick="pdfReunion('${id}')">PDF reunión</button>`}</div>`:''}</div>`}).join('')||'<div class="card mu">Sin incidencias abiertas.</div>'}`};
+function pdfReunion(id){const n=D().incidencias.find(x=>x.id==id),li=LI(n),t=trace(li);
+ pdf('Reunión · Incidencia '+esc(n.codigo),`<table><tr><th>Instrumento</th><td>${esc(n.codigo)}</td><th>Gravedad</th><td>${grav(n)=='rotura'?'Rotura / fuera de uso':'Deterioro'}</td></tr><tr><th>Detectado</th><td>${fd(li.detectedAt)} ${esc((li.detectedAt||'').slice(11))}</td><th>Grupo</th><td>${esc(n.grupo)}</td></tr><tr><th>Registrada por</th><td>${esc(n.reportado_por)}</td><th>Tipo de daño</th><td>${esc(n.tipo_dano)}</td></tr></table>
+ <p><b>Descripción:</b> ${esc(n.descripcion)}</p><h3>Alumnado a convocar, por orden de proximidad</h3><table><tr><th>Fecha</th><th>Hora</th><th>Grupo</th><th>Profesor/a</th><th>Alumno/a</th><th>Prioridad</th></tr>${t.rows.map(r=>`<tr style="background:${TRC[r.level]||'#fff'}"><td>${fd(r.date)}</td><td>${esc(r.time)}</td><td>${esc(r.group)}</td><td>${esc(profLbl(r.teacher,r.date))}</td><td>${esc((r.number?'nº'+r.number+' ':'')+(r.student||''))}</td><td><b>${esc(r.priority||'')}</b></td></tr>`).join('')}</table>
+ <p style="font-size:8pt;color:#766b7c">${esc(t.message)}</p><h3>Notas de la reunión</h3><div style="height:110px;border:1px solid #c9b8cf;border-radius:6px"></div>`)}
+// --- sustituciones de profesorado ---
+async function sustituir(i){const n=COMPIS()[i],nom=(prompt('Nombre del profesor/a que sustituye a '+n+':')||'').trim();if(!nom)return;const d=prompt('Fecha de inicio (AAAA-MM-DD):',hoyISO())||'';if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return toast('Fecha no válida',1);
+ await cfg({sustituciones:[...subs(),{titular:n,sustituto:nom,desde:d}]});await crearEnlace(nom,D().curso.fecha_fin,n)}
+async function finSust(i){const n=COMPIS()[i],su=subEn(n,hoyISO());if(!su||!confirm('¿Finalizar la sustitución? '+su.sustituto+' dejará de tener acceso y vuelve '+n+'.'))return;
+ await cfg({sustituciones:subs().map(x=>x===su?{...x,hasta:hoyISO()}:x)});const e=S.enl.find(x=>x.profesor==su.sustituto&&x.sustituye==n&&!x.revocado);if(e)await q(sb.from('gim2_enlaces').update({revocado:true}).eq('id',e.id));cargar()}
+V.profes=()=>{const hs=Object.values(CF().horario||{}),hoy=hoyISO(),fila=(n,i)=>{const mine=hs.filter(s=>s.teacher==n&&s.group),gs=[...new Set(mine.map(s=>s.group))].sort(),e=i<0?null:S.enl.find(x=>x.profesor==n&&!x.revocado&&!x.sustituye),su=i<0?null:subEn(n,hoy),el=su&&S.enl.find(x=>x.profesor==su.sustituto&&x.sustituye==n&&!x.revocado);
+ return `<div class="pf"><span class="pf-n" style="border-left:8px solid ${tc(n)}">${esc(n)}</span><div class="pf-i"><b>${mine.length} h/semana</b> ${gs.map(g=>`<span class="gc gmini" title="Ver grupo" onclick="irGrupo('${esc(g)}')" style="--ga:${groupPalette(g).accent}">${esc(g)}</span>`).join('')||'<span class="mu">sin horario</span>'}</div>${i<0?'':`<div class="pf-a">${e?`<span class="pill ok">Enlace activo</span><button class="b s" onclick="copiaEnl('${e.token}')">Copiar enlace</button><button class="b s" onclick="revEnl('${e.id}',true)">Revocar</button>`:`<button class="b s" onclick="crearComp(${i})">Crear enlace</button>`}${su?'':`<button class="b s" onclick="sustituir(${i})">Sustituir</button>`}<button class="b s" onclick="delProf(${i})" title="Quitar">✕</button></div>`}${su?`<div class="pf-s">↪ Sustituido/a por <b>${esc(su.sustituto)}</b> desde ${fd(su.desde)}${el?`<button class="b s" onclick="copiaEnl('${el.token}')">Copiar enlace del sustituto</button>`:''}<button class="b s" onclick="finSust(${i})">Finalizar sustitución</button></div>`:''}</div>`};
+ return `<div class="card"><h3>Jefe de departamento</h3>${fila(JEFE,-1)}</div><div class="card"><h3>Compañeros/as · enlaces de acceso</h3><p class="mu">Escribe el nombre de cada compañero/a y crea su enlace. Pueden añadir o dar de baja alumnado de sus grupos, y registrar y corregir sus incidencias; no ven la administración ni el archivo. Para una baja médica usa «Sustituir».</p><div class="row"><input id="pn" placeholder="Nombre del compañero/a" style="min-width:240px"><button class="b" onclick="addProf()">Añadir</button><label class="mu">Caducidad de los enlaces <input id="ec" type="date" value="${D().curso.fecha_fin||''}"></label></div>${COMPIS().map(fila).join('')||'<span class="mu">Aún no hay compañeros/as.</span>'}</div>${subs().length?`<div class="card"><h3>Historial de sustituciones</h3>${subs().slice().sort((a,b)=>b.desde.localeCompare(a.desde)).map(x=>`<div class="row"><b>${esc(x.titular)}</b> → ${esc(x.sustituto)} <span class="mu">desde ${fd(x.desde)} ${x.hasta?'hasta '+fd(x.hasta):'· en curso'}</span></div>`).join('')}</div>`:''}`};
+
+// ===== Curso nuevo con inventario real, filtros y avisos =====
+const permitido=i=>{if(!T)return true;const us=D().alumnos.filter(a=>a.activo&&Object.values(a.asignaciones||{}).includes(i.codigo));return !us.length||us.some(a=>misGrupos().has(G(a.grupo_id)?.nombre))};
+async function nuevoCurso(){const n=prompt('Nombre del curso lectivo (ej. 2026-2027):');if(!n)return;const prev=S.D,cnt={};
+ for(const t of TIPOS){const d=prev?prev.instrumentos.filter(i=>i.tipo==t.key).length:0,v=parseInt(prompt('¿Cuántos '+t.name.toLowerCase()+' hay este curso?',d||(t.key=='X'?28:32)),10);if(!(v>=0&&v<=99))return toast('Número no válido: no se ha creado el curso',1);cnt[t.key]=v}
+ const c=await q(sb.from('gim2_cursos').insert({nombre:n.trim(),config:{tipos:TIPOS,instrNuevo:prev?.curso?.config?.instrNuevo||{}}}).select().single());
+ await q(sb.from('gim2_grupos').insert(GRUPOS_DEF.map(g=>({curso_id:c.id,nombre:g}))));
+ const arr=new Map();if(prev)prev.instrumentos.forEach(i=>{const ab=prev.incidencias.find(x=>x.instrumento_id==i.id&&x.estado=='open');if(i.retirado||ab)arr.set(i.codigo,{retirado:i.retirado,nota:ab?'Arrastrado del curso anterior: '+ab.tipo_dano:i.nota||''})});
+ const rows=TIPOS.flatMap(t=>Array.from({length:cnt[t.key]},(_,k)=>{const cd=t.prefix+'-'+pad(k+1),a=arr.get(cd);return{curso_id:c.id,tipo:t.key,num:k+1,codigo:cd,retirado:!!a?.retirado,revision:!!a,nota:a?.nota||''}}));
+ if(rows.length)await q(sb.from('gim2_instrumentos').insert(rows));
+ S.cid=c.id;S.tab='admin';toast(arr.size?arr.size+' instrumentos con avería o retirados se han arrastrado al curso nuevo':'Curso creado');cargar()}
+async function generar(){const rows=[],ret=[],fijos=[];D().tipos.forEach(t=>{const n=+$('#n'+t.key).value||0;
+  for(let i=1;i<=n;i++)if(!D().instrumentos.some(x=>x.tipo==t.key&&x.num==i))rows.push({curso_id:D().curso.id,tipo:t.key,num:i,codigo:t.prefix+'-'+pad(i)});
+  D().instrumentos.filter(x=>x.tipo==t.key&&x.num>n&&!x.retirado).forEach(x=>(D().alumnos.some(a=>a.activo&&Object.values(a.asignaciones||{}).includes(x.codigo))||abierta(x.id)?fijos:ret).push(x))});
+ if(ret.length&&!confirm('Se retirarán '+ret.length+' instrumentos sobrantes ('+ret.map(x=>x.codigo).join(', ')+'). ¿Continuar?'))return;
+ if(rows.length)await q(sb.from('gim2_instrumentos').upsert(rows,{onConflict:'curso_id,codigo',ignoreDuplicates:true}));
+ if(ret.length)await q(sb.from('gim2_instrumentos').update({retirado:true}).in('id',ret.map(x=>x.id)));
+ toast(`${rows.length} creados · ${ret.length} retirados${fijos.length?' · '+fijos.length+' no se retiran (tienen usuarios o incidencia abierta)':''}`);cargar()}
+async function cierraInc(id,ok){if(ok&&!$('#r'+id).value.trim()&&!confirm('Vas a archivar la incidencia sin describir la reparación o resolución. ¿Archivar igualmente?'))return;
+ await q(sb.from('gim2_incidencias').update({estado:ok?'closed':'open',fecha_cierre:ok?new Date().toISOString():null,actuacion:$('#a'+id).value,resolucion:$('#r'+id).value}).eq('id',id));toast(ok?'Reparada y archivada':'Reabierta');cargar()}
+
+// ===== PDF: descarga directa (sin diálogo de impresión) =====
+function pdf(titulo,h,land){const el=$('#imp'),c=D().curso.nombre;
+ el.innerHTML=`<div class="lh"><img src="${LOGO}"><div><small>IES INFANTA ELENA · DEPARTAMENTO DE MÚSICA</small><h1>${titulo}</h1></div><div style="margin-left:auto;text-align:right;font-size:8pt">Curso ${esc(c)}<br>${fd(new Date())}</div></div><div class="bar"></div>${h}<div class="ft">IES Infanta Elena · Departamento de Música · Gestión de Instrumentos Musicales</div>`;
+ if(!window.html2pdf){document.body.classList.add('p');window.onafterprint=()=>document.body.classList.remove('p');return window.print()}
+ const nombre='GIM-'+titulo.replace(/<[^>]*>/g,'').replace(/&[a-z#0-9]+;/g,'').trim().replace(/[^\wáéíóúüñÁÉÍÓÚÑº-]+/g,'_')+'-'+c+'.pdf';const sy=window.scrollY||0;window.scrollTo&&window.scrollTo(0,0);el.classList.add('live');el.style.width=land?'273mm':'';toast('Generando PDF…');
+ html2pdf().set({margin:[12,12,12,12],filename:nombre,image:{type:'jpeg',quality:.98},html2canvas:{scale:2.2,useCORS:true,backgroundColor:'#ffffff',scrollX:0,scrollY:0},jsPDF:{unit:'mm',format:'a4',orientation:land?'landscape':'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','.inc']}}).from(el).save()
+  .then(()=>toast('PDF descargado ✓')).catch(e=>toast('No se pudo generar el PDF: '+e.message,1)).finally(()=>{el.classList.remove('live');el.style.width='';el.innerHTML='';window.scrollTo&&window.scrollTo(0,sy)})}
+
+// ===== Ficha del instrumento: Usuarios · Incidencia abierta · Historial =====
+const acc=(id,t,h,open)=>`<details class="acc" ${open?'open':''}><summary><b>${t}</b></summary><div id="${id}">${h}</div></details>`;
+const traceTabla=n=>{const t=trace(LI(n));return `<p class="mu" style="font-size:12px">${esc(t.message)}</p><div class="tw"><table class="sus"><tr><th>Fecha</th><th>Hora</th><th>Grupo</th><th>Profesor/a</th><th>Alumno/a</th><th>Prioridad</th></tr>${t.rows.map(r=>`<tr class="${r.level||''}"><td>${fd(r.date)}</td><td>${esc(r.time)}</td><td>${esc(r.group)}</td><td>${esc(profLbl(r.teacher,r.date))}</td><td>${esc((r.number?'nº'+r.number+' ':'')+(r.student||''))}</td><td><b>${esc(r.priority||'')}</b></td></tr>`).join('')}</table></div>`};
+function traceHtml(n){return `<details ${n.estado=='open'?'open':''}><summary class="mu"><b>Sospechosos por orden de proximidad</b> · rojo: principal → amarillo: posible · gris: más lejano</summary>${traceTabla(n)}</details>`}
+// Orden de los usuarios: con incidencia, el del rastreo; sin ella, el horario hacia atrás desde el viernes a 6.ª
+function fichaInst(id){const i=D().instrumentos.find(x=>x.id==id),ab=abierta(id),us=ordenUsuarios(i),est=EST_L[estI(i)];
+ modal(`<h3>${esc(i.codigo)} <span class="pill">${est}</span></h3>${T?'':`<div class="row"><label><input type="checkbox" id="fr" ${i.revision?'checked':''}> Pendiente de revisión</label><label><input type="checkbox" id="ft" ${i.retirado?'checked':''}> Retirado</label><input id="fn" placeholder="Nota" value="${esc(i.nota)}" style="flex:1"><button class="b" onclick="guardaInst('${id}')">Guardar</button></div>`}
+ ${acc('fu','Usuarios ('+usuariosDe(i).length+')',usuariosHtml(us),!ab)}
+ ${ab?acc('fa','Incidencia abierta · este curso',`<div class="card inc-c open ${grav(ab)}" style="margin:0 0 8px">${incHtml(ab,false)}</div>${traceTabla(ab)}<div class="row" style="margin-top:8px">${T?'':`<button class="b s" onclick="pdfReunion('${ab.id}')">PDF reunión</button>`}<button class="b s" onclick="cerrar();S.tab='incidencias';render()">Ver en Incidencias</button></div>`,true):''}
+ ${T?'':acc('fh','Historial','<span class="mu">Cargando…</span>',false)}
+ <div class="row" style="margin-top:10px">${!ab&&permitido(i)?`<button class="b r" onclick="nuevaInc('${id}')">Reportar incidencia</button>`:''}${!ab&&!permitido(i)?'<span class="mu">No es de tus grupos</span>':''}<button class="b s" onclick="cerrar()">Cerrar</button></div>`);
+ if(!T)cargaHist(i)}
+async function cargaHist(i){const nuevo=(CF().instrNuevo||{})[i.codigo]||'',ab=abierta(i.id);let h=await q(sb.from('gim2_incidencias').select('*,gim2_cursos(nombre)').eq('codigo',i.codigo).order('fecha_reporte',{ascending:false}));
+ h=h.filter(n=>n.id!=ab?.id&&(!nuevo||n.fecha_reporte.slice(0,10)>=nuevo));const el=$('#fh');if(!el)return;
+ el.innerHTML=h.map(n=>`<details class="acc2"><summary>${fd(n.fecha_reporte)} · ${esc(n.gim2_cursos?.nombre)} · ${grav(n)=='rotura'?'🔴':'🟡'} ${esc(n.tipo_dano)} · ${n.estado=='open'?'<b>Abierta</b>':'Reparada '+fd(n.fecha_cierre)}</summary><div class="card inc-c ${n.estado} ${grav(n)}" style="margin:6px 0">${incHtml(n)}</div></details>`).join('')||'<span class="mu">Sin incidencias anteriores.</span>';
+ el.innerHTML+=`<div class="row" style="margin-top:8px"><button class="b s" onclick="instrNuevo('${i.id}')">Es un instrumento nuevo (reinicia su historial)</button></div>`}
+async function instrNuevo(id){const i=D().instrumentos.find(x=>x.id==id),ab=abierta(id);
+ if(!confirm('¿'+i.codigo+' es un instrumento NUEVO que ocupa el lugar del anterior? Dejará de mostrarse el historial del antiguo'+(ab?' y se archivará su incidencia abierta':'')+'.'))return;
+ if(ab)await q(sb.from('gim2_incidencias').update({estado:'closed',fecha_cierre:new Date().toISOString(),resolucion:'Instrumento sustituido por uno nuevo el '+fd(new Date())}).eq('id',ab.id));
+ await q(sb.from('gim2_instrumentos').update({retirado:false,revision:false}).eq('id',id));
+ await cfg({instrNuevo:{...(CF().instrNuevo||{}),[i.codigo]:hoyISO()}});cerrar();toast(i.codigo+' marcado como instrumento nuevo');cargar()}
+
+// ===== Orden semanal de usuarios (con repetidos) e informes con color =====
+const EST_L={ok:'En buen estado',rev:'Sin revisar',det:'Deterioro',inc:'Rotura',ret:'Retirado'},ESTC={ok:'#16794b',rev:'#6b7280',det:'#b7791f',inc:'#b42318',ret:'#6b7280'};
+const usuariosDe=i=>D().alumnos.filter(a=>a.activo&&Object.values(a.asignaciones||{}).includes(i.codigo));
+function ordenUsuarios(i){const us=usuariosDe(i),gn=a=>G(a.grupo_id)?.nombre||'',h=CF().horario||{},out=[],vis=new Set();
+ for(let d=4;d>=0;d--)for(let k=PERIODS.length-1;k>=0;k--){const g=h[d+'-'+k]?.group;if(g)us.filter(a=>gn(a)==g).forEach(a=>{out.push({a,lbl:DAYS[d].slice(0,3)+' '+PERIODS[k][0],rep:vis.has(a.id)});vis.add(a.id)})}
+ us.filter(a=>!vis.has(a.id)).sort((a,b)=>gn(a).localeCompare(gn(b))||a.numero-b.numero).forEach(a=>out.push({a,lbl:'sin horario'}));return out}
+const usuariosHtml=es=>`<p class="mu" style="margin:0 0 8px">Orden del horario: viernes a 6.ª hora hacia atrás, toda la semana. Si un grupo tiene varias clases, su alumno se repite.</p><div class="ug" style="columns:${Math.max(250,Math.round(Math.max(0,...es.map(e=>(e.lbl+(G(e.a.grupo_id)?.nombre||'')+e.a.nombre).length))*6.4+80))}px 4">${es.map((e,k)=>`<div class="ui"><b>${k+1}.</b> <span class="mu">${e.lbl}</span> · <span class="lnk" onclick="cerrar();irGrupo('${esc(G(e.a.grupo_id)?.nombre)}')">${esc(G(e.a.grupo_id)?.nombre)}</span> · nº${e.a.numero} · ${esc(e.a.nombre)}${e.rep?' <span class="pill">repite</span>':''}</div>`).join('')||'<span class="mu">Sin usuarios asignados</span>'}</div>`;
+const usuTab=n=>{const i=D().instrumentos.find(x=>x.id==n.instrumento_id);if(!i)return '';const ab=n.estado=='open';
+ return `<details><summary class="mu"><b>Usuarios del instrumento</b> (${ab?usuariosDe(i).length:(n.usuarios||[]).length})</summary>${ab?usuariosHtml(ordenUsuarios(i)):`<p class="mu" style="font-size:13px">${usu(n)}</p>`}</details>`};
+// --- informes con color ---
+function pdfHorario(){const h=CF().horario||{},cel=(dw,k)=>{const s=h[dw+'-'+k]||{},p=s.group?groupPalette(s.group):null;
+  return `<td style="background:${p?p.bg:s.teacher?'#e2e2e2':'#f3f3f3'};${p?'border-left:5px solid '+p.accent+';':''}height:58px">${s.group?`<b>${esc(s.group)}</b><br>${esc(s.teacher||'')}`:s.teacher?`<span style="color:#666">${esc(s.teacher)}<br><small>Optativa · sin instrumentos</small></span>`:''}</td>`};
+ pdf('Horario semanal del aula',`<table style="border-collapse:separate;border-spacing:4px;font-size:11pt;width:100%;table-layout:fixed"><tr><th style="width:12%"></th>${DAYS.map(x=>`<th style="width:17.6%">${x}</th>`).join('')}</tr>${PERIODS.map((p,k)=>`${k==3?'<tr><th>Recreo<br>11:15–11:45</th><td colspan="5" style="text-align:center;background:#f6ecd2;color:#8a5a00;font-weight:700">Recreo</td></tr>':''}<tr><th>${p[0]}<br>${p[1]}–${p[2]}</th>${DAYS.map((_,dw)=>cel(dw,k)).join('')}</tr>`).join('')}</table>
+ <p style="font-size:8pt;margin-top:10px"><span style="background:#e2e2e2;padding:2px 8px;border-radius:6px">Profesor/a en otra actividad (optativa)</span> <span style="background:#f3f3f3;padding:2px 8px;border-radius:6px">Sin profesor/a</span> <span style="background:#f6ecd2;padding:2px 8px;border-radius:6px">Recreo</span></p>`,true)}
+function pdfGrupo(){const g=G(S.g),p=groupPalette(g.nombre),prof=[...new Set(Object.values(CF().horario||{}).filter(s=>s.group==g.nombre&&s.teacher).map(s=>s.teacher))].map(n=>profLbl(n,hoyISO())).join(' · '),al=D().alumnos.filter(a=>a.grupo_id==g.id&&a.activo),chip=(a,t)=>{if(t.key=='X'&&a.modalidad=='flauta')return 'Flauta propia';const c=cod(a,t.key),i=D().instrumentos.find(x=>x.codigo==c),n=i&&abierta(i.id);return c?(n?`<span style="color:${grav(n)=='rotura'?'#b42318':'#b7791f'}">●</span> `:'')+esc(c):'—'};
+ pdf('Instrumentos asignados · '+esc(g.nombre),`<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><span style="padding:7px 26px;border-radius:99px;font-weight:800;font-size:18pt;background:${p.bg};border-left:10px solid ${p.accent}">${esc(g.nombre)}</span>${prof?`<span style="font-size:12pt"><b>Profesor/a:</b> ${esc(prof)}</span>`:''}<span style="color:#766b7c">${al.length} alumnos/as</span></div>
+ <table><tr><th>Nº</th><th>Alumno/a</th><th>Modalidad</th>${D().tipos.map(t=>`<th>${esc(t.name)}</th>`).join('')}</tr>${al.map(a=>`<tr><td><b>${a.numero}</b></td><td>${esc(a.nombre)}</td><td>${esc(a.modalidad)}</td>${D().tipos.map(t=>`<td>${chip(a,t)}</td>`).join('')}</tr>`).join('')}</table><p style="font-size:8pt;color:#766b7c;margin-top:8px"><span style="color:#b7791f">●</span> instrumento con deterioro · <span style="color:#b42318">●</span> instrumento con rotura</p>`)}
+function pdfInv(){const ins=D().instrumentos,c={ok:0,rev:0,det:0,inc:0,ret:0};ins.forEach(i=>c[estI(i)]++);
+ const box=k=>`<div style="flex:1;padding:8px 10px;border-radius:10px;border-left:6px solid ${ESTC[k]};background:#f7f3f8"><div style="font-size:16pt;font-weight:800;color:${ESTC[k]}">${c[k]}</div><div style="font-size:8pt;color:#766b7c">${EST_L[k]}</div></div>`;
+ pdf('Inventario de instrumentos',`<div style="display:flex;gap:8px;margin-bottom:12px">${['ok','rev','det','inc','ret'].map(box).join('')}</div>${D().tipos.map(t=>`<h3 style="color:#51205d;border-bottom:2px solid #c9a3d4;padding-bottom:3px">${esc(t.name)}</h3><table><tr><th>Código</th><th>Estado</th><th>Usuarios</th><th>Nota</th></tr>${ins.filter(i=>i.tipo==t.key).map(i=>{const k=estI(i);return `<tr><td><b>${esc(i.codigo)}</b></td><td><span style="color:${ESTC[k]};font-weight:700">● ${EST_L[k]}</span></td><td>${usuariosDe(i).length}</td><td>${esc(i.nota)}</td></tr>`}).join('')}</table>`).join('')}`)}
+
+if(T)cargar().catch(()=>{$('#app').innerHTML='<main><div class="card"><h2>Enlace no válido</h2><p class="mu">Ha caducado o ha sido revocado. Pídele uno nuevo al jefe de departamento.</p></div></main>'});else cargar();
+</script></body></html>
