@@ -1,0 +1,15 @@
+{
+  "name": "GIM · Instrumentos Musicales",
+  "short_name": "GIM",
+  "description": "Gestión de instrumentos musicales del Departamento de Música · IES Infanta Elena",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5eff7",
+  "theme_color": "#51205d",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
