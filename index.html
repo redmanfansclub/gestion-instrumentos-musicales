@@ -154,7 +154,7 @@ sb.auth.onAuthStateChange(async ev=>{if(ev=='PASSWORD_RECOVERY'){const p=prompt(
 async function salir(){if(T){history.replaceState(null,'',location.pathname);$('#app').innerHTML='<main><div class="card"><h2>Sesión cerrada</h2><p class="mu">Ya puedes cerrar esta pestaña.</p></div></main>';window.close()}else{await sb.auth.signOut();authView()}}
 
 // ===== DATOS =====
-async function cargar(){S.cal=null;
+async function cargar(){S.cal=null;S.stAll=null;
  if(T){const d=await q(sb.rpc('gim2_prof_datos',{p_token:TOKEN}));S.D={...d,curso:{...d.curso,config:d.config||{}},tipos:d.curso.tipos||TIPOS}}
  else{const{data:{session}}=await Promise.race([sb.auth.getSession(),new Promise(r=>setTimeout(()=>r({data:{session:null}}),8000))]);if(!session)return authView();
   S.cursos=await q(sb.from('gim2_cursos').select('*').order('nombre',{ascending:false}));if(!S.cursos.find(c=>c.id==S.cid))S.cid=S.cursos[0]?.id;
@@ -453,7 +453,7 @@ function pdf(titulo,h,land){if(!window.qrcode&&!S.qrX)return cargaQR().then(()=>
  el.innerHTML=pdfDoc(titulo,h);
  if(!window.html2pdf){toast('Preparando PDF…');return cargaH2P().then(()=>pdf(titulo,h,land),()=>{document.body.classList.add('p');window.onafterprint=()=>document.body.classList.remove('p');window.print()})}
  const nombre='GIM-'+titulo.replace(/<[^>]*>/g,'').replace(/&[a-z#0-9]+;/g,'').trim().replace(/[^\wáéíóúüñÁÉÍÓÚÑº-]+/g,'_')+'-'+c+'.pdf';const sy=window.scrollY||0;window.scrollTo&&window.scrollTo(0,0);el.classList.add('live');el.style.width=land?'273mm':'';toast('Generando PDF…');
- html2pdf().set({margin:[12,12,12,12],filename:nombre,image:{type:'jpeg',quality:.98},html2canvas:{scale:2.2,useCORS:true,backgroundColor:'#ffffff',scrollX:0,scrollY:0},jsPDF:{unit:'mm',format:'a4',orientation:land?'landscape':'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','.inc']}}).from(el).save()
+ html2pdf().set({margin:[12,12,12,12],filename:nombre,image:{type:'jpeg',quality:.98},html2canvas:{scale:2.2,useCORS:true,backgroundColor:'#ffffff',scrollX:0,scrollY:0},jsPDF:{unit:'mm',format:'a4',orientation:land?'landscape':'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','.inc','.sec']}}).from(el).save()
   .then(()=>toast('PDF descargado ✓')).catch(e=>toast('No se pudo generar el PDF: '+e.message,1)).finally(()=>{el.classList.remove('live');el.style.width='';el.innerHTML='';window.scrollTo&&window.scrollTo(0,sy)})}
 
 // ===== Ficha del instrumento: Usuarios · Incidencia abierta · Historial =====
@@ -511,7 +511,7 @@ function bRes(){const q=norm($('#bq').value.trim()),el=$('#br'),d=D(),r=[];if(q.
 addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&String(e.key).toLowerCase()=='k'&&S.D){e.preventDefault();buscar()}else if(e.key=='Escape')cerrar()});
 // --- estadísticas (solo jefatura) ---
 const cuenta=(a,f)=>{const o={};a.forEach(x=>{const k=f(x);if(k)o[k]=(o[k]||0)+1});return Object.entries(o)};
-const barras=(items,col)=>{const m=Math.max(1,...items.map(x=>x[1]));return items.map(([l,v])=>`<div class="bar-r"><span class="bl">${esc(l)}</span><span class="bt"><i style="width:${v/m*100}%;background:${col?col(l):'var(--ac)'}"></i></span><b>${v}</b></div>`).join('')||'<span class="mu">Sin datos.</span>'};
+
 
 // --- QR: se genera en el navegador; las claves de los enlaces no salen a ningún servicio ---
 const urlApp=()=>location.origin+location.pathname;
@@ -563,16 +563,7 @@ S.stP='curso';S.stC=null;S.stRows=null;S.stD1='';S.stD2='';
 async function stCurso(v){S.stC=v&&v!=S.cid?v:null;if(!S.stC){S.stRows=null;return render()}S.stRows=await q(v=='all'?sb.from('gim2_incidencias').select('*'):sb.from('gim2_incidencias').select('*').eq('curso_id',v));render()}
 const stFecha=x=>((x.extra&&x.extra.detectedAt)||x.fecha_reporte||'').slice(0,10),stTri=f=>{const m=+f.slice(5,7);return m>=9?1:m<=3?2:3};
 const stFiltro=r=>S.stP=='curso'?r:S.stP=='custom'?r.filter(x=>(!S.stD1||stFecha(x)>=S.stD1)&&(!S.stD2||stFecha(x)<=S.stD2)):r.filter(x=>stTri(stFecha(x))==+S.stP);
-V.estadisticas=()=>{const todas=S.stRows||D().incidencias,inc=stFiltro(todas),n=inc.length,nuevo=CF().instrNuevo||{},sel=S.stC||S.cid,
- ctl=`<div class="card"><div class="row"><label>Curso <select onchange="stCurso(this.value)">${opt([...S.cursos.map(c=>[c.id,c.nombre]),['all','Todos los cursos']],sel)}</select></label><label>Periodo <select onchange="S.stP=this.value;render()">${opt([['curso','Todo el curso'],['1','1.er trimestre (sep–dic)'],['2','2.º trimestre (ene–mar)'],['3','3.er trimestre (abr–ago)'],['custom','Personalizado…']],S.stP)}</select></label>${S.stP=='custom'?`<label>Desde <input type="date" value="${S.stD1}" onchange="S.stD1=this.value;render()"></label><label>Hasta <input type="date" value="${S.stD2}" onchange="S.stD2=this.value;render()"></label>`:''}<span class="mu">${n} de ${todas.length} incidencias</span></div></div>`;
- if(!n)return ctl+'<div class="card"><p class="mu">No hay incidencias con estos filtros. Irán apareciendo aquí según las anotes.</p></div>';
- const ab=inc.filter(x=>x.estado=='open').length,rot=inc.filter(x=>grav(x)=='rotura').length,pct=Math.round(rot/n*100),ord=(a,b)=>b[1]-a[1]||String(a[0]).localeCompare(String(b[0])),
-  meses=cuenta(inc,x=>stFecha(x).slice(0,7)).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>[new Date(k+'-15').toLocaleDateString('es-ES',{month:'short',year:'2-digit'}),v]),
-  vig=inc.filter(x=>!(nuevo[x.codigo]&&stFecha(x)<nuevo[x.codigo])),nom=sel=='all'?'todos los cursos':(S.cursos.find(c=>c.id==sel)||{}).nombre;
- return ctl+`<div class="st2"><div class="card"><h3>Resumen · ${esc(nom)}</h3><div class="row"><div class="pie" style="background:conic-gradient(var(--er) 0 ${pct}%,var(--wn) ${pct}% 100%)"></div><div><b>${n}</b> incidencias · <b>${ab}</b> abiertas · <b>${n-ab}</b> reparadas<br><span style="color:var(--er)">● Rotura ${rot}</span> · <span style="color:var(--wn)">● Deterioro ${n-rot}</span></div></div></div>
- <div class="card"><h3>Incidencias por mes</h3>${barras(meses)}</div>
- <div class="card"><h3>Por instrumento</h3><p class="mu">Los que más incidencias acumulan.${vig.length<n?' No cuenta las de instrumentos que se sustituyeron por uno nuevo.':''}</p>${barras(cuenta(vig,x=>x.codigo).sort(ord).slice(0,10))}</div>
- <div class="card"><h3>Por grupo</h3><p class="mu">Grupo en el que se detectó el desperfecto, no necesariamente el que lo causó. Sirve para saber dónde reforzar el cuidado del material.</p>${barras(cuenta(inc,x=>x.grupo).sort(ord),l=>groupPalette(l).accent)}</div></div>`};
+
 
 // ===== Mapa semanal por instrumento (PDF individual o de todos los de un tipo) =====
 const pdfDoc=(titulo,h)=>`<div class="lh"><img src="${LOGO}"><div><small>IES INFANTA ELENA · DEPARTAMENTO DE MÚSICA</small><h1>${titulo}</h1></div><div style="margin-left:auto;text-align:right;font-size:8pt">Curso ${esc(D().curso.nombre)}<br>${fd(new Date())}</div></div><div class="bar"></div>${h}<div class="ft" style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #d9c8df;margin-top:18px;padding-top:6px;font-size:8pt;color:#766b7c"><span>IES Infanta Elena · Departamento de Música · Gestión de Instrumentos Musicales</span>${window.qrcode?`<span style="display:flex;align-items:center;gap:6px;font-size:7pt">Abrir la app ${qrImg(urlApp(),'14mm')}</span>`:''}</div>`;
@@ -601,6 +592,53 @@ function pdfMapas(lista,nombre){if(!lista.length)return toast('No hay instrument
  w.save(nombre||('GIM-Mapa_semanal_'+lista[0].codigo+'-'+D().curso.nombre+'.pdf')).then(()=>toast('PDF descargado ✓ ('+pags.length+(pags.length>1?' páginas)':' página)'))).catch(e=>toast('No se pudo generar el PDF: '+e.message,1)).finally(()=>{el.classList.remove('live');el.style.width='';el.innerHTML='';window.scrollTo&&window.scrollTo(0,sy)})}
 const pdfMapa1=id=>pdfMapas([D().instrumentos.find(x=>x.id==id)]);
 function pdfMapasTipo(k){const t=D().tipos.find(x=>x.key==k),l=D().instrumentos.filter(i=>i.tipo==k&&!i.retirado);if(l.length>1&&!confirm('Se generará un solo PDF de '+l.length+' páginas (una por instrumento: '+l[0].codigo+' a '+l[l.length-1].codigo+').\nPuede tardar uno o dos minutos y el navegador debe seguir abierto. ¿Continuar?'))return;pdfMapas(l,'GIM-Mapas_semanales_'+t.name.toLowerCase()+'-'+D().curso.nombre+'.pdf')}
+
+// ===== Estadísticas ampliadas: inventario, alumnado sin instrumento, tipos de daño, reparación, día y hora, comparativa y PDF =====
+const barras=(items,col,w)=>{const m=Math.max(1,...items.map(x=>x[1]));return items.map(([l,v])=>`<div class="bar-r"><span class="bl"${w?` style="width:${w}px"`:''}>${esc(l)}</span><span class="bt"><i style="width:${v/m*100}%;background:${col?col(l):'var(--ac)'}"></i></span><b>${v}</b></div>`).join('')||'<span class="mu">Sin datos.</span>'};
+const ESTCOL={ok:'#16794b',rev:'#9aa3b2',det:'#d4a017',inc:'#b42318',ret:'#5b6270'},ESTK=['ok','rev','det','inc','ret'];
+const tipoCod=c=>{const t=D().tipos.find(t=>String(c).startsWith(t.prefix+'-'));return t?t.name:'Otros'};
+const dias=(a,b)=>Math.max(0,Math.round((new Date(b)-new Date(a))/864e5));
+const pieImg=p=>{const c=50.265,svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#d4a017"/><circle cx="16" cy="16" r="8" fill="none" stroke="#c0392b" stroke-width="16" stroke-dasharray="${(p*c/100).toFixed(2)} ${c}" transform="rotate(-90 16 16)"/></svg>`;return `<img alt="" src="data:image/svg+xml;base64,${btoa(svg)}" style="width:92px;height:92px;flex:none">`};
+function statsSecciones(){const d=D(),todas=S.stRows||d.incidencias,inc=stFiltro(todas),n=inc.length,nuevo=CF().instrNuevo||{},sel=S.stC||S.cid,hoy=new Date(),
+ ord=(a,b)=>b[1]-a[1]||String(a[0]).localeCompare(String(b[0])),R=[];
+ // 1) Inventario de hoy
+ R.push({t:'Inventario hoy · '+esc(d.curso.nombre),h:d.tipos.map(t=>{const l=d.instrumentos.filter(i=>i.tipo==t.key),c={ok:0,rev:0,det:0,inc:0,ret:0};l.forEach(i=>c[estI(i)]++);
+  return `<div style="margin:6px 0 12px"><b>${esc(t.name)}</b> <span class="mu">(${l.length})</span><div style="display:flex;height:14px;border-radius:99px;overflow:hidden;background:#e5e5e5;margin:5px 0">${ESTK.map(k=>c[k]?`<i style="width:${c[k]/l.length*100}%;background:${ESTCOL[k]}"></i>`:'').join('')}</div><span style="font-size:12.5px">${ESTK.map(k=>`<span style="color:${ESTCOL[k]}">● ${EST_L[k]} <b>${c[k]}</b></span>`).join(' &nbsp; ')}</span></div>`}).join('')||'<span class="mu">Sin instrumentos.</span>'});
+ // 2) Alumnado sin instrumento
+ const act=d.alumnos.filter(a=>a.activo);
+ R.push({t:'Alumnado sin instrumento asignado',h:d.tipos.map(t=>{const f=act.filter(a=>!(t.key=='X'&&a.modalidad=='flauta')&&!cod(a,t.key)),libres=d.instrumentos.filter(i=>i.tipo==t.key&&!i.retirado&&!usuariosDe(i).length).length;
+  return `<div style="margin:6px 0 12px"><b>${esc(t.name)}:</b> ${f.length?`<b style="color:var(--wn)">${f.length}</b> alumnos/as sin asignar`:'<span style="color:var(--ok)">✔ todo el alumnado activo lo tiene</span>'} <span class="mu">· ${libres} instrumentos sin ningún alumno</span>${f.length?barras(cuenta(f,a=>(G(a.grupo_id)||{}).nombre).sort(ord),l=>groupPalette(l).accent):''}</div>`}).join('')});
+ if(!n){R.push({t:'Incidencias',h:'<span class="mu">No hay incidencias con estos filtros. Irán apareciendo aquí según las anotes.</span>'})}
+ else{
+  const ab=inc.filter(x=>x.estado=='open').length,rot=inc.filter(x=>grav(x)=='rotura').length,pct=Math.round(rot/n*100),nom=sel=='all'?'todos los cursos':(S.cursos.find(c=>c.id==sel)||{}).nombre,
+   meses=cuenta(inc,x=>stFecha(x).slice(0,7)).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>[new Date(k+'-15').toLocaleDateString('es-ES',{month:'short',year:'2-digit'}),v]),
+   vig=inc.filter(x=>!(nuevo[x.codigo]&&stFecha(x)<nuevo[x.codigo])),pt=cuenta(inc,x=>tipoCod(x.codigo)).sort(ord),
+   tasa=!S.stC?d.tipos.map(t=>{const m=d.instrumentos.filter(i=>i.tipo==t.key).length,v=(pt.find(x=>x[0]==t.name)||[0,0])[1];return m?`${esc(t.name)} <b>${(v/m*10).toFixed(1).replace('.',',')}</b>`:''}).filter(Boolean).join(' · '):'';
+  R.push({t:'Resumen · '+esc(nom),h:`<div style="display:flex;align-items:center;gap:14px">${pieImg(pct)}<div><b>${n}</b> incidencias · <b>${ab}</b> abiertas · <b>${n-ab}</b> reparadas<br><span style="color:var(--er)">● Rotura ${rot}</span> · <span style="color:var(--wn)">● Deterioro ${n-rot}</span></div></div>`});
+  R.push({t:'Por tipo de instrumento',h:barras(pt)+(tasa?`<p class="mu" style="font-size:12px">Incidencias por cada 10 instrumentos: ${tasa}</p>`:'')});
+  R.push({t:'Tipos de daño',h:'<p class="mu" style="font-size:12px;margin:0 0 4px"><span style="color:var(--er)">● rotura</span> · <span style="color:var(--wn)">● deterioro</span></p>'+barras(cuenta(inc,x=>x.tipo_dano).sort(ord),tp=>GRAV.rotura.includes(tp)?'var(--er)':GRAV.deterioro.includes(tp)?'var(--wn)':'var(--ac)',150)});
+  const cer=inc.filter(x=>x.estado=='closed'&&x.fecha_cierre),dd=x=>dias(stFecha(x),x.fecha_cierre),av=a=>a.length?(a.reduce((s,x)=>s+x,0)/a.length).toFixed(1).replace('.',','):'–',dl=cer.map(dd).sort((a,b)=>a-b),
+   abO=inc.filter(x=>x.estado=='open').map(x=>[x,dias(stFecha(x),hoy)]).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  R.push({t:'Tiempo de reparación',h:(cer.length?`<b>${av(dl)}</b> días de media · mediana <b>${dl[Math.floor(dl.length/2)]}</b> · máximo <b>${dl[dl.length-1]}</b> <span class="mu">(${cer.length} reparadas)</span><br><span style="color:var(--er)">Rotura ${av(cer.filter(x=>grav(x)=='rotura').map(dd))} d</span> · <span style="color:var(--wn)">Deterioro ${av(cer.filter(x=>grav(x)!='rotura').map(dd))} d</span>`:'<span class="mu">Aún no hay incidencias reparadas en este periodo.</span>')+(abO.length?`<h4 style="margin:10px 0 4px">Abiertas más antiguas</h4>${abO.map(([x,k])=>`<div class="ui">${esc(x.codigo)} · ${esc(x.tipo_dano)} · <b>${k} días abierta</b> <span class="mu">(${esc(x.grupo)})</span></div>`).join('')}`:'<p class="mu" style="margin:8px 0 0">No hay incidencias abiertas ✔</p>')});
+  R.push({t:'Incidencias por mes',h:barras(meses)});
+  const conH=inc.filter(x=>x.extra&&x.extra.detectedAt&&x.extra.detectedAt.length>=16),cd=[0,0,0,0,0],fin=[0],fr=Array(PERIODS.length+2).fill(0);
+  conH.forEach(x=>{const[f,h]=x.extra.detectedAt.split('T'),[hh,mm]=h.split(':').map(Number),m=hh*60+mm,wd=(new Date(f+'T12:00').getDay()+6)%7;wd<5?cd[wd]++:fin[0]++;
+   const k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),[c,e]=p[2].split(':').map(Number);return m>=a*60+b&&m<c*60+e});fr[k>=0?k:(m>=675&&m<705?PERIODS.length:PERIODS.length+1)]++});
+  R.push({t:'Día y hora en que se detectan',h:`<p class="mu" style="font-size:12px;margin:0 0 4px">Cuándo se <b>detectó</b>, no cuándo ocurrió.${n-conH.length?` ${n-conH.length} sin hora registrada.`:''}</p>`+barras([...DAYS.map((l,i)=>[l,cd[i]]),...(fin[0]?[['Fin de semana',fin[0]]]:[])],null,100)+'<div style="height:8px"></div>'+barras([...PERIODS.map((p,i)=>[p[0]+' ('+p[1]+')',fr[i]]),['Recreo',fr[PERIODS.length]],['Fuera de horario',fr[PERIODS.length+1]]],null,130)});
+  R.push({t:'Por instrumento',h:`<p class="mu" style="font-size:12px;margin:0 0 4px">Los que más incidencias acumulan.${vig.length<n?' No cuenta las de instrumentos que se sustituyeron por uno nuevo.':''}</p>`+(vig.length?barras(cuenta(vig,x=>x.codigo).sort(ord).slice(0,10)):'<span class="mu">Todas las incidencias de este periodo son de instrumentos que se sustituyeron por uno nuevo.</span>')});
+  R.push({t:'Por grupo',h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Grupo en el que se detectó el desperfecto, no necesariamente el que lo causó. Sirve para saber dónde reforzar el cuidado del material.</p>'+barras(cuenta(inc,x=>x.grupo).sort(ord),l=>groupPalette(l).accent)})}
+ // 11) Comparativa entre cursos (siempre al final; aplica el periodo elegido a cada curso)
+ const T=S.stAll,cs=[...S.cursos].sort((a,b)=>a.nombre.localeCompare(b.nombre)),g=T?stFiltro(T):[];
+ R.push({t:'Comparativa entre cursos',h:!T?'<span class="mu">Cargando…</span>':cs.length<2?'<span class="mu">Cuando haya más de un curso podrás compararlos aquí.</span>':barras(cs.map(c=>[c.nombre,g.filter(x=>x.curso_id==c.id).length]))+`<p class="mu" style="font-size:12px">${cs.map(c=>{const r=g.filter(x=>x.curso_id==c.id);return esc(c.nombre)+': rotura '+r.filter(x=>grav(x)=='rotura').length+' · deterioro '+r.filter(x=>grav(x)!='rotura').length}).join(' &nbsp;|&nbsp; ')}</p>`+(S.stP!='curso'?'<p class="mu" style="font-size:12px">Se aplica el periodo elegido a cada curso.</p>':'')});
+ return R}
+V.estadisticas=()=>{const todas=S.stRows||D().incidencias,inc=stFiltro(todas),n=inc.length,sel=S.stC||S.cid,
+ ctl=`<div class="card"><div class="row"><label>Curso <select onchange="stCurso(this.value)">${opt([...S.cursos.map(c=>[c.id,c.nombre]),['all','Todos los cursos']],sel)}</select></label><label>Periodo <select onchange="S.stP=this.value;render()">${opt([['curso','Todo el curso'],['1','1.er trimestre (sep–dic)'],['2','2.º trimestre (ene–mar)'],['3','3.er trimestre (abr–ago)'],['custom','Personalizado…']],S.stP)}</select></label>${S.stP=='custom'?`<label>Desde <input type="date" value="${S.stD1}" onchange="S.stD1=this.value;render()"></label><label>Hasta <input type="date" value="${S.stD2}" onchange="S.stD2=this.value;render()"></label>`:''}<span class="mu">${n} de ${todas.length} incidencias</span><button class="b s" style="margin-left:auto" onclick="pdfStats()">PDF</button></div></div>`;
+ if(!S.stAll&&!S.stBusy){S.stBusy=1;q(sb.from('gim2_incidencias').select('*')).then(r=>{S.stAll=r;S.stBusy=0;if(S.tab=='estadisticas')render()}).catch(()=>{S.stAll=[];S.stBusy=0})}
+ return ctl+`<div class="st2">${statsSecciones().map(x=>`<div class="card sec"><h3>${x.t}</h3>${x.h}</div>`).join('')}</div>`};
+function pdfStats(){if(!S.stAll)return toast('Espera un instante: se están cargando los datos de todos los cursos…',1);
+ const sel=S.stC=='all'?'Todos los cursos':(S.cursos.find(c=>c.id==(S.stC||S.cid))||{}).nombre,per={curso:'Todo el curso','1':'1.er trimestre (sep–dic)','2':'2.º trimestre (ene–mar)','3':'3.er trimestre (abr–ago)',custom:'Del '+(S.stD1||'…')+' al '+(S.stD2||'…')}[S.stP];
+ pdf('Estadísticas de incidencias',`<p style="font-size:10pt;margin:6px 0 12px"><b>Curso:</b> ${esc(sel)} · <b>Periodo:</b> ${esc(per)}</p>${statsSecciones().map(x=>`<div class="sec" style="margin:0 0 12px"><h3 style="margin:0 0 4px;color:#51205d;border-bottom:2px solid #c9a3d4;padding-bottom:2px;font-size:12pt">${x.t}</h3>${x.h}</div>`).join('')}`)}
+S.stAll=null;S.stBusy=0;
 
 if(T)cargar().catch(()=>{$('#app').innerHTML='<main><div class="card"><h2>Enlace no válido</h2><p class="mu">Ha caducado o ha sido revocado. Pídele uno nuevo al jefe de departamento.</p></div></main>'});else cargar();
 </script><script>(function(){var U=['supabase.min.js','https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js','https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
