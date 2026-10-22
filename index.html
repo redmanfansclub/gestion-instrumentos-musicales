@@ -198,11 +198,11 @@ async function revEnl(id,v){await q(sb.from('gim2_enlaces').update({revocado:v})
 
 async function fechas(){await q(sb.from('gim2_cursos').update({fecha_inicio:$('#f1').value||null,fecha_fin:$('#f2').value||null,revision_inicial:$('#f3').value||null}).eq('id',D().curso.id));toast('Guardado');cargar()}
 
-function pegar(){modal(`<h3>Pegar lista de ${esc(G(S.g).nombre)}</h3><p class="mu">Una línea por alumno: <b>nº ; nombre</b> (admite pegar desde Excel).</p><textarea id="bk" rows="10"></textarea><div class="row"><button class="b" onclick="subirLista()">Importar</button><button class="b s" onclick="cerrar()">Cancelar</button></div>`)}
-async function subirLista(){const rows=$('#bk').value.split('\n').map(l=>l.split(/[;\t]/).map(s=>s.trim())).filter(r=>+r[0]>0&&r[1]).map(r=>({curso_id:D().curso.id,grupo_id:S.g,numero:+r[0],nombre:r[1]}));if(!rows.length)return toast('Ninguna línea válida',1);
- const rep_=rows.map(r=>r.numero).filter((n,i,a)=>a.indexOf(n)!=i);if(rep_.length)return toast('En la lista pegada se repite el número '+[...new Set(rep_)].join(', '),1);
+function pegar(){modal(`<h3>Pegar lista de ${esc(G(S.g).nombre)}</h3><p class="mu">Pega la lista tal como sale del GICWeb («1 APELLIDOS, NOMBRE») o con el formato «nº ; nombre». Las líneas repetidas se ignoran.</p><textarea id="bk" rows="10"></textarea><div class="row"><button class="b" onclick="subirLista()">Importar</button><button class="b s" onclick="cerrar()">Cancelar</button></div>`)}
+async function subirLista(){const rows=leeLista($('#bk').value).map(r=>({curso_id:D().curso.id,grupo_id:S.g,numero:r.numero,nombre:nombreBonito(r.nombre)}));if(!rows.length)return toast('No he reconocido ningún alumno. Pega la lista con el formato «nº APELLIDOS, NOMBRE».',1);
+ const rep_=rows.map(r=>r.numero).filter((n,i,a)=>a.indexOf(n)!=i);if(rep_.length)return toast('En la lista pegada se repite el número '+[...new Set(rep_)].join(', ')+' con nombres distintos.',1);
  const ocu=D().alumnos.filter(a=>a.grupo_id==S.g&&rows.some(r=>r.numero==a.numero)),act=ocu.filter(a=>a.activo),baja=ocu.filter(a=>!a.activo);
- if(act.length)return toast('Estos números ya los tiene alumnado activo del grupo: '+act.map(a=>a.numero+' ('+a.nombre+')').join(', ')+'. No se ha importado nada.',1);
+ if(act.length){toast('Este grupo ya tiene alumnado con esos números: te enseño qué cambiaría al actualizarlo con esta lista.');return revisaLista()}
  if(baja.length){if(!confirm('Los números '+baja.map(a=>a.numero).join(', ')+' los ocupan alumnos de baja ('+baja.map(a=>a.nombre).join(', ')+').\n¿Eliminarlos definitivamente y seguir con la importación?'))return;await q(sb.from('gim2_alumnos').delete().in('id',baja.map(a=>a.id)))}
  await q(sb.from('gim2_alumnos').insert(rows));cerrar();toast(rows.length+' alumnos/as importados');cargar()}
 async function delAl(id){const a=D().alumnos.find(x=>x.id==id);if(!confirm('¿Eliminar definitivamente a '+a.nombre+'?\nNo se puede deshacer. Si solo ha dejado el grupo, es mejor dejarlo de baja.'))return;await q(sb.from('gim2_alumnos').delete().eq('id',id));toast('Alumno/a eliminado');cargar()}
@@ -520,7 +520,8 @@ function cartelQR(){cargaQR().then(()=>pdf('Acceso a GIM',`<div style="text-alig
 
 // ===== Actualizar un grupo con la lista oficial (solo jefatura) =====
 const clave=s=>norm(s).split(/[\s,]+/).filter(Boolean).sort().join(' ');
-const leeLista=txt=>txt.split('\n').map(l=>l.trim().match(/^(\d{1,3})\s*[;\t]?\s*([A-Za-zÀ-ÖØ-öø-ÿ][^\d\/]*)$/)).filter(Boolean).map(m=>({numero:+m[1],nombre:m[2].trim()}));
+const leeLista=txt=>{const vis=new Set();return txt.split('\n').map(l=>l.trim().match(/^(\d{1,3})\s*[;\t]?\s*([A-Za-zÀ-ÖØ-öø-ÿ][^\d\/]*)$/)).filter(Boolean).map(m=>({numero:+m[1],nombre:m[2].trim()})).filter(r=>{const k=r.numero+'|'+clave(r.nombre);if(vis.has(k))return false;vis.add(k);return true})};
+const nombreBonito=s=>s===s.toUpperCase()?bonito(s):s;
 const bonito=s=>{const P=new Set(['de','del','la','las','los','y','e']),cap=w=>w.split('-').map(x=>x.charAt(0).toUpperCase()+x.slice(1).toLowerCase()).join('-'),f=(w,b)=>b&&P.has(w.toLowerCase())?w.toLowerCase():cap(w),[a,...r]=s.split(','),n=r.join(',');return a.trim().split(/\s+/).map(w=>f(w,0)).join(' ')+(n.trim()?', '+n.trim().split(/\s+/).map(w=>f(w,1)).join(' '):'')};
 const bloq=(t,a)=>a.length?`<h4 style="margin:10px 0 4px">${t}</h4>${a.map(x=>`<div class="ui">${x}</div>`).join('')}`:'';
 function actualizarLista(){modal(`<h3>Actualizar ${esc(G(S.g).nombre)} con la lista oficial</h3><p class="mu">Pega la lista nueva tal cual sale del GICWeb («1 APELLIDOS, NOMBRE»). Verás un resumen antes de guardar nada. Los alumnos se reconocen por el nombre: conservan su instrumento y su historial aunque cambien de número.</p><textarea id="bk" rows="10"></textarea><div class="row"><button class="b" onclick="revisaLista()">Revisar cambios</button><button class="b s" onclick="cerrar()">Cancelar</button></div>`)}
@@ -532,7 +533,7 @@ function revisaLista(){const rows=leeLista($('#bk').value);if(!rows.length)retur
  const faltan=ex.filter(a=>a.activo&&!vistos.has(a.id));S.act={rows,reno,nuevos,react,igual,faltan,ex,vistos};
  if(!reno.length&&!nuevos.length&&!react.length&&!faltan.length)return modal(`<h3>Sin cambios</h3><p>La lista coincide con lo que ya hay en ${esc(G(S.g).nombre)} (${igual.length} alumnos/as).</p><div class="row"><button class="b s" onclick="cerrar()">Cerrar</button></div>`);
  modal(`<h3>Actualizar ${esc(G(S.g).nombre)}: revisa los cambios</h3><p class="mu">No se guarda nada hasta que pulses «Aplicar».</p>
- ${bloq('Cambian de número ('+reno.length+')',reno.map(x=>`${esc(x.a.nombre)}: ${x.a.numero} → <b>${x.numero}</b>`))}${bloq('Nuevos, sin instrumento ('+nuevos.length+')',nuevos.map(r=>`<b>${r.numero}</b> · ${esc(bonito(r.nombre))}`))}${bloq('Se reactivan ('+react.length+')',react.map(x=>`${esc(x.a.nombre)} → nº <b>${x.numero}</b>`))}
+ ${bloq('Cambian de número ('+reno.length+')',reno.map(x=>`${esc(x.a.nombre)}: ${x.a.numero} → <b>${x.numero}</b>`))}${bloq('Nuevos, sin instrumento ('+nuevos.length+')',nuevos.map(r=>`<b>${r.numero}</b> · ${esc(nombreBonito(r.nombre))}`))}${bloq('Se reactivan ('+react.length+')',react.map(x=>`${esc(x.a.nombre)} → nº <b>${x.numero}</b>`))}
  ${faltan.length?`<h4 style="margin:10px 0 4px">Ya no aparecen en la lista (${faltan.length}) · se dan de baja si dejas la casilla marcada</h4>${faltan.map(a=>`<label class="ui" style="display:block"><input type="checkbox" class="bajaCk" data-id="${a.id}" checked> nº${a.numero} · ${esc(a.nombre)}</label>`).join('')}`:''}
  <p class="mu">Sin cambios: ${igual.length} alumnos/as.</p><div class="row"><button class="b" onclick="aplicaLista()">Aplicar cambios</button><button class="b s" onclick="cerrar()">Cancelar</button></div>`)}
 async function aplicaLista(){const A=S.act;if(!A)return;const alta=new Set([...document.querySelectorAll('.bajaCk')].filter(c=>c.checked).map(c=>c.dataset.id)),
@@ -546,7 +547,7 @@ async function aplicaLista(){const A=S.act;if(!A)return;const alta=new Set([...d
   await Promise.all([...A.reno.map(x=>({a:x.a,numero:x.numero})),...A.react].map(x=>{const u={numero:x.numero};if(!x.a.activo){u.activo=true;const c=Object.values(x.a.asignaciones||{});if(c.some(k=>ocup.has(k)))u.asignaciones={};else c.forEach(k=>ocup.add(k))}return q(sb.from('gim2_alumnos').update(u).eq('id',x.a.id))}));
   // 3) bajas y 4) nuevos
   if(alta.size)await q(sb.from('gim2_alumnos').update({activo:false}).in('id',[...alta]));
-  if(A.nuevos.length)await q(sb.from('gim2_alumnos').insert(A.nuevos.map(r=>({curso_id:D().curso.id,grupo_id:S.g,numero:r.numero,nombre:bonito(r.nombre)}))));
+  if(A.nuevos.length)await q(sb.from('gim2_alumnos').insert(A.nuevos.map(r=>({curso_id:D().curso.id,grupo_id:S.g,numero:r.numero,nombre:nombreBonito(r.nombre)}))));
  }catch(e){toast('Se interrumpió a mitad. Vuelve a pulsar «Actualizar con la lista oficial» con la misma lista para terminar.',1);cargar();return}
  cerrar();S.act=null;toast(`Lista actualizada: ${A.reno.length+A.react.length} renumerados/reactivados · ${A.nuevos.length} nuevos · ${alta.size} bajas`);cargar()}
 
