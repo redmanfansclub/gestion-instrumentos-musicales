@@ -155,7 +155,7 @@ async function salir(){if(T){history.replaceState(null,'',location.pathname);$('
 
 // ===== DATOS =====
 async function cargar(){S.cal=null;S.stAll=null;
- if(T){const d=await q(sb.rpc('gim2_prof_datos',{p_token:TOKEN}));S.D={...d,curso:{...d.curso,config:d.config||{}},tipos:d.curso.tipos||TIPOS}}
+ if(T){const d=await q(sb.rpc('gim2_prof_datos',{p_token:TOKEN}));S.D={...d,curso:{...d.curso,config:d.config||{}},tipos:d.curso.tipos||TIPOS};try{const r=await sb.rpc('gim2_prof_stats',{p_token:TOKEN});if(r.error||!r.data)throw 0;S.stRows=r.data.rows||[];S.D.curso.config.instrNuevo=r.data.instrNuevo||{};S.stFalla=false}catch(e){S.stRows=null;S.stFalla=true}}
  else{const{data:{session}}=await Promise.race([sb.auth.getSession(),new Promise(r=>setTimeout(()=>r({data:{session:null}}),8000))]);if(!session)return authView();
   S.cursos=await q(sb.from('gim2_cursos').select('*').order('nombre',{ascending:false}));if(!S.cursos.find(c=>c.id==S.cid))S.cid=S.cursos[0]?.id;
   const c=S.cursos.find(c=>c.id==S.cid);S.D=null;
@@ -286,7 +286,7 @@ async function importGim2(x){const c=x.curso,cu=await q(sb.from('gim2_cursos').i
 // ===== Estructura final: acceso, cabecera, vistas y administración =====
 const JEFE='Manuel Esteve',GRUPOS_DEF=['2ºA','2ºB','2ºC','2ºD','2ºE','2ºF','3ºA','3ºB','3ºC','3ºD','3ºE','3ºF','4ºESO'];
 S.op={curso:1};
-const nTabs=()=>T?[['grupos','Grupos'],['horario','Horario'],['inventario','Inventario'],['incidencias','Incidencias']]:[['grupos','Grupos'],['horario','Horario'],['inventario','Inventario'],['incidencias','Incidencias'],['estadisticas','Estadísticas'],['profes','Profesorado'],['admin','Administración']];
+const nTabs=()=>T?[['grupos','Grupos'],['horario','Horario'],['inventario','Inventario'],['incidencias','Incidencias'],['estadisticas','Estadísticas']]:[['grupos','Grupos'],['horario','Horario'],['inventario','Inventario'],['incidencias','Incidencias'],['estadisticas','Estadísticas'],['profes','Profesorado'],['admin','Administración']];
 function authView(m='in',message='',isError=false){
  const title=m==='up'?'Crear acceso':m==='rs'?'Recuperar contraseña':'Acceso a GIM';
  $('#app').innerHTML=`<div class="auth-shell"><section class="auth">
@@ -610,7 +610,7 @@ function statsSecciones(){const d=D(),todas=S.stRows||d.incidencias,inc=stFiltro
   return `<div style="margin:6px 0 12px"><b>${esc(t.name)}:</b> ${f.length?`<b style="color:var(--wn)">${f.length}</b> alumnos/as sin asignar`:'<span style="color:var(--ok)">✔ todo el alumnado activo lo tiene</span>'} <span class="mu">· ${libres} instrumentos sin ningún alumno</span>${f.length?barras(cuenta(f,a=>(G(a.grupo_id)||{}).nombre).sort(ord),l=>groupPalette(l).accent):''}</div>`}).join('')});
  if(!n){R.push({t:'Incidencias',h:'<span class="mu">No hay incidencias con estos filtros. Irán apareciendo aquí según las anotes.</span>'})}
  else{
-  const ab=inc.filter(x=>x.estado=='open').length,rot=inc.filter(x=>grav(x)=='rotura').length,pct=Math.round(rot/n*100),nom=sel=='all'?'todos los cursos':(S.cursos.find(c=>c.id==sel)||{}).nombre,
+  const ab=inc.filter(x=>x.estado=='open').length,rot=inc.filter(x=>grav(x)=='rotura').length,pct=Math.round(rot/n*100),nom=T?d.curso.nombre:sel=='all'?'todos los cursos':(S.cursos.find(c=>c.id==sel)||{}).nombre,
    meses=cuenta(inc,x=>stFecha(x).slice(0,7)).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>[new Date(k+'-15').toLocaleDateString('es-ES',{month:'short',year:'2-digit'}),v]),
    vig=inc.filter(x=>!(nuevo[x.codigo]&&stFecha(x)<nuevo[x.codigo])),pt=cuenta(inc,x=>tipoCod(x.codigo)).sort(ord),
    tasa=!S.stC?d.tipos.map(t=>{const m=d.instrumentos.filter(i=>i.tipo==t.key).length,v=(pt.find(x=>x[0]==t.name)||[0,0])[1];return m?`${esc(t.name)} <b>${(v/m*10).toFixed(1).replace('.',',')}</b>`:''}).filter(Boolean).join(' · '):'';
@@ -628,15 +628,16 @@ function statsSecciones(){const d=D(),todas=S.stRows||d.incidencias,inc=stFiltro
   R.push({t:'Por instrumento',h:`<p class="mu" style="font-size:12px;margin:0 0 4px">Los que más incidencias acumulan.${vig.length<n?' No cuenta las de instrumentos que se sustituyeron por uno nuevo.':''}</p>`+(vig.length?barras(cuenta(vig,x=>x.codigo).sort(ord).slice(0,10)):'<span class="mu">Todas las incidencias de este periodo son de instrumentos que se sustituyeron por uno nuevo.</span>')});
   R.push({t:'Por grupo',h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Grupo en el que se detectó el desperfecto, no necesariamente el que lo causó. Sirve para saber dónde reforzar el cuidado del material.</p>'+barras(cuenta(inc,x=>x.grupo).sort(ord),l=>groupPalette(l).accent)})}
  // 11) Comparativa entre cursos (siempre al final; aplica el periodo elegido a cada curso)
- const T=S.stAll,cs=[...S.cursos].sort((a,b)=>a.nombre.localeCompare(b.nombre)),g=T?stFiltro(T):[];
- R.push({t:'Comparativa entre cursos',h:!T?'<span class="mu">Cargando…</span>':cs.length<2?'<span class="mu">Cuando haya más de un curso podrás compararlos aquí.</span>':barras(cs.map(c=>[c.nombre,g.filter(x=>x.curso_id==c.id).length]))+`<p class="mu" style="font-size:12px">${cs.map(c=>{const r=g.filter(x=>x.curso_id==c.id);return esc(c.nombre)+': rotura '+r.filter(x=>grav(x)=='rotura').length+' · deterioro '+r.filter(x=>grav(x)!='rotura').length}).join(' &nbsp;|&nbsp; ')}</p>`+(S.stP!='curso'?'<p class="mu" style="font-size:12px">Se aplica el periodo elegido a cada curso.</p>':'')});
+ const TA=S.stAll,cs=[...S.cursos].sort((a,b)=>a.nombre.localeCompare(b.nombre)),g=TA?stFiltro(TA):[];
+ if(!T)R.push({t:'Comparativa entre cursos',h:!TA?'<span class="mu">Cargando…</span>':cs.length<2?'<span class="mu">Cuando haya más de un curso podrás compararlos aquí.</span>':barras(cs.map(c=>[c.nombre,g.filter(x=>x.curso_id==c.id).length]))+`<p class="mu" style="font-size:12px">${cs.map(c=>{const r=g.filter(x=>x.curso_id==c.id);return esc(c.nombre)+': rotura '+r.filter(x=>grav(x)=='rotura').length+' · deterioro '+r.filter(x=>grav(x)!='rotura').length}).join(' &nbsp;|&nbsp; ')}</p>`+(S.stP!='curso'?'<p class="mu" style="font-size:12px">Se aplica el periodo elegido a cada curso.</p>':'')});
  return R}
 V.estadisticas=()=>{const todas=S.stRows||D().incidencias,inc=stFiltro(todas),n=inc.length,sel=S.stC||S.cid,
- ctl=`<div class="card"><div class="row"><label>Curso <select onchange="stCurso(this.value)">${opt([...S.cursos.map(c=>[c.id,c.nombre]),['all','Todos los cursos']],sel)}</select></label><label>Periodo <select onchange="S.stP=this.value;render()">${opt([['curso','Todo el curso'],['1','1.er trimestre (sep–dic)'],['2','2.º trimestre (ene–mar)'],['3','3.er trimestre (abr–ago)'],['custom','Personalizado…']],S.stP)}</select></label>${S.stP=='custom'?`<label>Desde <input type="date" value="${S.stD1}" onchange="S.stD1=this.value;render()"></label><label>Hasta <input type="date" value="${S.stD2}" onchange="S.stD2=this.value;render()"></label>`:''}<span class="mu">${n} de ${todas.length} incidencias</span><button class="b s" style="margin-left:auto" onclick="pdfStats()">PDF</button></div></div>`;
- if(!S.stAll&&!S.stBusy){S.stBusy=1;q(sb.from('gim2_incidencias').select('*')).then(r=>{S.stAll=r;S.stBusy=0;if(S.tab=='estadisticas')render()}).catch(()=>{S.stAll=[];S.stBusy=0})}
+ ctl=`<div class="card"><div class="row">${T?'':`<label>Curso <select onchange="stCurso(this.value)">${opt([...S.cursos.map(c=>[c.id,c.nombre]),['all','Todos los cursos']],sel)}</select></label>`}<label>Periodo <select onchange="S.stP=this.value;render()">${opt([['curso','Todo el curso'],['1','1.er trimestre (sep–dic)'],['2','2.º trimestre (ene–mar)'],['3','3.er trimestre (abr–ago)'],['custom','Personalizado…']],S.stP)}</select></label>${S.stP=='custom'?`<label>Desde <input type="date" value="${S.stD1}" onchange="S.stD1=this.value;render()"></label><label>Hasta <input type="date" value="${S.stD2}" onchange="S.stD2=this.value;render()"></label>`:''}<span class="mu">${n} de ${todas.length} incidencias</span><button class="b s" style="margin-left:auto" onclick="pdfStats()">PDF</button></div></div>`;
+ if(!T&&!S.stAll&&!S.stBusy){S.stBusy=1;q(sb.from('gim2_incidencias').select('*')).then(r=>{S.stAll=r;S.stBusy=0;if(S.tab=='estadisticas')render()}).catch(()=>{S.stAll=[];S.stBusy=0})}
+ if(T&&S.stFalla)return `<div class="card"><h3>Estadísticas</h3><p class="mu">Las estadísticas todavía no están disponibles en este enlace. Avisa al jefe de departamento.</p></div>`;
  return ctl+`<div class="st2">${statsSecciones().map(x=>`<div class="card sec"><h3>${x.t}</h3>${x.h}</div>`).join('')}</div>`};
-function pdfStats(){if(!S.stAll)return toast('Espera un instante: se están cargando los datos de todos los cursos…',1);
- const sel=S.stC=='all'?'Todos los cursos':(S.cursos.find(c=>c.id==(S.stC||S.cid))||{}).nombre,per={curso:'Todo el curso','1':'1.er trimestre (sep–dic)','2':'2.º trimestre (ene–mar)','3':'3.er trimestre (abr–ago)',custom:'Del '+(S.stD1||'…')+' al '+(S.stD2||'…')}[S.stP];
+function pdfStats(){if(!T&&!S.stAll)return toast('Espera un instante: se están cargando los datos de todos los cursos…',1);
+ const sel=T?D().curso.nombre:S.stC=='all'?'Todos los cursos':(S.cursos.find(c=>c.id==(S.stC||S.cid))||{}).nombre,per={curso:'Todo el curso','1':'1.er trimestre (sep–dic)','2':'2.º trimestre (ene–mar)','3':'3.er trimestre (abr–ago)',custom:'Del '+(S.stD1||'…')+' al '+(S.stD2||'…')}[S.stP];
  pdf('Estadísticas de incidencias',`<p style="font-size:10pt;margin:6px 0 12px"><b>Curso:</b> ${esc(sel)} · <b>Periodo:</b> ${esc(per)}</p>${statsSecciones().map(x=>`<div class="sec" style="margin:0 0 12px"><h3 style="margin:0 0 4px;color:#51205d;border-bottom:2px solid #c9a3d4;padding-bottom:2px;font-size:12pt">${x.t}</h3>${x.h}</div>`).join('')}`)}
 S.stAll=null;S.stBusy=0;
 
