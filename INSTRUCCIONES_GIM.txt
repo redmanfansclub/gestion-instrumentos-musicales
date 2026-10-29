@@ -1,0 +1,28 @@
+ICONOS NUEVOS DE GIM · Gestión de Instrumentos Musicales
+(Instrucciones para aplicar en la app GIM)
+
+Diseño elegido: castillo del IES Infanta Elena sin almenas, xilófono azul alineado
+con el margen izquierdo del bloque gris y ukelele naranja con cuerdas, inclinado,
+a la misma altura que el xilófono. Fondo azul claro #cfdff2.
+
+ARCHIVOS (subir a la raíz del repositorio de GIM, junto a index.html):
+- gim-favicon-64.png     → icono de la pestaña del navegador (baldosa redondeada).
+- icon-192.png           → icono para Android / manifest (sustituye al actual).
+- icon-512.png           → icono grande para el manifest (sustituye al actual).
+- apple-touch-icon.png   → icono al añadir a la pantalla de inicio del iPhone/iPad.
+- gim-logo.svg           → logo vectorial sin fondo (para la cabecera, si se quiere).
+- gim-logo-512.png       → el mismo logo en PNG transparente.
+
+CAMBIOS EN index.html DE GIM:
+1. En <head>, sustituir el favicon actual (el <link rel="icon"> con el PNG en base64) por:
+   <link rel="icon" type="image/png" sizes="64x64" href="gim-favicon-64.png">
+2. Comprobar que existe (o añadir):
+   <link rel="apple-touch-icon" href="apple-touch-icon.png">
+3. El manifest (manifest.webmanifest) ya apunta a icon-192.png e icon-512.png:
+   basta con sustituir esos dos archivos. Opcional: "background_color": "#cfdff2".
+4. Opcional, logo de la cabecera: ahora es la constante LOGO (PNG en base64 del logo
+   completo del instituto). Puede mantenerse o cambiarse por gim-logo.svg dentro de
+   una baldosa con fondo #cfdff2, como hace la app del Departamento.
+
+Después de subirlo, Safari puede tardar en mostrar el favicon nuevo: cerrar la
+pestaña y volver a abrir la app, o reiniciar Safari.
