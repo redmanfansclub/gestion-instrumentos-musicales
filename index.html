@@ -124,6 +124,10 @@ details.card[open]>summary{margin-bottom:10px}
 
 .pban{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-radius:14px;padding:10px 16px;font-weight:700;margin:0 0 14px;font-size:18px}.pban span{font-weight:400;color:var(--mu);font-size:14px}.pban.ok{background:color-mix(in srgb,var(--ok) 14%,var(--sf));border:2px solid var(--ok);color:var(--ok)}.pban.no{background:color-mix(in srgb,var(--wn) 16%,var(--sf));border:2px solid var(--wn);color:var(--wn)}.pban.warn{border:2px solid var(--er);color:var(--er)}.pban .b{margin-left:auto}
 .prs{margin:-4px 0 14px;font-size:16px}.pmw{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:60;display:flex;align-items:center;justify-content:center}.pmenu{background:var(--sf);border-radius:16px;padding:18px;min-width:290px;max-width:430px;display:flex;flex-direction:column;gap:8px}.pmenu .b{text-align:left}.pmenu>b{font-size:20px}.pmore{margin-left:auto;padding:0 6px;font-weight:700;color:var(--mu)}.pfl .pill{margin-top:4px;align-self:flex-start}
+
+.ahora{border-left:6px solid var(--ac)}.b.big{font-size:19px;padding:14px 22px;display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left}.b.big small{font-size:12px;font-weight:400;opacity:.85}
+.hzc .hz td{min-width:80px;height:38px;padding:3px 6px;font-size:12px}.hzc .hz th{padding:3px 6px;font-size:12px}.hzc .hz small{font-size:10px}.hzc .hz-leg{display:none}
+.hz td.hz-now{outline:3px solid var(--ac);outline-offset:-3px}
 </style></head><body><div id="app"><div class="boot" style="padding:40px;font:16px system-ui;color:#51205d">Cargando GIM…<span id="bootmsg" style="font-size:13px;opacity:.7"></span></div></div><div id="modal" onclick="if(event.target===this&&this.dataset.fuera)cerrar()"></div><div id="toast"></div><div id="proy"></div><div id="imp"></div>
 <script id="gim-main" type="text/plain">
 const SU='https://bbdvflbykohleyctiinj.supabase.co',SK='sb_publishable_URQ87m7Tiq96RUHGtvX29Q_lYroaqM4'; // Clave publishable pública del proyecto compartido. Nunca usar service_role.
@@ -157,7 +161,7 @@ const TIPOS=[{key:'X',name:'Xilófonos',prefix:'X'},{key:'U',name:'Ukeleles',pre
 const sb=supabase.createClient(SU.replace(/\/(rest\/v1)?\/*$/,''),SK.trim(),{auth:{lock:(n,w,f)=>f()}}),$=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fd=d=>d?new Date(d).toLocaleDateString('es-ES'):'',pad=n=>String(n).padStart(2,'0');
 const TOKEN=new URLSearchParams(location.search).get('t'),T=!!TOKEN;
-const S={tab:'grupos',g:null,fil:'abiertas',D:null,cursos:[],cid:null,enl:[]};
+const S={tab:'horario',g:null,fil:'abiertas',D:null,cursos:[],cid:null,enl:[]};
 const D=()=>S.D,G=id=>D().grupos.find(g=>g.id==id),opt=(a,sel)=>a.map(([v,t])=>`<option value="${esc(v)}" ${v==sel?'selected':''}>${esc(t)}</option>`).join('');
 function toast(m,e){const t=$('#toast');t.textContent=m;t.className=e?'e':'';t.style.display='block';setTimeout(()=>t.style.display='none',3500)}
 async function q(p){const r=await p;if(r.error){toast(r.error.message,1);throw r.error}return r.data}
@@ -181,7 +185,7 @@ async function cargar(){S.cal=null;S.stAll=null;
   if(c){const sel=(t,o)=>q(sb.from(t).select('*').eq('curso_id',c.id).order(o,{ascending:o=='fecha_reporte'?false:true}));
    const[g,a,i,n,e]=await Promise.all([sel('gim2_grupos','nombre'),sel('gim2_alumnos','numero'),sel('gim2_instrumentos','num'),sel('gim2_incidencias','fecha_reporte'),sel('gim2_enlaces','creado_en')]);
    S.D={curso:c,grupos:g,alumnos:a,instrumentos:i,incidencias:n,tipos:c.config?.tipos||TIPOS};S.enl=e;await cargaUsos()}}
- if(S.D&&!S.iniciado){S.iniciado=1;const ah=grupoAhora();if(ah){S.tab='grupos';S.g=ah.id;S.ed=false}}
+ if(S.D&&!S.iniciado){S.iniciado=1;const ah=grupoAhora();if(ah)S.g=ah.id;S.tab='horario';S.ed=false}
  if(S.D&&!G(S.g))S.g=S.D.grupos[0]?.id;render()}
 const cod=(a,k)=>a.asignaciones?.[k]||'';
 async function guardaAl(a){
@@ -279,7 +283,7 @@ async function importGim2(x){const c=x.curso,cu=await q(sb.from('gim2_cursos').i
 // ===== Estructura final: acceso, cabecera, vistas y administración =====
 const JEFE='Manuel Esteve',GRUPOS_DEF=['2ºA','2ºB','2ºC','2ºD','2ºE','2ºF','3ºA','3ºB','3ºC','3ºD','3ºE','3ºF','4ºESO'];
 S.op={curso:1};
-const nTabs=()=>T?[['grupos','Grupos'],['horario','Horario'],['inventario','Inventario'],['incidencias','Incidencias'],['estadisticas','Estadísticas']]:[['grupos','Grupos'],['horario','Horario'],['inventario','Inventario'],['incidencias','Incidencias'],['estadisticas','Estadísticas'],['profes','Profesorado'],['admin','Administración']];
+const nTabs=()=>T?[['horario','Horario'],['grupos','Grupos'],['inventario','Inventario'],['incidencias','Incidencias'],['estadisticas','Estadísticas']]:[['horario','Horario'],['grupos','Grupos'],['inventario','Inventario'],['incidencias','Incidencias'],['estadisticas','Estadísticas'],['profes','Profesorado'],['admin','Administración']];
 function authView(m='in',message='',isError=false){
  const title=m==='up'?'Crear acceso':m==='rs'?'Recuperar contraseña':'Acceso a GIM';
  $('#app').innerHTML=`<div class="auth-shell"><section class="auth">
@@ -361,10 +365,9 @@ const alumnadoEd=()=>{if(!G(S.g))return '<p class="mu">Crea primero algún grupo
  <div class="tw"><table><tr><th>Nº</th><th>Alumno/a</th><th>Modalidad</th>${D().tipos.map(t=>`<th>${esc(t.name)}</th>`).join('')}<th>Estado</th></tr>${al.slice().sort((a,b)=>(+b.activo)-(+a.activo)||a.numero-b.numero).map(a=>filaAl(a,true)).join('')}</table></div>`};
 
 V.inventario=function(){const d=D();return `<div class="card"><div class="row"><b>Inventario</b><button class="b s" onclick="pdfInv()">PDF</button>${d.tipos.map(t=>`<button class="b s" onclick="pdfMapasTipo('${t.key}')">Mapas ${esc(t.name.toLowerCase())} (${d.instrumentos.filter(i=>i.tipo==t.key&&!i.retirado).length})</button>`).join('')}<button class="b r" onclick="nuevaInc()">Reportar incidencia</button></div><p class="mu" style="margin:0 0 8px">Verde: en buen estado · Gris: sin revisar · Amarillo: deterioro (se puede tocar) · Rojo: rotura / fuera de uso · Violeta discontinuo: perdido</p>${d.tipos.map(t=>`<h3>${esc(t.name)}</h3><div class="gr">${d.instrumentos.filter(i=>i.tipo==t.key).map(i=>`<button class="k ${estI(i)}" onclick="fichaInst('${i.id}')"><strong>${esc(i.codigo)}</strong><small>${d.alumnos.filter(a=>a.activo&&Object.values(a.asignaciones||{}).includes(i.codigo)).length} usuarios</small></button>`).join('')||'<span class="mu">Sin instrumentos (créalos en Administración)</span>'}</div>`).join('')}</div>`};
-const horarioHtml=ed=>{const h=CF().horario||{},sel=(dw,k,f,v,lst,ph)=>`<select onchange="setSlot(${dw},${k},'${f}',this.value)"><option value="">${ph}</option>${opt(lst.map(x=>[x,x]),v)}</select>`,
- cel=(dw,k)=>{const s=h[dw+'-'+k]||{},cls=s.group?'hz-g':s.teacher?'hz-o':'hz-e';return `<td class="${cls}" style="${s.group?'--ga:'+groupPalette(s.group).accent:''}">${ed?sel(dw,k,'group',s.group,D().grupos.map(g=>g.nombre),'—')+sel(dw,k,'teacher',s.teacher,PROFS(),'Profesor/a'):s.group?`<b class="lnk" onclick="irGrupo('${esc(s.group)}')">${esc(s.group)}</b><br><small>${esc(s.teacher||'')}${subEn(s.teacher,hoyISO())?' · sust.: '+esc(subEn(s.teacher,hoyISO()).sustituto):''}</small>`:s.teacher?`<small>${esc(s.teacher)}</small><br><small class="mu">Optativa · sin instrumentos</small>`:''}</td>`};
+const horarioHtml=ed=>{const h=CF().horario||{},an=ahoraIdx(0),sel=(dw,k,f,v,lst,ph)=>`<select onchange="setSlot(${dw},${k},'${f}',this.value)"><option value="">${ph}</option>${opt(lst.map(x=>[x,x]),v)}</select>`,
+ cel=(dw,k)=>{const s=h[dw+'-'+k]||{},cls=(s.group?'hz-g':s.teacher?'hz-o':'hz-e')+(!ed&&an&&an.dw==dw&&an.k==k?' hz-now':'');return `<td class="${cls}" style="${s.group?'--ga:'+groupPalette(s.group).accent:''}">${ed?sel(dw,k,'group',s.group,D().grupos.map(g=>g.nombre),'—')+sel(dw,k,'teacher',s.teacher,PROFS(),'Profesor/a'):s.group?`<b class="lnk" onclick="irGrupo('${esc(s.group)}')">${esc(s.group)}</b><br><small>${esc(s.teacher||'')}${subEn(s.teacher,hoyISO())?' · sust.: '+esc(subEn(s.teacher,hoyISO()).sustituto):''}</small>`:s.teacher?`<small>${esc(s.teacher)}</small><br><small class="mu">Optativa · sin instrumentos</small>`:''}</td>`};
  return `<div class="tw"><table class="hz"><tr><th></th>${DAYS.map(x=>`<th>${x}</th>`).join('')}</tr>${PERIODS.map((p,k)=>`${k==3?'<tr><th>Recreo<br><small>11:15–11:45</small></th><td colspan="5" class="hz-r">☕ Recreo</td></tr>':''}<tr><th>${p[0]}<br><small>${p[1]}–${p[2]}</small></th>${DAYS.map((_,dw)=>cel(dw,k)).join('')}</tr>`).join('')}</table></div><div class="hz-leg"><span class="hz-g" style="--ga:var(--ac)">Clase de música</span><span class="hz-o">Profesor/a en otra actividad (optativa)</span><span class="hz-e">Sin profesor/a</span><span class="hz-r">Recreo</span></div>`};
-V.horario=()=>`<div class="card"><div class="row"><b>Horario semanal del aula</b><button class="b s" onclick="pdfHorario()">PDF</button></div>${T&&!D().config?'<p class="mu">El horario no está disponible todavía. Avisa al jefe de departamento.</p>':''}${horarioHtml(false)}</div>`;
 const sec=(id,t,h)=>`<details class="card" ${S.op[id]?'open':''} ontoggle="S.op.${id}=this.open"><summary><b>${t}</b></summary>${h}</details>`;
 V.admin=()=>{const c=D().curso;return sec('curso','Curso lectivo',`<p class="mu">Inicio y fin del curso (ej. septiembre–junio) delimitan el rastreo de usos y la caducidad por defecto de los enlaces. La <b>revisión inicial</b> es el día en que revisas todos los instrumentos al empezar el curso: el rastreo de un desperfecto parte de la última revisión buena y, si no hay, de esta fecha.</p>${c.revision_inicial?'':'<p style="color:var(--wn);font-weight:600">⚠ Falta la fecha de revisión inicial: sin ella el rastreo no tiene punto de partida para los instrumentos sin otra revisión.</p>'}<div class="row"><label>Inicio <input id="f1" type="date" value="${c.fecha_inicio||''}"></label><label>Fin <input id="f2" type="date" value="${c.fecha_fin||''}"></label><label>Revisión inicial <input id="f3" type="date" value="${c.revision_inicial||''}"></label><button class="b" onclick="fechas()">Guardar</button></div><button class="b s" onclick="nuevoCurso()">+ Nuevo curso lectivo</button>`)
  +sec('grupos','Grupos',`<div class="row">${D().grupos.map(g=>{const p=groupPalette(g.nombre);return `<span class="gc" style="--ga:${p.accent};cursor:default">${esc(g.nombre)} <a style="cursor:pointer" title="Renombrar" onclick="renGrupo('${g.id}')">✎</a> <a style="cursor:pointer" title="Eliminar" onclick="delGrupo('${g.id}')">✕</a></span>`}).join('')||'<span class="mu">Sin grupos</span>'}</div><div class="row"><button class="b s" onclick="nuevoGrupo()">+ Grupo</button><button class="b s" onclick="addGrupos(GRUPOS_DEF,1)">Añadir los habituales (2º–3º A–F, 4ºESO)</button></div>`)
@@ -620,8 +623,6 @@ function cierreHtml(){const d=D(),ins=d.instrumentos.filter(i=>!i.retirado),n={o
 // ===== Préstamos (flauta olvidada), proyección del reparto y «Ahora toca» =====
 const nomNat=n=>{const s=String(n||''),i=s.indexOf(',');return i<0?s.trim():(s.slice(i+1).trim()+' '+s.slice(0,i).trim())};
 // grupo con el que tienes clase AHORA según el horario (5 min de margen antes de empezar)
-function grupoAhora(){const n=new Date(),dw=(n.getDay()+6)%7;if(dw>4)return null;const m=n.getHours()*60+n.getMinutes(),k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),[c,e]=p[2].split(':').map(Number);return m>=a*60+b-5&&m<c*60+e});if(k<0)return null;
- const s=(CF().horario||{})[dw+'-'+k];if(!s||!s.group)return null;const me=T?[D().profesor,D().sustituye].filter(Boolean):[JEFE];if(!me.includes(s.teacher))return null;const g=D().grupos.find(x=>x.nombre==s.group);return g?{id:g.id,nombre:g.nombre,k}:null}
 // siguiente xilófono libre: el que sigue al más alto asignado en el grupo (si ya hay 15 asignados, el 16); salta los no utilizables
 // pantalla de proyección: solo el reparto del grupo abierto
 
@@ -769,7 +770,7 @@ const traceDe=n=>{const e=n.extra&&n.extra.rastreo;return e&&e.rows?{message:e.m
 function proyecta(k){const g=G(S.g);if(!g)return;S.proy={g:S.g,t:k||'U'};S.pm=null;drawProy();$('#proy').classList.add('on');document.body.style.overflow='hidden';
  const F=S.proy.t;if((F=='X'||F=='U')&&esMio(g)&&!sesDe(g.id,F)&&!D().usosFalta)regSesion(g.id,F,true).then(ok=>{if(ok){toast('Clase práctica de '+nomS(F)+' registrada');drawProy()}})}
 function proyFam(f){S.proy.t=f;S.pm=null;drawProy()}
-function cierraProy(){S.proy=null;S.pm=null;const e=$('#proy');e.classList.remove('on');e.innerHTML='';document.body.style.overflow='';try{if(document.fullscreenElement||document.webkitFullscreenElement)(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(x){}}
+function cierraProy(){S.proy=null;S.pm=null;const e=$('#proy');e.classList.remove('on');e.innerHTML='';document.body.style.overflow='';try{if(document.fullscreenElement||document.webkitFullscreenElement)(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(x){}render()}
 function proyPantalla(){const e=$('#proy');try{(e.requestFullscreen||e.webkitRequestFullscreen).call(e)}catch(x){toast('Tu navegador no permite pantalla completa aquí',1)}}
 async function proyReg(on){const P=S.proy,g=G(P.g),F=P.t;if(!on&&CAM().some(c=>c.grupo_id==g.id&&c.familia==F&&d10(c.fecha)==fechaLocal())&&!confirm('Se quitarán también los cambios de hoy en este grupo (olvidos, ausentes…). ¿Continuar?'))return;
  if(await regSesion(g.id,F,on)){toast(on?'Clase práctica registrada':'Hoy no cuenta como clase práctica');drawProy()}}
@@ -853,6 +854,16 @@ function bRes(){const raw=$('#bq').value.trim(),q=norm(raw),el=$('#br'),d=D(),r=
  d.grupos.forEach(g=>{if(norm(g.nombre).includes(q))r.push(['Grupo',g.nombre,'',`cerrar();irGrupo('${esc(g.nombre)}')`])});
  d.incidencias.forEach(n=>{if(norm([n.codigo,n.descripcion,n.tipo_dano,n.reportado_por,n.grupo].join(' ')).includes(q))r.push(['Incidencia',n.codigo+' · '+fd(n.fecha_reporte),(n.estado=='open'?'Abierta':'Reparada')+' · '+n.tipo_dano,`cerrar();S.tab='incidencias';render()`])});
  el.innerHTML=r.slice(0,30).map(x=>`<div class="ui" style="cursor:pointer" onclick="${x[3]}"><span class="pill">${x[0]}</span> <b>${esc(x[1])}</b> <span class="mu">${esc(x[2])}</span></div>`).join('')||'<span class="mu">Sin resultados.</span>'}
+
+// ===== «Ahora»: al entrar, el horario y, si estás en clase, tu grupo con sus botones de clase práctica =====
+function ahoraIdx(margen){const n=new Date(),dw=(n.getDay()+6)%7;if(dw>4)return null;const m=n.getHours()*60+n.getMinutes(),k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),[c,e]=p[2].split(':').map(Number);return m>=a*60+b-(margen||0)&&m<c*60+e});return k<0?null:{dw,k}}
+function proximaIdx(margen){const n=new Date(),dw=(n.getDay()+6)%7;if(dw>4)return null;const m=n.getHours()*60+n.getMinutes(),k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),s=a*60+b;return m>=s-margen&&m<s});return k<0?null:{dw,k}}
+function grupoAhora(){const me=T?[D().profesor,D().sustituye].filter(Boolean):[JEFE],de=x=>{if(!x)return null;const s=(CF().horario||{})[x.dw+'-'+x.k];if(!s||!s.group||!me.includes(s.teacher))return null;const g=D().grupos.find(y=>y.nombre==s.group);return g?{id:g.id,nombre:g.nombre,k:x.k}:null};return de(ahoraIdx(0))||de(proximaIdx(5))}
+function ahoraCard(ah){const g=G(ah.id),tp=D().tipos.filter(t=>t.key=='X'||t.key=='U');
+ return `<div class="card ahora"><div class="row"><span class="pill">📍 Ahora</span><b style="font-size:26px">${esc(g.nombre)}</b><span class="mu">${PERIODS[ah.k][0]} hora · ${PERIODS[ah.k][1]}–${PERIODS[ah.k][2]}</span></div>
+ <div class="row">${tp.map(t=>sesDe(g.id,t.key)?`<button class="b big" onclick="S.g='${g.id}';proyecta('${t.key}')">▶ Proyectar ${esc(t.name.toLowerCase())}<small>✔ clase práctica registrada</small></button>`:`<button class="b big s" onclick="S.g='${g.id}';proyecta('${t.key}')">Clase práctica de ${esc(nomS(t.key))}<small>registra la clase y proyecta el reparto</small></button>`).join('')}<button class="b s" onclick="S.g='${g.id}';S.tab='grupos';S.fade=1;render()">Ver grupo</button></div>
+ ${D().usosFalta?'<p class="mu" style="margin:6px 0 0">Falta ejecutar el SQL de la actualización 6 en Supabase para registrar las clases.</p>':''}</div>`}
+V.horario=()=>{const ah=grupoAhora();return (ah?ahoraCard(ah):'')+`<div class="card${ah?' hzc':''}"><div class="row"><b>Horario semanal del aula</b><button class="b s" onclick="pdfHorario()">PDF</button></div>${T&&!D().config?'<p class="mu">El horario no está disponible todavía. Avisa al jefe de departamento.</p>':''}${horarioHtml(false)}</div>`};
 
 if(T)cargar().catch(()=>{$('#app').innerHTML='<main><div class="card"><h2>Enlace no válido</h2><p class="mu">Ha caducado o ha sido revocado. Pídele uno nuevo al jefe de departamento.</p></div></main>'});else cargar();
 </script><script>(function(){var U=['supabase.min.js','https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js','https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
