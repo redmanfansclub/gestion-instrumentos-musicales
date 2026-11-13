@@ -12,11 +12,9 @@ header b{font-size:16px}
 header small{display:block;opacity:.8;font-size:11px;letter-spacing:.5px}
 header select{background:rgba(255,255,255,.15);color:#fff;border-color:transparent}
 header option{color:#000}
-nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto;background:rgba(255,255,255,.10);padding:4px;border-radius:18px;border:1px solid rgba(255,255,255,.14)}
-nav button{background:none;color:#eadff0;border:0;padding:8px 13px;border-radius:14px;cursor:pointer;transition:background .15s,color .15s}
-nav button:hover{background:rgba(255,255,255,.16);color:#fff}
-nav .on{background:#fff;color:#51205d;font-weight:700;box-shadow:0 3px 12px rgba(0,0,0,.2)}
-body.dark nav .on{background:#e8eaf2;color:#2a2145}
+
+
+
 main{max-width:1150px;margin:auto;padding:16px}
 .ban{background:var(--ac);color:#fff;padding:8px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600}
 body.dark .ban{color:#12141c}
@@ -131,7 +129,6 @@ details.card[open]>summary{margin-bottom:10px}
 .seg{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:18px 0 8px}.seg>b{font-size:clamp(20px,2vw,28px)}.seg .resp{font-size:clamp(16px,1.5vw,20px);color:var(--mu)}.pmw{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:60;display:flex;align-items:center;justify-content:center}.pmenu{background:var(--sf);border-radius:16px;padding:18px;min-width:290px;max-width:430px;display:flex;flex-direction:column;gap:8px}.pmenu .b{text-align:left}.pmenu>b{font-size:20px}.pmore{margin-left:auto;padding:0 6px;font-weight:700;color:var(--mu)}.pfl .pill{margin-top:4px;align-self:flex-start}
 
 .ahora{background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 17%,var(--gl)),var(--gl));border-left:6px solid var(--ac)}.b.big{font-size:19px;padding:14px 22px;display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left}.b.big small{font-size:12px;font-weight:400;opacity:.85}
-.hzc .hz td{min-width:80px;height:38px;padding:3px 6px;font-size:12px}.hzc .hz th{padding:3px 6px;font-size:12px}.hzc .hz small{font-size:10px}.hzc .hz-leg{display:none}
 .hz td.hz-now{outline:3px solid var(--ac);outline-offset:-3px;box-shadow:0 0 0 6px color-mix(in srgb,var(--ac) 20%,transparent)}
 
 .pest{font-weight:700;font-size:clamp(16px,1.5vw,21px);padding:6px 16px;border-radius:99px}.pest.ok{background:color-mix(in srgb,var(--ok) 16%,var(--sf));border:2px solid var(--ok);color:var(--ok)}.pest.no{background:color-mix(in srgb,var(--wn) 18%,var(--sf));border:2px solid var(--wn);color:var(--wn)}
@@ -139,6 +136,28 @@ details.card[open]>summary{margin-bottom:10px}
 details.gsel>summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;list-style:none}details.gsel>summary::-webkit-details-marker{display:none}details.gsel>summary .pill{margin-left:auto}details.gsel[open]>summary{margin-bottom:12px}
 @media (prefers-reduced-transparency:reduce){.card,header,#modal,#modal>div{-webkit-backdrop-filter:none;backdrop-filter:none}.card{background:var(--sf)}}
 @media (prefers-reduced-motion:reduce){.b,.gc,nav button,input,select,textarea{transition:none}.b:hover,.gc:hover{transform:none}}
+header .ib{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:12px;width:40px;height:40px;display:inline-grid;place-items:center;cursor:pointer;padding:0;transition:background .15s,transform .12s}header .ib:hover{background:rgba(255,255,255,.24);transform:translateY(-1px)}
+.ic{display:inline-grid;place-items:center}.ic svg,.ib svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.shell{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1520px;margin:0 auto;padding:16px 18px}.shell.one{display:block;max-width:1150px}.shell:not(.one) main{max-width:none;margin:0;padding:0}
+aside.side{position:sticky;top:92px;align-self:start}
+aside.side nav{display:flex;flex-direction:column;gap:4px;background:var(--gl);border:1px solid var(--glb);border-radius:22px;padding:8px;box-shadow:var(--sh);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+aside.side nav button{display:flex;align-items:center;gap:12px;background:none;border:0;color:var(--ink);padding:11px 14px;border-radius:14px;cursor:pointer;font:inherit;font-weight:500;text-align:left;transition:background .15s,color .15s}
+aside.side nav button:hover{background:color-mix(in srgb,var(--ac) 11%,transparent)}
+aside.side nav button.on{background:linear-gradient(135deg,#8b47a2,#51205d);color:#fff;font-weight:700;box-shadow:0 6px 16px rgba(81,32,93,.30)}
+aside.side nav .nb{margin-left:auto;font-size:12px;font-weight:700;border-radius:99px;min-width:20px;height:20px;padding:0 6px;display:inline-grid;place-items:center;color:#fff}.nb.r{background:var(--er)}.nb.a{background:#d97706}
+@media (max-width:920px){.shell{display:block;padding:10px}aside.side{position:sticky;top:64px;z-index:9;margin-bottom:10px}aside.side nav{flex-direction:row;overflow-x:auto;border-radius:16px}aside.side nav button{padding:9px 12px;flex:none}aside.side nav button:not(.on) span:not(.nb){display:none}}
+.hello{background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 11%,var(--gl)),var(--gl))}.hello h2{font-size:26px}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:8px 0;border-top:1px solid var(--ln)}.hrow:first-of-type{border-top:0}.hrow .acc{display:flex;gap:6px;flex-wrap:wrap}.pend{border-left:6px solid #d97706}
+.pill.o-ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}.pill.o-a{background:color-mix(in srgb,var(--wn) 22%,transparent);color:var(--wn)}.pill.o-r{background:var(--er);color:#fff}
+.wk td{vertical-align:top}.wk td.wk-p{background:color-mix(in srgb,var(--ga) 14%,var(--sf));border-left:5px solid var(--ga)}
+.wk td.wk-s{background:linear-gradient(135deg,color-mix(in srgb,var(--ga) 66%,#fff),color-mix(in srgb,var(--ga) 44%,#fff));border-left:5px solid var(--ga);color:#211927}body.dark .wk td.wk-s{background:linear-gradient(135deg,color-mix(in srgb,var(--ga) 58%,var(--sf)),color-mix(in srgb,var(--ga) 38%,var(--sf)));color:var(--ink)}
+.wk td.wk-n{background:color-mix(in srgb,var(--ga) 8%,var(--sf));border-left:5px solid color-mix(in srgb,var(--ga) 35%,transparent);color:var(--mu)}
+.wk td.wk-q{background:color-mix(in srgb,var(--ga) 6%,var(--sf));outline:2px dashed color-mix(in srgb,var(--ga) 50%,transparent);outline-offset:-3px;color:var(--mu)}
+.wk td.wk-f,.wk td.wk-o,.wk td.wk-e{background:var(--s2);color:var(--mu);opacity:.75}.wk td[onclick]{cursor:pointer}.wk-sub{font-size:11px;font-weight:600}.xus{float:right;display:flex;gap:3px}.xu{display:inline-block;background:#51205d;color:#fff;border-radius:7px;font-weight:700;font-size:12px;padding:1px 7px}
+.wk td.wk-now{outline:3px solid var(--ac);outline-offset:-3px;box-shadow:0 0 0 6px color-mix(in srgb,var(--ac) 20%,transparent)}.wk th.wk-hoy{color:var(--er)}
+.hz-leg .wk-s,.hz-leg .wk-n,.hz-leg .wk-q,.hz-leg .wk-p{padding:3px 10px;border-radius:8px;font-size:12px;display:inline-block;margin:4px 8px 0 0}.hz-leg .wk-s{background:color-mix(in srgb,var(--ac) 50%,#fff);color:#211927}.hz-leg .wk-n{background:color-mix(in srgb,var(--ac) 8%,var(--sf));color:var(--mu)}.hz-leg .wk-q{outline:2px dashed color-mix(in srgb,var(--ac) 50%,transparent);outline-offset:-2px}.hz-leg .wk-p{background:color-mix(in srgb,var(--ac) 14%,var(--sf))}
+.flag{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px}.flag.fy{background:#f59e0b;color:#3b2500}.flag.fr{background:var(--er);color:#fff}
+.pc.fy{background:color-mix(in srgb,#f59e0b 20%,var(--sf));border-color:#d97706}.pc.fr{background:color-mix(in srgb,#dc2626 18%,var(--sf));border-color:#dc2626}
 </style></head><body><div id="app"><div class="boot" style="padding:40px;font:16px system-ui;color:#51205d">Cargando GIM…<span id="bootmsg" style="font-size:13px;opacity:.7"></span></div></div><div id="modal" onclick="if(event.target===this&&this.dataset.fuera)cerrar()"></div><div id="toast"></div><div id="proy"></div><div id="imp"></div>
 <script id="gim-main" type="text/plain">
 const SU='https://bbdvflbykohleyctiinj.supabase.co',SK='sb_publishable_URQ87m7Tiq96RUHGtvX29Q_lYroaqM4'; // Clave publishable pública del proyecto compartido. Nunca usar service_role.
@@ -155,15 +174,15 @@ function groupPalette(group){
   let hue,light,sat=66,accentLight;
   if(level===2){
     // 2.º ESO: amarillo A -> naranja -> rojo intenso F.
-    const hues=[48,37,27,16,5,352], lights=[91,90,90,89,88,86], accents=[43,42,42,41,40,37];
+    const hues=[50,34,18,2,346,330], lights=[92,88,92,88,92,88], accents=[44,41,44,40,43,38];
     hue=(hues[idx]+hues[jx])/2;light=(lights[idx]+lights[jx])/2+(dir<0?2:0);accentLight=(accents[idx]+accents[jx])/2;
   }else if(level===3){
     // 3.º ESO: transición continua de verde claro A a verde intenso E/F.
-    const hues=[145,137,129,121,113,105], lights=[94,92,90,88,86,84], accents=[42,40,38,36,34,31];
+    const hues=[158,128,98,172,142,112], lights=[94,89,94,89,94,89], accents=[42,38,42,37,41,36];
     hue=(hues[idx]+hues[jx])/2;light=(lights[idx]+lights[jx])/2+(dir<0?2:0);accentLight=(accents[idx]+accents[jx])/2;
   }else{
     // Otros niveles: familia azul-verde diferenciada de 2.º y 3.º.
-    const hues=[218,210,202,194,186,178], lights=[92,91,90,89,88,86], accents=[43,42,41,40,39,37];
+    const hues=[218,196,174,236,208,186], lights=[92,88,92,88,92,88], accents=[43,40,43,39,42,38];
     hue=(hues[idx]+hues[jx])/2;light=(lights[idx]+lights[jx])/2+(dir<0?2:0);accentLight=(accents[idx]+accents[jx])/2;
   }
   return {bg:`hsl(${hue} ${sat}% ${light}%)`,tint:`hsl(${hue} 72% 97%)`,accent:`hsl(${hue} 56% ${accentLight}%)`};
@@ -177,7 +196,7 @@ const D=()=>S.D,G=id=>D().grupos.find(g=>g.id==id),opt=(a,sel)=>a.map(([v,t])=>`
 function toast(m,e){const t=$('#toast');t.textContent=m;t.className=e?'e':'';t.style.display='block';setTimeout(()=>t.style.display='none',3500)}
 async function q(p){const r=await p;if(r.error){toast(r.error.message,1);throw r.error}return r.data}
 function modal(h,fuera){const m=$('#modal');m.innerHTML=`<div>${h}</div>`;m.style.display='flex';m.dataset.fuera=fuera?'1':''}function cerrar(){$('#modal').style.display='none'}
-function theme(t){if(t==null)t=!document.body.classList.contains('dark');document.body.classList.toggle('dark',t);localStorage.setItem('gim_theme',t?'d':'l');document.querySelectorAll('.thbtn').forEach(b=>b.textContent=t?'☀':'🌙')}theme(localStorage.getItem('gim_theme')=='d');
+theme(localStorage.getItem('gim_theme')=='d');
 
 
 // ===== ACCESO =====
@@ -327,8 +346,6 @@ async function auth(m){
  }catch(err){msg(err?.message||'No se ha podido conectar con Supabase. Comprueba la conexión y la configuración del proyecto.',true)}
  finally{if(btn&&document.body.contains(btn)){btn.disabled=false;btn.textContent=m==='in'?'Entrar en GIM':m==='up'?'Crear cuenta':'Enviar enlace de recuperación'}}
 }
-function render(){const d=S.D;$('#app').innerHTML=`<header><img src="${LOGO_GIM}" alt="GIM"><div><b>GIM · Instrumentos Musicales</b><small>IES INFANTA ELENA · DEPARTAMENTO DE MÚSICA</small><i class="by">by Manuel Esteve</i></div>${T?`<span class="pill">${esc(d?.curso.nombre)}</span>`:`<select onchange="S.cid=this.value;S.g=null;S.stC=null;S.stRows=null;cargar()">${opt(S.cursos.map(c=>[c.id,c.nombre]),S.cid)}</select>`}<nav>${d?nTabs().map(([k,n])=>`<button class="${S.tab==k?'on':''}" onclick="S.tab='${k}';S.ed=false;S.fade=1;render()">${n}</button>`).join(''):''}${d?'<button onclick="buscar()" title="Buscar (Cmd/Ctrl+K)">🔍</button>':''}<button class="thbtn" onclick="theme()" title="Cambiar tema">${document.body.classList.contains('dark')?'☀':'🌙'}</button><button onclick="salir()">Salir</button></nav></header>${T?`<div class="ban">Modo profesor/a · ${esc(d?.profesor)}</div>`:''}
- <main class="${S.fade?'fade':''}">${d?V[S.tab]():`<div class="card"><h2>Bienvenido/a</h2><p class="mu">Crea tu primer curso (con los grupos e instrumentos habituales) o importa la copia de la app anterior.</p><div class="row"><button class="b" onclick="nuevoCurso()">+ Crear curso</button><label class="b s">Importar copia (.json)<input type="file" accept=".json" hidden onchange="importar(this.files[0])"></label></div></div>`}</main>`;S.fade=0}
 // --- cursos, grupos e instrumentos ---
 
 async function addGrupos(ns,hab){const ex=new Set(D().grupos.map(g=>g.nombre)),rows=ns.filter(n=>!ex.has(n)&&!(hab&&D().grupos.some(g=>g.nombre.startsWith(n+' ')))).map(n=>({curso_id:D().curso.id,nombre:n}));if(rows.length)await q(sb.from('gim2_grupos').insert(rows));cargar()}
@@ -357,7 +374,7 @@ const fichaCodigo=c=>{const i=D().instrumentos.find(x=>x.codigo==c);if(i)fichaIn
 const chipInst=(a,k)=>{const c=cod(a,k),i=D().instrumentos.find(x=>x.codigo==c);return c?`<button class="k2 ${i&&abierta(i.id)?(grav(abierta(i.id))=='rotura'?'inc':'det'):''}" onclick="fichaCodigo('${esc(c)}')">${esc(c)}</button>`:'<span class="mu">—</span>'};
 const celdaAsig=(a,t)=>t.key=='X'&&a.modalidad=='flauta'?'<span class="pill">Flauta propia</span>':`<select onchange="asig('${a.id}','${t.key}',this.value)"><option value="">—</option>${opt(D().instrumentos.filter(i=>i.tipo==t.key&&(i.codigo==cod(a,t.key)||!i.retirado&&!usados(a,t.key).has(i.codigo))).map(i=>[i.codigo,i.codigo]),cod(a,t.key))}</select>`;
 const filaAl=(a,ed)=>ed?`<tr class="${a.activo?'':'off'}"><td>${nl(a)}</td><td>${esc(a.nombre)}</td><td><select onchange="updAl('${a.id}',{modalidad:this.value})">${opt([['xilofono','Xilófono'],['flauta','Flauta']],a.modalidad)}</select></td>${D().tipos.map(t=>`<td>${celdaAsig(a,t)}</td>`).join('')}<td>${a.activo?`<button class="b s" onclick="baja('${a.id}')" title="Sale del listado y queda en transparente por si vuelve">Dar de baja</button> <button class="b s" style="color:var(--er)" onclick="delAl('${a.id}')" title="Borrarlo del todo">Eliminar</button>`:`<span class="pill">De baja</span> <button class="b s" onclick="reactivar('${a.id}')">Reactivar</button> <button class="b r" onclick="delAl('${a.id}')">Eliminar</button>`}</td></tr>`
- :`<tr><td>${nl(a)}</td><td>${esc(a.nombre)}</td><td>${a.modalidad=='flauta'?'Flauta '+badgeOlv(rachaOlv(a.id)):'Xilófono'}</td>${D().tipos.map(t=>`<td>${t.key=='X'&&a.modalidad=='flauta'?'<span class="pill">Flauta propia</span>':chipInst(a,t.key)}</td>`).join('')}</tr>`;
+ :`<tr><td>${nl(a)}</td><td><a class="lnk" onclick="fichaAlumno('${a.id}')">${esc(a.nombre)}</a></td><td>${a.modalidad=='flauta'?'Flauta '+olvPill(a.id):'Xilófono'}</td>${D().tipos.map(t=>`<td>${t.key=='X'&&a.modalidad=='flauta'?'<span class="pill">Flauta propia</span>':chipInst(a,t.key)}</td>`).join('')}</tr>`;
 const profsGrupo=n=>[...new Set(Object.values(CF().horario||{}).filter(s=>s.group==n&&s.teacher).map(s=>profEn(s.teacher,hoyISO())))];
 const chipG=(x,mia)=>{const p=groupPalette(x.nombre),ps=profsGrupo(x.nombre);return `<button class="gc ${x.id==S.g?'on':''} ${mia?'mine':''}" style="--ga:${p.accent}" onclick="S.g='${x.id}';S.op.gsel=false;render()"><b>${esc(x.nombre)}</b> <small class="mu">${D().alumnos.filter(a=>a.grupo_id==x.id&&a.activo).length}</small>${ps.length?`<br><small class="gp">${mia?'✏️ ':''}${esc(ps.join(' · '))}</small>`:''}</button>`};
 const grpChips=()=>{const sep=T||S.tab=='grupos',m=sep?misGrupos():new Set(),g=D().grupos,mias=g.filter(x=>m.has(x.nombre)),otras=g.filter(x=>!m.has(x.nombre));
@@ -376,6 +393,7 @@ V.admin=()=>{const c=D().curso;return sec('curso','Curso lectivo',`<p class="mu"
  +sec('grupos','Grupos',`<div class="row">${D().grupos.map(g=>{const p=groupPalette(g.nombre);return `<span class="gc" style="--ga:${p.accent};cursor:default">${esc(g.nombre)} <a style="cursor:pointer" title="Renombrar" onclick="renGrupo('${g.id}')">✎</a> <a style="cursor:pointer" title="Eliminar" onclick="delGrupo('${g.id}')">✕</a></span>`}).join('')||'<span class="mu">Sin grupos</span>'}</div><div class="row"><button class="b s" onclick="nuevoGrupo()">+ Grupo</button><button class="b s" onclick="addGrupos(GRUPOS_DEF,1)">Añadir los habituales (2º–3º A–F, 4ºESO)</button></div>`)
  +sec('alumnado','Alumnado e instrumentos',alumnadoEd())+sec('horario','Horario semanal',horarioHtml(true))+sec('calendario','Calendario',calHtml())
  +sec('inv','Inventario',`<p class="mu">Indica cuántos instrumentos operativos hay de cada tipo: se crean los que falten y se retiran los sobrantes que no tengan usuarios ni incidencia abierta. Un instrumento retirado se puede reactivar desde su ficha.</p><div class="row">${D().tipos.map(t=>`<label>${esc(t.name)} <input id="n${t.key}" type="number" min="0" max="99" value="${D().instrumentos.filter(i=>i.tipo==t.key).length||32}" style="width:80px"></label>`).join('')}<button class="b" onclick="generar()">Ajustar inventario</button></div>`)
+ +sec('tramos','Tramos de reparto',tramosAdm())
  +sec('olv','Avisos de flauta olvidada',olvHtml())
  +sec('cierre','Cierre de curso',cierreHtml())
  +sec('copias','Copias',`<div class="row"><button class="b s" onclick="exportar()">Exportar copia (.json)</button><button class="b s" onclick="cartelQR()">Cartel con QR (PDF)</button><label class="b s">Importar copia<input type="file" accept=".json" hidden onchange="importar(this.files[0])"></label></div>`)};
@@ -589,14 +607,7 @@ const ESTCOL={ok:'#16794b',rev:'#9aa3b2',det:'#d4a017',inc:'#b42318',ret:'#5b627
 const tipoCod=c=>{const t=D().tipos.find(t=>String(c).startsWith(t.prefix+'-'));return t?t.name:'Otros'};
 const dias=(a,b)=>Math.max(0,Math.round((new Date(b)-new Date(a))/864e5));
 const pieImg=p=>{const c=50.265,svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#d4a017"/><circle cx="16" cy="16" r="8" fill="none" stroke="#c0392b" stroke-width="16" stroke-dasharray="${(p*c/100).toFixed(2)} ${c}" transform="rotate(-90 16 16)"/></svg>`;return `<img alt="" src="data:image/svg+xml;base64,${btoa(svg)}" style="width:92px;height:92px;flex:none">`};
-V.estadisticas=()=>{const todas=S.stRows||D().incidencias,inc=stFiltro(todas),n=inc.length,sel=S.stC||S.cid,
- ctl=`<div class="card"><div class="row">${T?'':`<label>Curso <select onchange="stCurso(this.value)">${opt([...S.cursos.map(c=>[c.id,c.nombre]),['all','Todos los cursos']],sel)}</select></label>`}<label>Periodo <select onchange="S.stP=this.value;render()">${opt([['curso','Todo el curso'],['1','1.er trimestre (sep–dic)'],['2','2.º trimestre (ene–mar)'],['3','3.er trimestre (abr–ago)'],['custom','Personalizado…']],S.stP)}</select></label>${S.stP=='custom'?`<label>Desde <input type="date" value="${S.stD1}" onchange="S.stD1=this.value;render()"></label><label>Hasta <input type="date" value="${S.stD2}" onchange="S.stD2=this.value;render()"></label>`:''}<span class="mu">${n} de ${todas.length} incidencias</span><button class="b s" style="margin-left:auto" onclick="pdfStats()">PDF</button></div></div>`;
- if(!T&&!S.stAll&&!S.stBusy){S.stBusy=1;q(sb.from('gim2_incidencias').select('*')).then(r=>{S.stAll=r;S.stBusy=0;if(S.tab=='estadisticas')render()}).catch(()=>{S.stAll=[];S.stBusy=0})}
- if(T&&S.stFalla)return `<div class="card"><h3>Estadísticas</h3><p class="mu">Las estadísticas todavía no están disponibles en este enlace. Avisa al jefe de departamento.</p></div>`;
- return ctl+`<div class="st2">${statsSecciones().map(x=>`<div class="card sec${x.wide?' wide':''}"><h3>${x.t}</h3>${x.h}</div>`).join('')}</div>`};
-function pdfStats(){if(!T&&!S.stAll)return toast('Espera un instante: se están cargando los datos de todos los cursos…',1);
- const sel=T?D().curso.nombre:S.stC=='all'?'Todos los cursos':(S.cursos.find(c=>c.id==(S.stC||S.cid))||{}).nombre,per={curso:'Todo el curso','1':'1.er trimestre (sep–dic)','2':'2.º trimestre (ene–mar)','3':'3.er trimestre (abr–ago)',custom:'Del '+(S.stD1||'…')+' al '+(S.stD2||'…')}[S.stP];
- pdf('Estadísticas de incidencias',`<p style="font-size:10pt;margin:6px 0 12px"><b>Curso:</b> ${esc(sel)} · <b>Periodo:</b> ${esc(per)}</p>${statsSecciones().map(x=>`<div class="sec" style="margin:0 0 12px"><h3 style="margin:0 0 4px;color:#51205d;border-bottom:2px solid #c9a3d4;padding-bottom:2px;font-size:12pt">${x.t}</h3>${x.h}</div>`).join('')}`)}
+
 S.stAll=null;S.stBusy=0;
 
 // ===== Cierre de curso: instrumentos perdidos + exportación del inventario para la app del Departamento =====
@@ -655,55 +666,13 @@ V.incidencias=()=>{const all=D().incidencias,aG=all.filter(n=>n.estado=='open'&&
 
 // ===== Estadísticas: lo más útil arriba, el resto debajo =====
 const horaTxt=x=>{const da=x.extra&&x.extra.detectedAt;if(!da||da.length<16)return fd(stFecha(x));const[f,h]=da.split('T'),m=+h.slice(0,2)*60+ +h.slice(3,5),k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),[c,e]=p[2].split(':').map(Number);return m>=a*60+b&&m<c*60+e});return fd(f)+' · '+(k>=0?PERIODS[k][0]+' hora':(m>=675&&m<705?'recreo':'fuera de horario'))+' ('+h.slice(0,5)+')'};
-function statsSecciones(){const d=D(),todas=S.stRows||d.incidencias,inc=stFiltro(todas),n=inc.length,nuevo=CF().instrNuevo||{},sel=S.stC||S.cid,hoy=new Date(),
- ord=(a,b)=>b[1]-a[1]||String(a[0]).localeCompare(String(b[0])),R=[],grv=x=>grav(x)=='rotura',
- chip=(x,txt)=>{const i=(!x.curso_id||x.curso_id==d.curso.id)?d.instrumentos.find(i=>i.codigo==x.codigo):null;return `<span style="display:inline-block;background:#f1e7f4;color:#51205d;border-radius:99px;padding:2px 11px;margin:3px 5px 3px 0;font-size:13px;font-weight:700;${i?'cursor:pointer':''}"${i?` onclick="fichaInst('${i.id}')"`:''}>${esc(x.codigo)} <small style="font-weight:400">${txt}</small></span>`},
- abiertas=todas.filter(x=>x.estado=='open').sort((a,b)=>stFecha(a).localeCompare(stFecha(b))),
- kpi=(tit,col,l)=>({wide:1,t:tit,h:`<div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap"><b style="font-size:46px;line-height:1;color:${col}">${l.length}</b><div style="flex:1;min-width:220px">${l.length?l.map(x=>chip(x,dias(stFecha(x),hoy)+' d')).join(''):'<span class="mu">Ninguna ✔</span>'}</div></div>`});
- // 1) lo que hay que atender ahora
- R.push(kpi('Abiertas graves · no se pueden tocar','var(--er)',abiertas.filter(grv)));R.push(kpi('Abiertas leves · se pueden tocar','var(--wn)',abiertas.filter(x=>!grv(x))));
- if(!n){R.push({t:'Incidencias',h:'<span class="mu">No hay incidencias con estos filtros. Irán apareciendo aquí según las anotes.</span>'})}
- else{
-  const rot=inc.filter(grv).length,pct=Math.round(rot/n*100),ab=inc.filter(x=>x.estado=='open').length,nom=T?d.curso.nombre:sel=='all'?'todos los cursos':(S.cursos.find(c=>c.id==sel)||{}).nombre,
-   meses=cuenta(inc,x=>stFecha(x).slice(0,7)).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>[new Date(k+'-15').toLocaleDateString('es-ES',{month:'short',year:'2-digit'}),v]),
-   vig=inc.filter(x=>!(nuevo[x.codigo]&&stFecha(x)<nuevo[x.codigo])),porIns=cuenta(vig,x=>x.codigo).sort(ord),pt=cuenta(inc,x=>tipoCod(x.codigo)).sort(ord),
-   tasa=!S.stC?d.tipos.map(t=>{const m=d.instrumentos.filter(i=>i.tipo==t.key).length,v=(pt.find(x=>x[0]==t.name)||[0,0])[1];return m?`${esc(t.name)} <b>${(v/m*10).toFixed(1).replace('.',',')}</b>`:''}).filter(Boolean).join(' · '):'';
-  // 2) alumnado que avisa (solo jefatura: lleva nombres)
-  if(!T){const av={};inc.forEach(x=>{const nm=String((x.extra&&x.extra.studentReporter)||'').trim();if(!nm)return;const k=norm(nm)+'|'+(x.grupo||''),a=av[k]||(av[k]={nm,g:x.grupo||'',c:0,det:[]});a.c++;a.det.push(x)});
-   const rows=Object.values(av).sort((a,b)=>b.c-a.c||a.nm.localeCompare(b.nm)).slice(0,12);
-   R.push({t:'Alumnado que avisa',h:'<p class="mu" style="font-size:12px;margin:0 0 6px">Quien comunica una avería ayuda a cuidar el material.</p>'+(rows.length?rows.map(a=>`<div class="ui"><b>${esc(a.nm)}</b> · ${esc(a.g)} <span class="pill">${a.c}</span><br><span class="mu" style="font-size:12px">${a.det.slice(0,4).map(horaTxt).join(' · ')}</span></div>`).join(''):'<span class="mu">Aún no se ha anotado ningún alumno que avise.</span>')})}
-  R.push({t:'Incidencias por mes',h:barras(meses)});
-  R.push({t:'Tipos de daño',h:'<p class="mu" style="font-size:12px;margin:0 0 4px"><span style="color:var(--er)">● grave</span> · <span style="color:var(--wn)">● leve</span></p>'+barras(cuenta(inc,x=>x.tipo_dano).sort(ord),tp=>esRot(tp)?'var(--er)':GRAV.deterioro.includes(tp)?'var(--wn)':'var(--ac)',170)});
-  R.push({t:'Instrumentos con más incidencias',h:`<p class="mu" style="font-size:12px;margin:0 0 4px">Los que más se estropean${porIns.some(x=>x[1]>1)?': los que repiten (2 o más) merecen una mirada':''}.${vig.length<n?' No cuenta los sustituidos por uno nuevo.':''}</p>`+(vig.length?barras(porIns.slice(0,10)):'<span class="mu">Todas las incidencias de este periodo son de instrumentos que se sustituyeron por uno nuevo.</span>')});
-  R.push({t:'Por grupo',h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Grupo en el que se detectó el desperfecto, no necesariamente el que lo causó.</p>'+barras(cuenta(inc,x=>x.grupo).sort(ord),l=>groupPalette(l).accent)});
-  R.push({t:'Por tipo de instrumento',h:barras(pt)+(tasa?`<p class="mu" style="font-size:12px">Incidencias por cada 10 instrumentos: ${tasa}</p>`:'')});
-  // mapa de calor (pequeño): cuándo se detectan
-  const conH=inc.filter(x=>x.extra&&x.extra.detectedAt&&x.extra.detectedAt.length>=16),mat=PERIODS.map(()=>[0,0,0,0,0]);let antes=0,desp=0;
-  conH.forEach(x=>{const[f,h]=x.extra.detectedAt.split('T'),m=+h.slice(0,2)*60+ +h.slice(3,5),wd=(new Date(f+'T12:00').getDay()+6)%7,k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),[c,e]=p[2].split(':').map(Number);return m>=a*60+b&&m<c*60+e});if(k>=0&&wd<5){mat[k][wd]++;k<3?antes++:desp++}});
-  const mx=Math.max(1,...mat.flat());
-  R.push({t:'Cuándo se detectan',h:`<table style="border-collapse:separate;border-spacing:3px;font-size:11px"><tr><td></td>${['L','M','X','J','V'].map(x=>`<td style="text-align:center;color:#766b7c;font-weight:700">${x}</td>`).join('')}</tr>${mat.map((r,k)=>`<tr><td style="color:#766b7c;font-weight:700;padding-right:4px">${PERIODS[k][0]}</td>${r.map(v=>`<td style="width:30px;height:21px;text-align:center;border-radius:5px;background:${v?`rgba(116,58,131,${(.25+.75*v/mx).toFixed(2)})`:'#f1e7f4'};color:#fff;font-weight:700">${v||''}</td>`).join('')}</tr>`).join('')}</table><p class="mu" style="font-size:12px;margin:6px 0 0">Antes del recreo <b>${antes}</b> · después del recreo <b>${desp}</b>${n-conH.length?` · ${n-conH.length} sin hora`:''}. Es cuándo se detectó, no cuándo ocurrió.</p>`});
-  R.push({t:'Resumen · '+esc(nom),h:`<div style="display:flex;align-items:center;gap:14px">${pieImg(pct)}<div><b>${n}</b> incidencias · <b>${ab}</b> abiertas · <b>${n-ab}</b> reparadas<br><span style="color:var(--er)">● Grave ${rot}</span> · <span style="color:var(--wn)">● Leve ${n-rot}</span></div></div>`})}
- // 3) inventario, reparaciones y asignación
- R.push({t:'Inventario hoy · '+esc(d.curso.nombre),h:d.tipos.map(t=>{const l=d.instrumentos.filter(i=>i.tipo==t.key),c={ok:0,rev:0,det:0,inc:0,ret:0,per:0};l.forEach(i=>c[estI(i)]++);
-  return `<div style="margin:6px 0 12px"><b>${esc(t.name)}</b> <span class="mu">(${l.length})</span><div style="display:flex;height:14px;border-radius:99px;overflow:hidden;background:#e5e5e5;margin:5px 0">${ESTK.map(k=>c[k]?`<i style="width:${c[k]/l.length*100}%;background:${ESTCOL[k]}"></i>`:'').join('')}</div><span style="font-size:12.5px">${ESTK.map(k=>`<span style="color:${ESTCOL[k]}">● ${EST_L[k]} <b>${c[k]}</b></span>`).join(' &nbsp; ')}</span></div>`}).join('')||'<span class="mu">Sin instrumentos.</span>'});
- if(n){const cer=inc.filter(x=>x.estado=='closed'&&x.fecha_cierre),dd=x=>dias(stFecha(x),x.fecha_cierre),av=a=>a.length?(a.reduce((s,x)=>s+x,0)/a.length).toFixed(1).replace('.',','):'–',dl=cer.map(dd).sort((a,b)=>a-b);
-  R.push({t:'Tiempo de reparación',h:cer.length?`<b>${av(dl)}</b> días de media · mediana <b>${dl[Math.floor(dl.length/2)]}</b> · máximo <b>${dl[dl.length-1]}</b> <span class="mu">(${cer.length} reparadas)</span><br><span style="color:var(--er)">Graves ${av(cer.filter(grv).map(dd))} d</span> · <span style="color:var(--wn)">Leves ${av(cer.filter(x=>!grv(x)).map(dd))} d</span>`:'<span class="mu">Aún no hay incidencias reparadas en este periodo.</span>'})}
- const act=d.alumnos.filter(a=>a.activo);
- R.push({t:'Instrumentos por grupo',h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Un grupo sin asignar es un grupo que no usa ese instrumento (por ahora). Si un día lo tocan, hay que asignar un número a cada alumno.</p>'+d.tipos.map(t=>{const pg=d.grupos.map(g=>{const al=act.filter(a=>a.grupo_id==g.id&&!(t.key=='X'&&a.modalidad=='flauta'));return{g:g.nombre,n:al.length,as:al.filter(a=>cod(a,t.key)).length}}).filter(x=>x.n),usan=pg.filter(x=>x.as>0),no=pg.filter(x=>!x.as),pend=usan.filter(x=>x.as<x.n);
-  return `<div style="margin:6px 0 12px"><b>${esc(t.name)}</b>: lo usan <b>${usan.length}</b> grupos · sin asignar <b>${no.length}</b><br>${usan.map(x=>`<span style="display:inline-block;background:#f1e7f4;border-radius:99px;padding:1px 9px;margin:2px 4px 2px 0;font-size:12.5px">${esc(x.g)} <b>${x.as}/${x.n}</b></span>`).join('')}${pend.length?`<br><span style="color:var(--wn);font-size:12.5px">Faltan por asignar en grupos que sí lo usan: ${pend.map(x=>esc(x.g)+' ('+(x.n-x.as)+')').join(', ')}</span>`:''}${no.length?`<br><span class="mu" style="font-size:12.5px">Sin asignar: ${no.map(x=>esc(x.g)).join(', ')}</span>`:''}</div>`}).join('')});
- const so=statsOlvidos();if(so)R.push(so);const su=statsUso();if(su)R.push(su);R.push(statsPor100());
- // 4) comparativa entre cursos (siempre la última; los profesores solo tienen su curso)
- const TA=S.stAll,cs=[...S.cursos].sort((a,b)=>a.nombre.localeCompare(b.nombre)),g=TA?stFiltro(TA):[];
- if(!T)R.push({t:'Comparativa entre cursos',h:!TA?'<span class="mu">Cargando…</span>':cs.length<2?'<span class="mu">Cuando haya más de un curso podrás compararlos aquí.</span>':barras(cs.map(c=>[c.nombre,g.filter(x=>x.curso_id==c.id).length]))+`<p class="mu" style="font-size:12px">${cs.map(c=>{const r=g.filter(x=>x.curso_id==c.id);return esc(c.nombre)+': graves '+r.filter(x=>grav(x)=='rotura').length+' · leves '+r.filter(x=>grav(x)!='rotura').length}).join(' &nbsp;|&nbsp; ')}</p>`+(S.stP!='curso'?'<p class="mu" style="font-size:12px">Se aplica el periodo elegido a cada curso.</p>':'')});
- return R}
-
 // ===== Clases prácticas, cambios de sesión (olvido de flauta, avería, ausente, cambio), olvidos y responsables =====
 const numDe=c=>parseInt(String(c).split('-')[1],10)||0,fam=c=>String(c).split('-')[0],d10=f=>String(f).slice(0,10);
 const SES=()=>(D()&&D().sesiones)||[],CAM=()=>(D()&&D().cambios)||[];
 const nomF=f=>({X:'xilófonos',U:'ukeleles'})[f]||String(f),nomS=f=>({X:'xilófono',U:'ukelele'})[f]||String(f);
 const MOT={olvido:'olvidó la flauta',averiado:'cambio por avería',ausente:'ausente',cambio:'cambio de instrumento'};
 const aluTxt=r=>esc((r.number?'nº'+r.number+' ':'')+(r.student||''))+(r.motivo?` <i>· ${esc(MOT[r.motivo]||'cambio')}</i>`:'');
-const usosErr=e=>/does not exist|schema cache|relation|function|gim2_sesiones|gim2_cambios/i.test((e&&e.message)||'')?'Falta ejecutar el SQL de la actualización 6 en Supabase':((e&&e.message)||'No se pudo guardar');
+const usosErr=e=>/does not exist|schema cache|relation|function|gim2_sesiones|gim2_cambios|check constraint|violates|Familia de instrumento no valida/i.test((e&&e.message)||'')?'Falta ejecutar el SQL de las actualizaciones 6 y 8 en Supabase':((e&&e.message)||'No se pudo guardar');
 const sesDe=(gid,f,fe)=>SES().find(s=>s.grupo_id==gid&&s.familia==f&&d10(s.fecha)==(fe||fechaLocal())),camDe=(aid,f,fe)=>CAM().find(c=>c.alumno_id==aid&&c.familia==f&&d10(c.fecha)==(fe||fechaLocal()));
 const esMio=g=>misGrupos().has(g.nombre),puedeG=g=>!T||esMio(g),OLV=()=>({aviso:+((CF().olvidos||{}).aviso)||3,rojo:+((CF().olvidos||{}).rojo)||5});
 async function cargaUsos(){const d=D();if(!d)return;try{
@@ -711,11 +680,6 @@ async function cargaUsos(){const d=D();if(!d)return;try{
   else{const[a,b]=await Promise.all([sb.from('gim2_sesiones').select('*').eq('curso_id',d.curso.id),sb.from('gim2_cambios').select('*').eq('curso_id',d.curso.id)]);if(a.error)throw a.error;if(b.error)throw b.error;d.sesiones=a.data||[];d.cambios=b.data||[]}
   d.usosFalta=false}catch(e){d.sesiones=[];d.cambios=[];d.usosFalta=true}}
 // --- registrar o quitar una clase práctica
-async function regSesion(gid,f,on,fecha){const d=D(),fe=fecha||fechaLocal();try{
-  if(T){const r=await sb.rpc('gim2_prof_sesion',{p_token:TOKEN,p_grupo:gid,p_familia:f,p_fecha:fe,p_activa:on});if(r.error)throw r.error}
-  else if(on){const r=await sb.from('gim2_sesiones').insert({curso_id:d.curso.id,grupo_id:gid,familia:f,fecha:fe,profesor:esMio(G(gid))?JEFE:'Jefatura'});if(r.error&&r.error.code!='23505')throw r.error}
-  else{let r=await sb.from('gim2_cambios').delete().eq('grupo_id',gid).eq('familia',f).eq('fecha',fe);if(r.error)throw r.error;r=await sb.from('gim2_sesiones').delete().eq('grupo_id',gid).eq('familia',f).eq('fecha',fe);if(r.error)throw r.error}
-  await cargaUsos();return true}catch(e){toast(usosErr(e),1);return false}}
 async function setCambio(aid,f,uso,motivo){const d=D(),a=d.alumnos.find(x=>x.id==aid),fe=fechaLocal();try{
   if(T){const r=await sb.rpc('gim2_prof_cambio',{p_token:TOKEN,p_alumno:aid,p_familia:f,p_uso:uso,p_motivo:motivo});if(r.error)throw r.error}
   else{let r=await sb.from('gim2_cambios').delete().eq('alumno_id',aid).eq('familia',f).eq('fecha',fe);if(r.error)throw r.error;r=await sb.from('gim2_cambios').insert({curso_id:d.curso.id,alumno_id:aid,grupo_id:a.grupo_id,familia:f,fecha:fe,uso,motivo});if(r.error)throw r.error}
@@ -733,7 +697,6 @@ function sigLibre(gid,f,excluir){const d=D(),hoy=fechaLocal(),ef=efectivos(gid,f
 // --- olvidos de flauta: racha de olvidos seguidos en las clases de xilófono (las ausencias no cortan la racha)
 function rachaOlv(aid){const a=D().alumnos.find(x=>x.id==aid);if(!a||a.modalidad!='flauta')return 0;let r=0;
  for(const s of SES().filter(s=>s.grupo_id==a.grupo_id&&s.familia=='X').sort((x,y)=>d10(y.fecha).localeCompare(d10(x.fecha)))){const ch=camDe(aid,'X',d10(s.fecha));if(ch&&ch.motivo=='ausente')continue;if(ch&&ch.motivo=='olvido')r++;else break}return r}
-const badgeOlv=r=>{const o=OLV();return r>=o.rojo?`<span class="pill" style="background:var(--er);color:#fff" title="Hay que llamarle la atención y comunicarlo a la familia">⚠ ${r} olvidos seguidos</span>`:r>=o.aviso?`<span class="pill" style="border:1px solid var(--wn);color:var(--wn)">${r} olvidos</span>`:''};
 // --- uso de un instrumento en un día y grupo (clases registradas + cambios); antes de registrar clases se estima con el horario
 function usuariosEn(code,gid,fe){const f=fam(code),out=[],seen=new Set();
  if(sesDe(gid,f,fe))D().alumnos.filter(a=>a.grupo_id==gid&&a.activo&&cod(a,f)==code).forEach(a=>{const ch=camDe(a.id,f,fe);if(!ch||ch.uso==code){out.push({a,ch});seen.add(a.id)}});
@@ -770,42 +733,9 @@ function trace(i){
  return {message:msg,rows}}
 const traceDe=n=>{const e=n.extra&&n.extra.rastreo;return e&&e.rows?{message:e.message,rows:e.rows}:trace(LI(n))};
 // --- proyección del reparto
-function proyecta(k){const g=G(S.g);if(!g)return;S.proy={g:S.g,t:k||'U'};S.pm=null;drawProy();$('#proy').classList.add('on');document.body.style.overflow='hidden';
- const F=S.proy.t;if((F=='X'||F=='U')&&esMio(g)&&!sesDe(g.id,F)&&!D().usosFalta)regSesion(g.id,F,true).then(ok=>{if(ok){toast('Clase práctica de '+nomS(F)+' registrada');drawProy()}})}
 function proyFam(f){S.proy.t=f;S.pm=null;drawProy()}
 function cierraProy(){S.proy=null;S.pm=null;const e=$('#proy');e.classList.remove('on');e.innerHTML='';document.body.style.overflow='';try{if(document.fullscreenElement||document.webkitFullscreenElement)(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(x){}render()}
 function proyPantalla(){const e=$('#proy');try{(e.requestFullscreen||e.webkitRequestFullscreen).call(e)}catch(x){toast('Tu navegador no permite pantalla completa aquí',1)}}
-async function proyReg(on){const P=S.proy,g=G(P.g),F=P.t;if(!on&&CAM().some(c=>c.grupo_id==g.id&&c.familia==F&&d10(c.fecha)==fechaLocal())&&!confirm('Se quitarán también los cambios de hoy en este grupo (olvidos, ausentes…). ¿Continuar?'))return;
- if(await regSesion(g.id,F,on)){toast(on?'Clase práctica registrada':'Hoy no cuenta como clase práctica');drawProy()}}
-
-function drawProy(){const P=S.proy;if(!P)return;const d=D(),g=G(P.g),F=P.t,t=d.tipos.find(x=>x.key==F)||d.tipos[0],regOk=F=='X'||F=='U',ses=regOk?sesDe(g.id,F):null,puede=puedeG(g),ef=efectivos(g.id,F),lista=Object.values(ef).sort((x,y)=>x.a.numero-y.a.numero),ins=c=>d.instrumentos.find(i=>i.codigo==c),
- prop=lista.filter(e=>String(e.uso).startsWith(F+'-')).sort((x,y)=>numDe(x.uso)-numDe(y.uso)||x.a.numero-y.a.numero),otros=lista.filter(e=>/^[A-Z]-/.test(e.uso)&&!String(e.uso).startsWith(F+'-')),fl=lista.filter(e=>e.uso=='flauta'),aus=lista.filter(e=>e.uso=='ninguno'),sin=lista.filter(e=>e.uso=='sin'),
- clk=puede&&ses,nm=t.name.toLowerCase(),sg=nomS(F),
- banner=d.usosFalta?'<div class="pban warn">Falta ejecutar el SQL de la actualización 6 en Supabase: sin él no se registran las clases ni los cambios.</div>':'',
- estado=!regOk||d.usosFalta?'':ses?`<span class="pest ok">✔ Hoy clase práctica de ${esc(sg)}</span>${puede?'<button class="pno" onclick="proyReg(false)">No tocamos hoy</button>':''}`:`<span class="pest no">⚠ Hoy NO cuenta como clase práctica de ${esc(sg)}</span>${puede?'<button class="b" onclick="proyReg(true)">✔ Sí, hoy tocamos</button>':'<span class="mu">(la registra el profesor del grupo o jefatura)</span>'}`,
- card=e=>{const i=ins(e.uso),st=i?estI(i):'ok',cl={inc:'rojo',det:'amar',per:'perd',ret:'ret'}[st]||'',lb={inc:'FUERA DE USO · no repartir',det:'deterioro · se puede tocar',per:'PERDIDO',ret:'RETIRADO'}[st]||'';
-  return `<div class="pc ${cl}${e.ch?' loan':''}"${clk?` onclick="proyMenu('${e.a.id}')"`:''}><div class="pcn">${esc(e.uso)}</div><div class="pnm">${esc(nomNat(e.a.nombre))}</div>${lb?`<div class="pt">${lb}</div>`:''}${e.ch?`<div class="pt pl">${esc(MOT[e.motivo]||'')}${e.asig&&e.asig!=e.uso&&e.motivo!='olvido'?' · en lugar de '+esc(e.asig):''}</div>`:''}${e.motivo=='olvido'?`<div style="margin-top:6px">${badgeOlv(rachaOlv(e.a.id))}</div>`:''}</div>`},
- chip=e=>{const nombre=esc(nomNat(e.a.nombre)),bd=F=='X'&&e.a.modalidad=='flauta'?badgeOlv(rachaOlv(e.a.id)):'',sub=`<small>${e.ch?'hoy flauta':'flauta propia'}</small>`;
-  return clk?`<button class="pfl" onclick="${e.ch?`proyMenu('${e.a.id}')`:`olvido('${e.a.id}')`}">${nombre}${sub}${bd}<span class="pmore" onclick="event.stopPropagation();proyMenu('${e.a.id}')">⋯</span></button>`:`<div class="pfl"><span>${nombre}</span>${sub}${bd}</div>`},
- pm=S.pm&&ef[S.pm]?ef[S.pm]:null,
- menu=!pm?'':`<div class="pmw" onclick="if(event.target===this){S.pm=null;drawProy()}"><div class="pmenu"><b>${esc(nomNat(pm.a.nombre))}</b><span class="mu">Hoy: ${pm.uso=='flauta'?'flauta':pm.uso=='ninguno'?'ausente':pm.uso=='sin'?'sin instrumento asignado':esc(pm.uso)}</span>
-  ${pm.uso=='flauta'&&F=='X'&&!pm.ch?`<button class="b" onclick="proyAccion('${pm.a.id}','olvido')">Olvida su flauta → xilófono</button>`:''}
-  ${pm.uso=='sin'?`<button class="b" onclick="proyAccion('${pm.a.id}','sig')">Darle ${esc(sg)} (el siguiente libre)</button>`:''}
-  ${/^[A-Z]-/.test(pm.uso)?`<button class="b s" onclick="proyAccion('${pm.a.id}','averiado')">Instrumento averiado → otro</button>`:''}
-  ${/^[A-Z]-/.test(pm.uso)&&String(pm.uso).startsWith(F+'-')?`<button class="b s" onclick="proyAccion('${pm.a.id}','flauta')">Pasa a flauta</button><button class="b s" onclick="proyAccion('${pm.a.id}','otra')">Cambiar a ${F=='X'?'ukelele':'xilófono'}</button>`:''}
-  ${pm.uso!='ninguno'?`<button class="b s" onclick="proyAccion('${pm.a.id}','ausente')">Ausente hoy</button>`:''}
-  ${pm.ch?`<button class="b s" onclick="proyAccion('${pm.a.id}','deshacer')">Deshacer el cambio</button>`:''}
-  <button class="b s" onclick="S.pm=null;drawProy()">Cerrar</button></div></div>`;
- const rgs=tramos(g.id,F),enR=(r,e)=>{const n=numDe(e.uso);return n>=r.d&&(!r.h||n<=r.h)},
- seg=(titulo,ns,es)=>`<div class="seg"><b>${esc(titulo)}</b>${ns.length?`<span class="resp">${ns.length>1?'Reparten y recogen':'Reparte y recoge'}: ${esc(ns.join(' · '))}</span>`:''}</div><div class="pg">${es.map(card).join('')}</div>`,
- sinR=prop.filter(e=>!rgs.some(r=>enR(r,e))),
- cuerpo=!prop.length?`<div class="mu">Ningún alumno de este grupo tiene ${esc(sg)} asignado.</div>`:!rgs.length?`<div class="pg">${prop.map(card).join('')}</div>`:rgs.map(r=>{const es=prop.filter(e=>enR(r,e));return es.length?seg(rangoTxt(r),nomsR(r.a),es):''}).join('')+(sinR.length?seg('Sin responsable asignado',[],sinR):'');
- $('#proy').innerHTML=`<div class="ph"><h2>${esc(g.nombre)} · Reparto de ${esc(nm)}</h2><span class="mu">ordenados por número</span>${estado}<span style="flex:1"></span>${d.tipos.map(x=>`<button class="b ${x.key==t.key?'':'s'}" onclick="proyFam('${x.key}')">${esc(x.name)}</button>`).join('')}<button class="b s" onclick="proyPantalla()">⛶ Pantalla completa</button><button class="b s" onclick="cierraProy()">✕ Cerrar</button></div>${banner}
- ${cuerpo}
- ${otros.length?`<h3 class="ph2">Hoy con otro instrumento</h3><div class="pg">${otros.map(card).join('')}</div>`:''}
- ${fl.length?`<h3 class="ph2">Flauta${clk?' <small>· si hoy olvida la flauta, pulsa su nombre</small>':''}</h3><div class="pg pgf">${fl.map(chip).join('')}</div>`:''}
- ${aus.length?`<h3 class="ph2">Ausentes hoy</h3><div class="pg pgf">${aus.map(e=>clk?`<button class="pfl" onclick="proyMenu('${e.a.id}')">${esc(nomNat(e.a.nombre))}<small>ausente</small></button>`:`<div class="pfl"><span>${esc(nomNat(e.a.nombre))}</span><small>ausente</small></div>`).join('')}</div>`:''}
- ${sin.length?`<h3 class="ph2">Sin ${esc(sg)} asignado</h3><div class="pg pgs">${sin.map(e=>`<div class="pc sinc"${clk?` onclick="proyMenu('${e.a.id}')"`:''}><div class="pnm">${esc(nomNat(e.a.nombre))}</div></div>`).join('')}</div>`:''}${menu}`}
 function proyMenu(aid){S.pm=aid;drawProy()}
 async function olvido(aid){const a=D().alumnos.find(x=>x.id==aid),c=sigLibre(a.grupo_id,'X');if(!c)return toast('No queda ningún xilófono libre',1);if(await setCambio(aid,'X',c,'olvido')){toast(nomNat(a.nombre)+' → '+c+' (olvidó la flauta)');drawProy()}}
 async function proyAccion(aid,tipo){const P=S.proy,F=P.t,a=D().alumnos.find(x=>x.id==aid),gid=a.grupo_id,e=efectivos(gid,F)[aid];S.pm=null;let ok=false,msg='';
@@ -818,27 +748,11 @@ async function proyAccion(aid,tipo){const P=S.proy,F=P.t,a=D().alumnos.find(x=>x
  if(ok){toast(nomNat(a.nombre)+' '+msg)}drawProy()}
 // --- Grupos: vista con proyección, clase práctica y responsables
 
-async function claseReg(){const g=G(S.g),f=$('#cf').value,fe=$('#cd').value||fechaLocal();if(fe>fechaLocal())return toast('No se pueden registrar clases futuras',1);if(await regSesion(g.id,f,true,fe)){toast('Clase práctica registrada');claseModal();render()}}
-async function claseQuita(sid){const s=SES().find(x=>x.id==sid);if(!s)return;if(!confirm('¿Quitar esta clase práctica? Se quitarán también los cambios de ese día.'))return;if(await regSesion(s.grupo_id,s.familia,false,d10(s.fecha))){toast('Clase quitada');claseModal();render()}}
 // --- Administración: avisos de olvidos de flauta
 function olvHtml(){const o=OLV();return `<p class="mu">Se cuenta un olvido cada vez que, en una clase de xilófonos, marcas que alguien no ha traído la flauta. La racha son olvidos seguidos (las ausencias no la cortan).</p><div class="row"><label>Aviso discreto desde <input id="oa" type="number" min="1" max="20" value="${o.aviso}" style="width:70px"> olvidos seguidos</label><label>Aviso rojo desde <input id="orr" type="number" min="1" max="30" value="${o.rojo}" style="width:70px"></label><button class="b" onclick="olvGuarda()">Guardar</button></div>`}
 async function olvGuarda(){const a=+$('#oa').value||3,r=+$('#orr').value||5;if(r<a)return toast('El aviso rojo no puede ser menor que el discreto',1);await cfg({olvidos:{aviso:a,rojo:r}});toast('Avisos guardados');render()}
 // --- estadísticas de olvidos, de uso y por 100 usos
 const perF=f=>S.stP=='curso'||(S.stP=='custom'?(!S.stD1||f>=S.stD1)&&(!S.stD2||f<=S.stD2):stTri(f)==+S.stP);
-function statsOlvidos(){const d=D(),ses=SES().filter(s=>s.familia=='X'&&perF(d10(s.fecha))),cam=CAM().filter(c=>c.familia=='X'&&c.motivo=='olvido'&&perF(d10(c.fecha)));if(!ses.length&&!cam.length)return null;
- const fl=d.alumnos.filter(a=>a.activo&&a.modalidad=='flauta'),oblig=ses.reduce((s,x)=>s+fl.filter(a=>a.grupo_id==x.grupo_id).length,0),
- por=fl.map(a=>({a,o:cam.filter(c=>c.alumno_id==a.id).length,r:rachaOlv(a.id)})).filter(x=>x.o>0).sort((x,y)=>y.o-x.o||y.r-x.r).slice(0,10),
- srt=(a,b)=>b[1]-a[1]||String(a[0]).localeCompare(String(b[0])),pg=cuenta(cam,c=>(G(c.grupo_id)||{}).nombre).sort(srt),px=cuenta(cam,c=>c.uso).sort(srt).slice(0,6);
- return {t:'Flauta olvidada',h:`<b>${cam.length}</b> olvidos en <b>${ses.length}</b> clases de xilófono${oblig?` · <b>${Math.round(cam.length/oblig*100)}%</b> de las veces que había que traerla`:''}.`+
-  (por.length?`<div style="margin-top:6px">${por.map(x=>`<div class="ui"><b>${esc(nomNat(x.a.nombre))}</b> · ${esc((G(x.a.grupo_id)||{}).nombre||'')} <span class="pill">${x.o} olvidos</span> ${badgeOlv(x.r)}</div>`).join('')}</div>`:'')+
-  (pg.length?`<p class="mu" style="font-size:12px;margin:8px 0 2px">Por grupo</p>`+barras(pg,l=>groupPalette(l).accent):'')+(px.length?`<p class="mu" style="font-size:12px;margin:8px 0 2px">Xilófonos usados en esos casos: ${px.map(x=>esc(x[0])+' ×'+x[1]).join(' · ')}</p>`:'')}}
-function usosInstr(){const d=D(),o={};SES().filter(s=>perF(d10(s.fecha))).forEach(s=>{const ef=efectivos(s.grupo_id,s.familia,d10(s.fecha));Object.values(ef).forEach(e=>{if(/^[A-Z]-/.test(e.uso)){const u=o[e.uso]||(o[e.uso]={n:0,al:new Set()});u.n++;u.al.add(e.a.id)}})});return o}
-function statsUso(){const d=D();if(!SES().length)return null;const u=usosInstr(),vals=d.tipos.map(t=>{const l=d.instrumentos.filter(i=>i.tipo==t.key&&!i.retirado).map(i=>({c:i.codigo,n:(u[i.codigo]||{n:0}).n,a:(u[i.codigo]||{al:new Set()}).al.size})).sort((x,y)=>y.n-x.n||x.c.localeCompare(y.c));return{t,l}});
- return {t:'Uso por instrumento',h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Clases prácticas registradas en las que se ha usado cada instrumento.</p>'+vals.map(v=>v.l.length?`<div style="margin:6px 0 10px"><b>${esc(v.t.name)}</b> · más usados<br>${barras(v.l.slice(0,5).map(x=>[x.c,x.n]))}<span class="mu" style="font-size:12.5px">Menos usados: ${v.l.slice(-5).reverse().map(x=>esc(x.c)+' ('+x.n+' usos'+(x.n?' · '+x.a+' alumnos':'')+')').join(' · ')}</span></div>`:'').join('')}}
-function statsPor100(){const d=D();if(S.stC&&S.stC!=S.cid)return {t:'Incidencias por cada 100 usos',h:'<span class="mu">Solo se calcula para el curso actual.</span>'};const u=usosInstr(),tot=Object.values(u).reduce((s,x)=>s+x.n,0);
- if(tot<100)return {t:'Incidencias por cada 100 usos',h:`<span class="mu">Se calcula cuando haya al menos 100 usos registrados (llevas ${tot}).</span>`};
- const inc=cuenta(stFiltro(S.stRows||d.incidencias),x=>x.codigo),rows=inc.map(([c,n])=>({c,n,u:(u[c]||{n:0}).n})).filter(x=>x.u>=10).map(x=>({...x,r:x.n/x.u*100})).sort((a,b)=>b.r-a.r).slice(0,10);
- return {t:'Incidencias por cada 100 usos',h:`<p class="mu" style="font-size:12px;margin:0 0 4px">Cuenta el desgaste real: un instrumento muy usado con pocas averías no es problemático.</p>`+(rows.length?`<table style="font-size:13px"><tr><th>Instrumento</th><th>Usos</th><th>Incid.</th><th>Por 100 usos</th></tr>${rows.map(x=>`<tr><td><b>${esc(x.c)}</b></td><td>${x.u}</td><td>${x.n}</td><td><b>${x.r.toFixed(1).replace('.',',')}</b></td></tr>`).join('')}</table>`:'<span class="mu">Ningún instrumento con incidencias y al menos 10 usos.</span>')}}
 // --- buscador universal: «17» (xilófono y ukelele), «X17», «X-17», «U» (todos los ukeleles)
 function instRes(i,det){const us=usuariosDe(i),ab=abierta(i.id),ult=det?ultimosUsos(i,3):[];return `<div class="ui" style="cursor:pointer" onclick="fichaInst('${i.id}')"><span class="pill">${esc(nomS(i.tipo))}</span> <b>${esc(i.codigo)}</b> <span class="pill">${esc(EST_L[estI(i)])}</span> <span class="mu">${us.length?'Asignado: '+us.map(a=>esc(nomNat(a.nombre)+' ('+(G(a.grupo_id)||{}).nombre+')')).join(', '):'Sin alumnado asignado'}</span>${ab?`<br><span style="color:${grav(ab)=='rotura'?'var(--er)':'var(--wn)'}">⚠ Incidencia abierta: ${esc(ab.tipo_dano)} (${grav(ab)=='rotura'?'grave':'leve'})</span>`:''}${det&&ult.length?`<br><span class="mu" style="font-size:12.5px">Últimos usos: ${ult.map(x=>fd(x.fe)+' · '+esc((G(x.gid)||{}).nombre||'')+' · '+x.us.map(u=>esc(nomNat(u.a.nombre))).join(', ')).join(' | ')}</span>`:''}</div>`}
 function bRes(){const raw=$('#bq').value.trim(),q=norm(raw),el=$('#br'),d=D(),r=[],mn=raw.match(/^([xXuU])?\s*[-–]?\s*(\d{1,3})$/),mf=raw.match(/^([xXuU])$/);
@@ -855,7 +769,7 @@ function bRes(){const raw=$('#bq').value.trim(),q=norm(raw),el=$('#br'),d=D(),r=
 function ahoraIdx(margen){const n=new Date(),dw=(n.getDay()+6)%7;if(dw>4)return null;const m=n.getHours()*60+n.getMinutes(),k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),[c,e]=p[2].split(':').map(Number);return m>=a*60+b-(margen||0)&&m<c*60+e});return k<0?null:{dw,k}}
 function proximaIdx(margen){const n=new Date(),dw=(n.getDay()+6)%7;if(dw>4)return null;const m=n.getHours()*60+n.getMinutes(),k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),s=a*60+b;return m>=s-margen&&m<s});return k<0?null:{dw,k}}
 function grupoAhora(){const me=T?[D().profesor,D().sustituye].filter(Boolean):[JEFE],de=x=>{if(!x)return null;const s=(CF().horario||{})[x.dw+'-'+x.k];if(!s||!s.group||!me.includes(s.teacher))return null;const g=D().grupos.find(y=>y.nombre==s.group);return g?{id:g.id,nombre:g.nombre,k:x.k}:null};return de(ahoraIdx(0))||de(proximaIdx(5))}
-V.horario=()=>{const ah=grupoAhora();return (ah?ahoraCard(ah):'')+`<div class="card${ah?' hzc':''}"><div class="row"><b>Horario semanal del aula</b><button class="b s" onclick="pdfHorario()">PDF</button></div>${T&&!D().config?'<p class="mu">El horario no está disponible todavía. Avisa al jefe de departamento.</p>':''}${horarioHtml(false)}</div>`};
+
 
 // ===== Vista de grupo más sencilla, botones de clase práctica, historial y selector plegable =====
 function claseBtns(g){const mio=esMio(g);return D().tipos.filter(t=>t.key=='X'||t.key=='U').map(t=>{const reg=sesDe(g.id,t.key);
@@ -873,17 +787,6 @@ V.grupos=()=>{if(S.ed)return `<div class="card"><div class="row"><b>Alumnado</b>
  <div class="row"><button class="b s" onclick="claseModal()">📅 Historial de clases prácticas</button>${puedeG(g)?'<button class="b s" onclick="respModal()">👥 Responsables</button>':''}<button class="b s" onclick="pdfGrupo()">PDF</button>${misGrupos().has(g.nombre)?'<button class="b s" onclick="S.ed=true;render()">✏️ Editar alumnado</button>':`<span class="pill">${T?'Solo lectura · no es tu grupo':'Solo lectura · se edita en Administración'}</span>`}</div>
  ${respTxt(g)?`<p class="mu" style="margin:6px 0">${respTxt(g)}</p>`:''}
  <div class="tw"><table><tr><th>Nº</th><th>Alumno/a</th><th>Modalidad</th>${D().tipos.map(t=>`<th>${esc(t.name)}</th>`).join('')}</tr>${al.map(a=>filaAl(a,false)).join('')}</table></div></div>`:'<div class="card mu">No hay grupos: créalos en Administración.</div>')};
-function claseModal(){const g=G(S.g),hoy=fechaLocal(),puede=puedeG(g),f=S.hf=='curso'?'curso':'mes',x30=new Date();x30.setDate(x30.getDate()-30);
- const h30=new Date(x30.getTime()-x30.getTimezoneOffset()*6e4).toISOString().slice(0,10),todas=SES().filter(s=>s.grupo_id==g.id).sort((a,b)=>d10(b.fecha).localeCompare(d10(a.fecha))),mes=todas.filter(s=>d10(s.fecha)>=h30),lst=f=='mes'?mes:todas,
- cnt=l=>['X','U'].map(k=>[k,l.filter(s=>s.familia==k).length]).filter(y=>y[1]).map(y=>y[1]+' de '+nomF(y[0])).join(' · ')||'ninguna',
- dia=s=>new Date(d10(s.fecha)+'T12:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'}),
- ext=s=>{const c=CAM().filter(y=>y.grupo_id==s.grupo_id&&y.familia==s.familia&&d10(y.fecha)==d10(s.fecha)),n=m=>c.filter(y=>y.motivo==m).length,o=n('olvido'),a=n('ausente'),v=n('averiado');return [o?o+' olvido'+(o>1?'s':'')+' de flauta':'',a?a+' ausente'+(a>1?'s':''):'',v?v+' cambio'+(v>1?'s':'')+' por avería':''].filter(Boolean).join(' · ')};
- modal(`<h3>Historial de clases prácticas · ${esc(g.nombre)}</h3><p class="mu" style="margin:0 0 8px">Último mes: <b>${mes.length}</b> (${cnt(mes)}) · Todo el curso: <b>${todas.length}</b> (${cnt(todas)})</p>
- <div class="row"><select onchange="S.hf=this.value;claseModal()">${opt([['mes','Último mes'],['curso','Todo el curso']],f)}</select></div>
- ${lst.map(s=>`<div class="ui"><b>${esc(dia(s))}</b> · <span class="pill">${esc(nomS(s.familia))}</span> <span class="mu">${esc(ext(s))}</span>${puede?` <button class="b s" style="float:right" onclick="claseQuita('${s.id}')">Quitar</button>`:''}</div>`).join('')||'<span class="mu">Ninguna clase registrada en este periodo.</span>'}
- ${puede?`<details style="margin-top:12px"><summary>＋ Añadir una clase que olvidé registrar</summary><div class="row" style="margin-top:8px"><select id="cf">${opt(D().tipos.filter(t=>t.key=='X'||t.key=='U').map(t=>[t.key,'Clase práctica de '+nomS(t.key)]),'X')}</select><input id="cd" type="date" max="${hoy}" value="${hoy}"><button class="b" onclick="claseReg()">Registrar</button></div><p class="mu" style="font-size:13px">${T?'Hasta 14 días atrás. ':''}Si no hubo práctica, no hace falta hacer nada.</p></details>`:''}
- <div class="row" style="margin-top:10px"><button class="b s" onclick="cerrar()">Cerrar</button></div>`,1)}
-
 // ===== Altas y bajas: numeración sin huecos, baja reversible, eliminar y reactivar =====
 // número de lista que se ve: posición entre el alumnado ACTIVO del grupo (los de baja no cuentan; el número interno no cambia)
 const nl=a=>{if(!a.activo)return '—';let n=0;for(const x of D().alumnos)if(x.grupo_id==a.grupo_id&&x.activo&&x.numero<=a.numero)n++;return n};
@@ -910,26 +813,301 @@ async function addAl(){const n=$('#an').value.trim();if(!n)return toast('Escribe
  catch(e){toast('No se pudo completar el alta: '+((e&&e.message)||'error'),1);cargar()}}
 
 // ===== Responsables por tramos: cada alumno reparte y recoge los instrumentos de su tramo (p. ej. un armario) =====
+// ===== Clases prácticas: práctica (X/U) o «no se tocó» (N); cambios de sesión; tramos de reparto; ficha del alumno =====
+const cap=s=>String(s).charAt(0).toUpperCase()+String(s).slice(1),SESP=()=>SES().filter(s=>s.familia!='N');
+const sinPr=(gid,fe)=>SES().some(s=>s.grupo_id==gid&&s.familia=='N'&&d10(s.fecha)==(fe||fechaLocal()));
+async function regSesion(gid,f,on,fecha){const d=D(),fe=fecha||fechaLocal();try{
+  if(T){const r=await sb.rpc('gim2_prof_sesion',{p_token:TOKEN,p_grupo:gid,p_familia:f,p_fecha:fe,p_activa:on});if(r.error)throw r.error}
+  else{const del=async(tab,fams)=>{let qy=sb.from(tab).delete().eq('grupo_id',gid).eq('fecha',fe);if(fams)qy=qy.in('familia',fams);const r=await qy;if(r.error)throw r.error};
+   if(on){if(f=='N'){await del('gim2_cambios');await del('gim2_sesiones',['X','U'])}else await del('gim2_sesiones',['N']);
+    const r=await sb.from('gim2_sesiones').insert({curso_id:d.curso.id,grupo_id:gid,familia:f,fecha:fe,profesor:esMio(G(gid))?JEFE:'Jefatura'});if(r.error&&r.error.code!='23505')throw r.error}
+   else{if(f!='N')await del('gim2_cambios',[f]);await del('gim2_sesiones',[f])}}
+  await cargaUsos();return true}catch(e){toast(usosErr(e),1);return false}}
+// --- tramos de reparto (se definen en Administración, por curso) y responsables de cada grupo (solo se elige alumnado)
+const TRAMOS_DEF={U:[{id:'U1',n:'Armario 1',d:1,h:15,k:2},{id:'U2',n:'Armario 2',d:16,h:0,k:2}],X:[{id:'X1',n:'',d:1,h:5,k:1},{id:'X2',n:'',d:6,h:10,k:1},{id:'X3',n:'',d:11,h:15,k:1},{id:'X4',n:'',d:16,h:20,k:1},{id:'X5',n:'',d:21,h:0,k:1}]};
 const rangoTxt=r=>(r.n?r.n+' · ':'')+(r.h?'del '+r.d+' al '+r.h:'del '+r.d+' en adelante');
 const nomsR=ids=>(ids||[]).map(id=>{const a=id&&D().alumnos.find(x=>x.id==id&&x.activo);return a?nomNat(a.nombre):''}).filter(Boolean);
-const tramos=(gid,f)=>((((CF().responsables||{})[gid])||{})[f]||[]).filter(r=>r&&r.d).slice().sort((a,b)=>a.d-b.d);
-const respTxt=g=>D().tipos.filter(t=>tramos(g.id,t.key).some(r=>nomsR(r.a).length)).map(t=>`<b>${esc(t.name)}:</b> ${tramos(g.id,t.key).map(r=>`${esc(rangoTxt(r))} → ${esc(nomsR(r.a).join(' · ')||'—')}`).join(' · ')}`).join(' &nbsp;|&nbsp; ');
-function respModal(){const g=G(S.g);S.rsp=JSON.parse(JSON.stringify(((CF().responsables||{})[g.id])||{}));['X','U'].forEach(k=>{if(!Array.isArray(S.rsp[k]))S.rsp[k]=[]});respDraw()}
-function respSync(){['X','U'].forEach(k=>{(S.rsp[k]||[]).forEach((r,i)=>{const v=id=>{const e=$('#'+id);return e?e.value:null},d=v('rd_'+k+'_'+i);if(d===null)return;r.d=parseInt(d,10)||1;const h=parseInt(v('rh_'+k+'_'+i),10);r.h=Number.isFinite(h)?h:0;r.n=(v('rn_'+k+'_'+i)||'').trim();r.a=[v('ra_'+k+'_'+i+'_0'),v('ra_'+k+'_'+i+'_1')].filter(Boolean)})})}
-function respDraw(){const g=G(S.g),al=D().alumnos.filter(a=>a.grupo_id==g.id&&a.activo).sort((a,b)=>a.numero-b.numero),sel=(id,v)=>`<select id="${id}"><option value="">— alumno/a —</option>${opt(al.map(a=>[a.id,nomNat(a.nombre)]),v)}</select>`,tp=D().tipos.filter(t=>t.key=='X'||t.key=='U');
- modal(`<h3>Responsables · ${esc(g.nombre)}</h3><p class="mu" style="margin-top:0">Cada responsable reparte y recoge los instrumentos de su tramo (por ejemplo, un armario). Tú decides los tramos y los alumnos: uno o dos por tramo.</p>
- ${tp.map(t=>{const k=t.key,L=S.rsp[k]||[];return `<h4 style="margin:14px 0 6px">${esc(t.name)}</h4>${L.map((r,i)=>`<div class="row" style="align-items:flex-end"><label>Nombre (opcional)<br><input id="rn_${k}_${i}" value="${esc(r.n||'')}" style="width:118px"></label><label>Del<br><input id="rd_${k}_${i}" type="number" min="1" value="${r.d||1}" style="width:64px"></label><label>al<br><input id="rh_${k}_${i}" type="number" min="1" value="${r.h||''}" placeholder="…" style="width:64px"></label>${sel('ra_'+k+'_'+i+'_0',(r.a||[])[0])}${sel('ra_'+k+'_'+i+'_1',(r.a||[])[1])}<button class="b s" onclick="respDel('${k}',${i})" title="Quitar tramo">✕</button></div>`).join('')||'<p class="mu" style="margin:0 0 6px">Sin tramos: los instrumentos se ven todos juntos.</p>'}<div class="row"><button class="b s" onclick="respAdd('${k}')">＋ Añadir tramo</button><button class="b s" onclick="respPreset('${k}')">${k=='U'?'Plantilla: 2 armarios (1–15 y 16 en adelante)':'Plantilla: tramos de 5'}</button></div>`}).join('')}
- <p class="mu" style="font-size:12.5px">«al» vacío = en adelante. Los nombres salen en la proyección, encima de los instrumentos de su tramo.</p><div class="row"><button class="b" onclick="respGuarda()">Guardar</button><button class="b s" onclick="cerrar()">Cancelar</button></div>`)}
-function respAdd(k){respSync();const L=S.rsp[k],u=L[L.length-1];L.push({n:'',d:u?(u.h?u.h+1:u.d+1):1,h:0,a:[]});respDraw()}
-function respDel(k,i){respSync();S.rsp[k].splice(i,1);respDraw()}
-function respPreset(k){respSync();if((S.rsp[k]||[]).some(r=>(r.a||[]).length)&&!confirm('Se sustituirán los tramos actuales de esta lista. ¿Continuar?'))return;
- S.rsp[k]=k=='U'?[{n:'Armario 1',d:1,h:15,a:[]},{n:'Armario 2',d:16,h:0,a:[]}]:[{n:'',d:1,h:5,a:[]},{n:'',d:6,h:10,a:[]},{n:'',d:11,h:15,a:[]},{n:'',d:16,h:20,a:[]},{n:'',d:21,h:0,a:[]}];respDraw()}
-async function respGuarda(){respSync();const g=G(S.g),dt={};
- for(const k of ['X','U']){const L=(S.rsp[k]||[]).filter(r=>r.d).sort((a,b)=>a.d-b.d);
-  for(let i=0;i<L.length;i++){const r=L[i],nx=L[i+1];if(r.h&&r.h<r.d)return toast('En '+nomF(k)+': el tramo «'+rangoTxt({...r,h:0})+'» termina antes de empezar',1);if(nx&&(!r.h||r.h>=nx.d))return toast('En '+nomF(k)+': los tramos «'+rangoTxt(r)+'» y «'+rangoTxt(nx)+'» se solapan',1)}
-  if(L.length)dt[k]=L.map(r=>({n:r.n||'',d:r.d,h:r.h||0,a:(r.a||[]).filter(Boolean)}))}
+const tramosCfg=f=>{const c=(CF().tramos||{})[f];return (Array.isArray(c)&&c.length?c:(TRAMOS_DEF[f]||[])).filter(r=>r&&r.d).slice().sort((a,b)=>a.d-b.d)};
+const respG=(gid,f)=>{const r=(((CF().responsables||{})[gid])||{})[f];return r&&!Array.isArray(r)?r:{}};
+const tramos=(gid,f)=>tramosCfg(f).map(r=>({...r,a:respG(gid,f)[r.id]||[]}));
+const respTxt=g=>D().tipos.filter(t=>tramos(g.id,t.key).some(r=>nomsR(r.a).length)).map(t=>`<b>${esc(t.name)}:</b> ${tramos(g.id,t.key).filter(r=>nomsR(r.a).length).map(r=>`${esc(rangoTxt(r))} → ${esc(nomsR(r.a).join(' · '))}`).join(' · ')}`).join(' &nbsp;|&nbsp; ');
+function respModal(){const g=G(S.g),al=D().alumnos.filter(a=>a.grupo_id==g.id&&a.activo).sort((a,b)=>a.numero-b.numero),sel=(id,v)=>`<select id="${id}"><option value="">— alumno/a —</option>${opt(al.map(a=>[a.id,nomNat(a.nombre)]),v)}</select>`;
+ modal(`<h3>Responsables · ${esc(g.nombre)}</h3><p class="mu" style="margin-top:0">Elige qué alumno se ocupa de repartir y recoger cada tramo. Los tramos los define jefatura en Administración.</p>
+ ${['U','X'].map(k=>{const L=tramos(g.id,k);return `<h4 style="margin:14px 0 6px">${esc(cap(nomF(k)))}</h4>${L.map(r=>`<div class="row" style="align-items:center"><b style="min-width:200px">${esc(rangoTxt(r))}</b>${Array.from({length:r.k||1},(_,i)=>sel('ra_'+r.id+'_'+i,r.a[i])).join('')}</div>`).join('')||'<p class="mu">Sin tramos definidos.</p>'}`}).join('')}
+ <div class="row" style="margin-top:10px"><button class="b" onclick="respGuarda()">Guardar</button><button class="b s" onclick="cerrar()">Cancelar</button></div>`)}
+async function respGuarda(){const g=G(S.g),dt={};for(const k of ['U','X']){const m={};tramosCfg(k).forEach(r=>{const ids=Array.from({length:r.k||1},(_,i)=>{const e=$('#ra_'+r.id+'_'+i);return e?e.value:''}).filter(Boolean);if(ids.length)m[r.id]=ids});if(Object.keys(m).length)dt[k]=m}
  try{if(T){const r=await sb.rpc('gim2_prof_responsables',{p_token:TOKEN,p_grupo:g.id,p_datos:dt});if(r.error)throw r.error;D().curso.config.responsables={...(CF().responsables||{}),[g.id]:dt}}
   else await cfg({responsables:{...(CF().responsables||{}),[g.id]:dt}});cerrar();toast('Responsables guardados');render();if(S.proy)drawProy()}catch(e){toast(usosErr(e),1)}}
+// administración: tramos del curso
+function tramosAdm(){if(!S.trm)S.trm={U:JSON.parse(JSON.stringify(tramosCfg('U'))),X:JSON.parse(JSON.stringify(tramosCfg('X')))};
+ return `<p class="mu">Los tramos dicen cómo se reparten y recogen los instrumentos (por ejemplo, los dos armarios de ukeleles o los xilófonos de 5 en 5). Se definen una vez por curso; en cada grupo solo se elige qué alumno lleva cada tramo.</p>
+ ${['U','X'].map(k=>`<h4 style="margin:12px 0 6px">${esc(cap(nomF(k)))}</h4>${S.trm[k].map((r,i)=>`<div class="row" style="align-items:flex-end"><label>Nombre (opcional)<br><input id="tn_${k}_${i}" value="${esc(r.n||'')}" style="width:118px"></label><label>Del<br><input id="td_${k}_${i}" type="number" min="1" value="${r.d||1}" style="width:64px"></label><label>al<br><input id="th_${k}_${i}" type="number" min="1" value="${r.h||''}" placeholder="…" style="width:64px"></label><label>Alumnos<br><select id="tk_${k}_${i}">${opt([[1,'1'],[2,'2'],[3,'3']],r.k||1)}</select></label><button class="b s" onclick="trmDel('${k}',${i})" title="Quitar tramo">✕</button></div>`).join('')||'<p class="mu" style="margin:0 0 6px">Sin tramos.</p>'}<div class="row"><button class="b s" onclick="trmAdd('${k}')">＋ Añadir tramo</button><button class="b s" onclick="trmPreset('${k}')">${k=='U'?'Plantilla: 2 armarios':'Plantilla: de 5 en 5'}</button></div>`).join('')}
+ <p class="mu" style="font-size:12.5px">«al» vacío = en adelante.</p><div class="row"><button class="b" onclick="trmGuarda()">Guardar tramos</button><button class="b s" onclick="S.trm=null;render()">Descartar cambios</button></div>`}
+function trmSync(){['U','X'].forEach(k=>{(S.trm[k]||[]).forEach((r,i)=>{const e=id=>$('#'+id+'_'+k+'_'+i),d=e('td');if(!d)return;r.d=parseInt(d.value,10)||1;const h=parseInt(e('th').value,10);r.h=Number.isFinite(h)?h:0;r.n=(e('tn').value||'').trim();r.k=parseInt(e('tk').value,10)||1})})}
+const trmNext=(L,k)=>k+(Math.max(0,...L.map(r=>parseInt(String(r.id).slice(1),10)||0))+1);
+function trmAdd(k){trmSync();const L=S.trm[k],u=L[L.length-1];L.push({id:trmNext(L,k),n:'',d:u?(u.h?u.h+1:u.d+1):1,h:0,k:k=='U'?2:1});render()}
+function trmDel(k,i){trmSync();S.trm[k].splice(i,1);render()}
+function trmPreset(k){trmSync();if(S.trm[k].length&&!confirm('Se sustituirán los tramos actuales de esta lista. ¿Continuar?'))return;
+ S.trm[k]=JSON.parse(JSON.stringify(TRAMOS_DEF[k]));render()}
+async function trmGuarda(){trmSync();const dt={};
+ for(const k of ['U','X']){const L=S.trm[k].filter(r=>r.d).slice().sort((a,b)=>a.d-b.d);
+  for(let i=0;i<L.length;i++){const r=L[i],nx=L[i+1];if(r.h&&r.h<r.d)return toast('En '+nomF(k)+': el tramo «'+rangoTxt({...r,h:0})+'» termina antes de empezar',1);if(nx&&(!r.h||r.h>=nx.d))return toast('En '+nomF(k)+': los tramos «'+rangoTxt(r)+'» y «'+rangoTxt(nx)+'» se solapan',1)}
+  dt[k]=L.map(r=>({id:r.id,n:r.n||'',d:r.d,h:r.h||0,k:r.k||1}))}
+ await cfg({tramos:dt});S.trm=null;toast('Tramos guardados');render()}
+// --- olvidos de flauta: total del curso, racha y etiqueta
+const totOlv=aid=>CAM().filter(c=>c.alumno_id==aid&&c.familia=='X'&&c.motivo=='olvido').length;
+const olvPill=aid=>{const t=totOlv(aid);if(!t)return '';const r=rachaOlv(aid),o=OLV(),c=r>=o.rojo?'o-r':r>=o.aviso?'o-a':'';return `<span class="pill ${c}" title="${t} en el curso · ${r} seguidos">${r>=o.rojo?'⚠ ':''}${t} olvido${t>1?'s':''}${r>1?' · '+r+' seguidos':''}</span>`};
+// --- proyección del reparto
+function proyecta(k){const g=G(S.g);if(!g)return;S.proy={g:S.g,t:k||'U'};S.pm=null;drawProy();$('#proy').classList.add('on');document.body.style.overflow='hidden';
+ const F=S.proy.t;if((F=='X'||F=='U')&&esMio(g)&&!sesDe(g.id,F)&&!sinPr(g.id)&&!D().usosFalta)regSesion(g.id,F,true).then(ok=>{if(ok){toast('Clase práctica de '+nomS(F)+' registrada');drawProy()}})}
+async function proyReg(on){const P=S.proy,g=G(P.g),F=P.t,hoy=fechaLocal();
+ if(!on&&CAM().some(c=>c.grupo_id==g.id&&c.familia==F&&d10(c.fecha)==hoy)&&!confirm('Se quitarán también los cambios de hoy en este grupo (olvidos, ausentes…). ¿Continuar?'))return;
+ let ok=await regSesion(g.id,F,on);if(ok&&!on&&!SESP().some(s=>s.grupo_id==g.id&&d10(s.fecha)==hoy))ok=await regSesion(g.id,'N',true);
+ if(ok){toast(on?'Clase práctica registrada':'Hoy no cuenta como clase práctica');drawProy()}}
+function drawProy(){const P=S.proy;if(!P)return;const d=D(),g=G(P.g),F=P.t,t=d.tipos.find(x=>x.key==F)||d.tipos[0],regOk=F=='X'||F=='U',ses=regOk?sesDe(g.id,F):null,puede=puedeG(g),ef=efectivos(g.id,F),lista=Object.values(ef).sort((x,y)=>x.a.numero-y.a.numero),ins=c=>d.instrumentos.find(i=>i.codigo==c),
+ prop=lista.filter(e=>String(e.uso).startsWith(F+'-')).sort((x,y)=>numDe(x.uso)-numDe(y.uso)||x.a.numero-y.a.numero),otros=lista.filter(e=>/^[A-Z]-/.test(e.uso)&&!String(e.uso).startsWith(F+'-')),fl=lista.filter(e=>e.uso=='flauta'),aus=lista.filter(e=>e.uso=='ninguno'),sin=lista.filter(e=>e.uso=='sin'),
+ clk=puede&&ses,nm=t.name.toLowerCase(),sg=nomS(F),noHoy=sinPr(g.id),
+ banner=d.usosFalta?'<div class="pban warn">Falta ejecutar el SQL de la actualización 6 en Supabase: sin él no se registran las clases ni los cambios.</div>':'',
+ estado=!regOk||d.usosFalta?'':ses?`<span class="pest ok">✔ Hoy clase práctica de ${esc(sg)}</span>${puede?'<button class="pno" onclick="proyReg(false)">No tocamos hoy</button>':''}`:`<span class="pest no">⚠ Hoy NO cuenta como clase práctica de ${esc(sg)}${noHoy?' (confirmado)':''}</span>${puede?'<button class="b" onclick="proyReg(true)">✔ Sí, hoy tocamos</button>':'<span class="mu">(la registra el profesor del grupo o jefatura)</span>'}`,
+ card=e=>{const i=ins(e.uso),st=i?estI(i):'ok',cl={inc:'rojo',det:'amar',per:'perd',ret:'ret'}[st]||'',lb={inc:'FUERA DE USO · no repartir',det:'deterioro · se puede tocar',per:'PERDIDO',ret:'RETIRADO'}[st]||'',
+  ol=e.motivo=='olvido',r=ol?rachaOlv(e.a.id):0,o=OLV(),fc=r>=o.rojo?'fr':r>=o.aviso?'fy':'';
+  return `<div class="pc ${cl} ${fc}${e.ch?' loan':''}"${clk?` onclick="proyMenu('${e.a.id}')"`:''}><div class="pcn">${esc(e.uso)}</div><div class="pnm">${esc(nomNat(e.a.nombre))}</div>${lb?`<div class="pt">${lb}</div>`:''}${e.ch?`<div class="pt pl">${esc(MOT[e.motivo]||'')}${ol?' · '+totOlv(e.a.id)+'.ª vez':''}${e.asig&&e.asig!=e.uso&&!ol?' · en lugar de '+esc(e.asig):''}</div>`:''}${fc?`<span class="flag ${fc}">⚑ ${r} olvidos seguidos</span>`:''}</div>`},
+ chip=e=>{const nombre=esc(nomNat(e.a.nombre)),sub=`<small>${e.ch?'hoy flauta':'flauta propia'}</small>`;
+  return clk?`<button class="pfl" onclick="${e.ch?`proyMenu('${e.a.id}')`:`olvido('${e.a.id}')`}">${nombre}${sub}<span class="pmore" onclick="event.stopPropagation();proyMenu('${e.a.id}')">⋯</span></button>`:`<div class="pfl"><span>${nombre}</span>${sub}</div>`},
+ pm=S.pm&&ef[S.pm]?ef[S.pm]:null,
+ menu=!pm?'':`<div class="pmw" onclick="if(event.target===this){S.pm=null;drawProy()}"><div class="pmenu"><b>${esc(nomNat(pm.a.nombre))}</b><span class="mu">Hoy: ${pm.uso=='flauta'?'flauta':pm.uso=='ninguno'?'ausente':pm.uso=='sin'?'sin instrumento asignado':esc(pm.uso)}</span>
+  ${pm.uso=='flauta'&&F=='X'&&!pm.ch?`<button class="b" onclick="proyAccion('${pm.a.id}','olvido')">Olvida su flauta → xilófono</button>`:''}
+  ${pm.uso=='sin'?`<button class="b" onclick="proyAccion('${pm.a.id}','sig')">Darle ${esc(sg)} (el siguiente libre)</button>`:''}
+  ${/^[A-Z]-/.test(pm.uso)?`<button class="b s" onclick="proyAccion('${pm.a.id}','averiado')">Instrumento averiado → otro</button>`:''}
+  ${/^[A-Z]-/.test(pm.uso)&&String(pm.uso).startsWith(F+'-')?`<button class="b s" onclick="proyAccion('${pm.a.id}','flauta')">Pasa a flauta</button><button class="b s" onclick="proyAccion('${pm.a.id}','otra')">Cambiar a ${F=='X'?'ukelele':'xilófono'}</button>`:''}
+  ${pm.uso!='ninguno'?`<button class="b s" onclick="proyAccion('${pm.a.id}','ausente')">Ausente hoy</button>`:''}
+  ${pm.ch?`<button class="b s" onclick="proyAccion('${pm.a.id}','deshacer')">Deshacer el cambio</button>`:''}
+  <button class="b s" onclick="S.pm=null;drawProy()">Cerrar</button></div></div>`,
+ rgs=tramos(g.id,F),enR=(r,e)=>{const n=numDe(e.uso);return n>=r.d&&(!r.h||n<=r.h)},
+ seg=(titulo,ns,es)=>`<div class="seg"><b>${esc(titulo)}</b>${ns.length?`<span class="resp">${ns.length>1?'Reparten y recogen':'Reparte y recoge'}: ${esc(ns.join(' · '))}</span>`:''}</div><div class="pg">${es.map(card).join('')}</div>`,
+ sinR=prop.filter(e=>!rgs.some(r=>enR(r,e))),
+ cuerpo=!prop.length?`<div class="mu">Ningún alumno de este grupo tiene ${esc(sg)} asignado.</div>`:!rgs.some(r=>nomsR(r.a).length)?`<div class="pg">${prop.map(card).join('')}</div>`:rgs.map(r=>{const es=prop.filter(e=>enR(r,e));return es.length?seg(rangoTxt(r),nomsR(r.a),es):''}).join('')+(sinR.length?seg('Sin responsable asignado',[],sinR):'');
+ $('#proy').innerHTML=`<div class="ph"><h2>${esc(g.nombre)} · Reparto de ${esc(nm)}</h2><span class="mu">ordenados por número</span>${estado}<span style="flex:1"></span>${d.tipos.map(x=>`<button class="b ${x.key==t.key?'':'s'}" onclick="proyFam('${x.key}')">${esc(x.name)}</button>`).join('')}<button class="b s" onclick="proyPantalla()">⛶ Pantalla completa</button><button class="b s" onclick="cierraProy()">✕ Cerrar</button></div>${banner}
+ ${cuerpo}
+ ${otros.length?`<h3 class="ph2">Hoy con otro instrumento</h3><div class="pg">${otros.map(card).join('')}</div>`:''}
+ ${fl.length?`<h3 class="ph2">Flauta${clk?' <small>· si hoy olvida la flauta, pulsa su nombre</small>':''}</h3><div class="pg pgf">${fl.map(chip).join('')}</div>`:''}
+ ${aus.length?`<h3 class="ph2">Ausentes hoy</h3><div class="pg pgf">${aus.map(e=>clk?`<button class="pfl" onclick="proyMenu('${e.a.id}')">${esc(nomNat(e.a.nombre))}<small>ausente</small></button>`:`<div class="pfl"><span>${esc(nomNat(e.a.nombre))}</span><small>ausente</small></div>`).join('')}</div>`:''}
+ ${sin.length?`<h3 class="ph2">Sin ${esc(sg)} asignado</h3><div class="pg pgs">${sin.map(e=>`<div class="pc sinc"${clk?` onclick="proyMenu('${e.a.id}')"`:''}><div class="pnm">${esc(nomNat(e.a.nombre))}</div></div>`).join('')}</div>`:''}${menu}`}
+// --- historial de clases prácticas del grupo
+function claseModal(){const g=G(S.g),hoy=fechaLocal(),puede=puedeG(g),f=S.hf=='curso'?'curso':'mes',x30=new Date();x30.setDate(x30.getDate()-30);
+ const h30=new Date(x30.getTime()-x30.getTimezoneOffset()*6e4).toISOString().slice(0,10),todas=SES().filter(s=>s.grupo_id==g.id).sort((a,b)=>d10(b.fecha).localeCompare(d10(a.fecha))||String(a.familia).localeCompare(String(b.familia))),pr=todas.filter(s=>s.familia!='N'),mes=pr.filter(s=>d10(s.fecha)>=h30),lst=(f=='mes'?todas.filter(s=>d10(s.fecha)>=h30):todas),
+ cnt=l=>['X','U'].map(k=>[k,l.filter(s=>s.familia==k).length]).filter(y=>y[1]).map(y=>y[1]+' de '+nomF(y[0])).join(' · ')||'ninguna',
+ dia=s=>new Date(d10(s.fecha)+'T12:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'}),
+ ext=s=>{const c=CAM().filter(y=>y.grupo_id==s.grupo_id&&y.familia==s.familia&&d10(y.fecha)==d10(s.fecha)),n=m=>c.filter(y=>y.motivo==m).length,o=n('olvido'),a=n('ausente'),v=n('averiado');return [o?o+' olvido'+(o>1?'s':'')+' de flauta':'',a?a+' ausente'+(a>1?'s':''):'',v?v+' cambio'+(v>1?'s':'')+' por avería':''].filter(Boolean).join(' · ')};
+ modal(`<h3>Historial de clases prácticas · ${esc(g.nombre)}</h3>${D().usosFalta?'<p style="color:var(--er);font-weight:600">Falta ejecutar el SQL de la actualización 6 en Supabase: sin él las clases no se pueden guardar.</p>':''}
+ <p class="mu" style="margin:0 0 8px">Último mes: <b>${mes.length}</b> (${cnt(mes)}) · Todo el curso: <b>${pr.length}</b> (${cnt(pr)})</p>
+ <div class="row"><select onchange="S.hf=this.value;claseModal()">${opt([['mes','Último mes'],['curso','Todo el curso']],f)}</select></div>
+ ${lst.map(s=>`<div class="ui"><b>${esc(dia(s))}</b> · ${s.familia=='N'?'<span class="pill">no se tocó</span>':`<span class="pill">${esc(nomS(s.familia))}</span> <span class="mu">${esc(ext(s))}</span>`}${puede?` <button class="b s" style="float:right" onclick="claseQuita('${s.id}')">Quitar</button>`:''}</div>`).join('')||'<span class="mu">Ninguna clase registrada en este periodo para este grupo.</span>'}
+ <p class="mu" style="font-size:12.5px;margin:10px 0 0">Clases registradas en todo el curso (todos los grupos): ${SESP().length}. Se guardan al pulsar «Clase práctica…» en un grupo tuyo; salir de la proyección no las borra.</p>
+ ${puede?`<details style="margin-top:12px"><summary>＋ Añadir una clase que olvidé registrar</summary><div class="row" style="margin-top:8px"><select id="cf">${opt([...D().tipos.filter(t=>t.key=='X'||t.key=='U').map(t=>[t.key,'Se tocó '+nomF(t.key)]),['N','No se tocó']],'X')}</select><input id="cd" type="date" max="${hoy}" value="${hoy}"><button class="b" onclick="claseReg()">Registrar</button></div>${T?'<p class="mu" style="font-size:13px">Hasta 14 días atrás.</p>':''}</details>`:''}
+ <div class="row" style="margin-top:10px"><button class="b s" onclick="cerrar()">Cerrar</button></div>`,1)}
+async function claseReg(){const g=G(S.g),f=$('#cf').value,fe=$('#cd').value||fechaLocal();if(fe>fechaLocal())return toast('No se pueden registrar clases futuras',1);if(await regSesion(g.id,f,true,fe)){toast(f=='N'?'Anotado: no se tocó':'Clase práctica registrada');claseModal();render()}}
+async function claseQuita(sid){const s=SES().find(x=>x.id==sid);if(!s)return;if(!confirm('¿Quitar este registro? Se quitarán también los cambios de ese día.'))return;if(await regSesion(s.grupo_id,s.familia,false,d10(s.fecha))){toast('Registro quitado');claseModal();render()}}
+// --- ficha del alumno
+function fichaAlumno(id){const d=D(),a=d.alumnos.find(x=>x.id==id);if(!a)return;const g=G(a.grupo_id)||{},cam=CAM().filter(c=>c.alumno_id==id).sort((x,y)=>d10(y.fecha).localeCompare(d10(x.fecha))),ol=cam.filter(c=>c.motivo=='olvido'),au=cam.filter(c=>c.motivo=='ausente'),usos={};
+ SESP().filter(s=>s.grupo_id==a.grupo_id).forEach(s=>{const e=efectivos(a.grupo_id,s.familia,d10(s.fecha))[id];if(e&&/^[A-Z]-/.test(e.uso))usos[e.uso]=(usos[e.uso]||0)+1});
+ const nom=nomNat(a.nombre),fr=n=>{const r=(n.extra&&n.extra.rastreo&&n.extra.rastreo.rows)||[];return r.find(x=>x.student==a.nombre&&x.priority!='ALUMNO/A QUE NOTIFICA')},sosp=d.incidencias.filter(n=>fr(n)),avisa=d.incidencias.filter(n=>norm((n.extra&&n.extra.studentReporter)||'')==norm(nom)),
+ us=Object.entries(usos).sort((x,y)=>y[1]-x[1]).slice(0,12),fe=c=>fd(d10(c.fecha)),ls=(l,f)=>l.length?l.slice(0,10).map(f).join(''):'<span class="mu">Ninguno.</span>';
+ modal(`<h3 style="margin-bottom:2px">${esc(nom)}</h3><p class="mu" style="margin:0 0 10px">${esc(g.nombre||'')} · nº ${nl(a)} · ${a.modalidad=='flauta'?'toca flauta':'toca xilófono'}${a.activo?'':' · de baja'}</p>
+ <div class="row">${Object.entries(a.asignaciones||{}).filter(x=>x[1]).map(x=>`<span class="pill">${esc(x[1])}</span>`).join('')||'<span class="mu">Sin instrumentos asignados</span>'}</div>
+ <h4 style="margin:14px 0 4px">Olvidos de flauta ${olvPill(id)}</h4>${a.modalidad=='flauta'||ol.length?ls(ol,c=>`<div class="ui">${fe(c)} · se le dio ${esc(c.uso)}</div>`):'<span class="mu">No toca flauta.</span>'}
+ <h4 style="margin:14px 0 4px">Ausencias (${au.length})</h4>${ls(au,c=>`<div class="ui">${fe(c)} · ${esc(nomS(c.familia))}</div>`)}
+ <h4 style="margin:14px 0 4px">Instrumentos usados en clase práctica</h4>${us.length?`<div class="row">${us.map(([c,n])=>`<span class="pill">${esc(c)} ×${n}</span>`).join('')}</div>`:'<span class="mu">Aún sin clases registradas.</span>'}
+ <h4 style="margin:14px 0 4px">Aparece como posible en incidencias (${sosp.length})</h4>${ls(sosp,n=>`<div class="ui">${esc(n.codigo)} · ${fd(stFecha(n))} · ${esc(fr(n).priority)} ${n.estado=='open'?'':'<span class="mu">(reparada)</span>'}</div>`)}
+ <h4 style="margin:14px 0 4px">Ha avisado de averías (${avisa.length})</h4>${ls(avisa,n=>`<div class="ui">${esc(n.codigo)} · ${fd(stFecha(n))} · ${esc(n.tipo_dano)}</div>`)}
+ <p class="mu" style="font-size:12px;margin:10px 0 0">«Posible» solo cuenta las incidencias que tienen el rastreo guardado.${T?' Los compañeros ven solo las incidencias abiertas.':''}</p>
+ <div class="row" style="margin-top:8px"><button class="b s" onclick="cerrar()">Cerrar</button></div>`,1)}
+
+// ===== Pantalla de entrada: saludo, clase de ahora, pendientes, hoy, resumen y horario de la semana con las prácticas =====
+const isoD=x=>[x.getFullYear(),String(x.getMonth()+1).padStart(2,'0'),String(x.getDate()).padStart(2,'0')].join('-');
+const lunes=off=>{const n=new Date(),dw=(n.getDay()+6)%7;return new Date(n.getFullYear(),n.getMonth(),n.getDate()-dw+7*(off||0))};
+const semIsos=off=>{const l=lunes(off);return [0,1,2,3,4].map(i=>isoD(new Date(l.getFullYear(),l.getMonth(),l.getDate()+i)))};
+const yoNombres=()=>T?[D().profesor,D().sustituye].filter(Boolean):[JEFE];
+const festivo=iso=>{const c=D().curso;return (CF().calendario||[]).some(x=>x.type!=='excepcion'&&x.start&&x.end&&x.start<=iso&&iso<=x.end)||!!(c.fecha_inicio&&iso<c.fecha_inicio)||!!(c.fecha_fin&&iso>c.fecha_fin)};
+const terminada=(iso,k)=>{const h=isoD(new Date());if(iso<h)return true;if(iso>h)return false;const n=new Date(),m=n.getHours()*60+n.getMinutes(),[a,b]=PERIODS[k][2].split(':').map(Number);return m>=a*60+b};
+const estadoClase=(gid,iso)=>{const f=SES().filter(s=>s.grupo_id==gid&&d10(s.fecha)==iso).map(s=>s.familia);return {X:f.includes('X'),U:f.includes('U'),N:f.includes('N')}};
+const grupoPorNombre=n=>D().grupos.find(g=>g.nombre==n);
+const primeraSes=()=>SES().map(x=>d10(x.fecha)).sort()[0]||'';
+const DNOM=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],MNOM=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const fechaLarga=iso=>{const x=new Date(iso+'T12:00');return DNOM[x.getDay()]+' '+x.getDate()+' de '+MNOM[x.getMonth()]};
+function saludoCard(){const n=new Date(),h=n.getHours(),pn=String((T?D().profesor:JEFE)||'').split(' ')[0],sal=h<14?'Buenos días':h<21?'Buenas tardes':'Buenas noches',ix=ahoraIdx(0);
+ return `<div class="card hello"><h2 style="margin:0">${sal}${pn?', '+esc(pn):''}</h2><span class="mu">${fechaLarga(isoD(n))}${ix?' · '+PERIODS[ix.k][0]+' hora · '+PERIODS[ix.k][1]+'–'+PERIODS[ix.k][2]:''}</span></div>`}
+// clases de los últimos 7 días que ya han pasado y aún no se han confirmado (se tocó o no)
+function pendientes(){const ini=primeraSes();if(!ini)return [];const me=yoNombres(),out=[],seen=new Set();
+ for(let b=0;b<=7;b++){const x=new Date();x.setDate(x.getDate()-b);const iso=isoD(x),dw=(x.getDay()+6)%7;if(dw>4||festivo(iso)||iso<ini)continue;
+  for(let k=5;k>=0;k--){const s=(CF().horario||{})[dw+'-'+k];if(!s||!s.group||!me.includes(s.teacher)||!terminada(iso,k))continue;const g=grupoPorNombre(s.group);if(!g||seen.has(iso+g.id))continue;seen.add(iso+g.id);const e=estadoClase(g.id,iso);if(!e.X&&!e.U&&!e.N)out.push({iso,k,g})}}
+ return out}
+async function confirmaClase(gid,iso,f){let ok=true;for(const x of (f=='XU'?['X','U']:[f]))ok=ok&&await regSesion(gid,x,true,iso);if(ok){toast(f=='N'?'Anotado: no se tocó':'Clase práctica registrada');if($('#modal').style.display=='flex')cerrar();render()}}
+function confirmaModal(gid,iso){const g=G(gid),e=estadoClase(gid,iso),b=(f,t,on)=>`<button class="b${on?'':' s'}" onclick="confirmaClase('${gid}','${iso}','${f}')">${t}</button>`;
+ modal(`<h3>¿Se tocó?</h3><p class="mu" style="margin-top:0">${esc(g.nombre)} · ${esc(fechaLarga(iso))}</p><div class="row">${b('X','Xilófonos',e.X)}${b('U','Ukeleles',e.U)}${b('XU','Los dos',e.X&&e.U)}${b('N','No se tocó',e.N)}</div>${e.X||e.U||e.N?`<p class="mu" style="font-size:13px">Ahora consta: ${e.N?'no se tocó':[e.X?'xilófonos':'',e.U?'ukeleles':''].filter(Boolean).join(' y ')}.</p>`:''}<div class="row"><button class="b s" onclick="cerrar()">Cerrar</button></div>`,1)}
+function pendCard(pd){return `<div class="card pend"><div class="row"><b style="font-size:17px">¿Se tocó?</b><span class="mu">Tienes ${pd.length} clase${pd.length>1?'s':''} sin confirmar</span></div>${pd.slice(0,8).map(p=>`<div class="hrow"><span><b>${esc(p.g.nombre)}</b> · ${esc(fechaLarga(p.iso))} · ${PERIODS[p.k][0]}</span><span class="acc"><button class="b s" onclick="confirmaClase('${p.g.id}','${p.iso}','X')">Xilófonos</button><button class="b s" onclick="confirmaClase('${p.g.id}','${p.iso}','U')">Ukeleles</button><button class="b s" onclick="confirmaClase('${p.g.id}','${p.iso}','N')">No se tocó</button></span></div>`).join('')}${pd.length>8?`<p class="mu" style="margin:6px 0 0">…y ${pd.length-8} más.</p>`:''}</div>`}
+function hoyPanel(){const me=yoNombres(),n=new Date(),hoy=isoD(n),dw=(n.getDay()+6)%7;if(dw>4||festivo(hoy))return '';const it=[],ax=ahoraIdx(0);
+ for(let k=0;k<6;k++){const s=(CF().horario||{})[dw+'-'+k];if(s&&s.group&&me.includes(s.teacher)){const g=grupoPorNombre(s.group);if(g)it.push({k,g})}}
+ if(!it.length)return `<div class="card"><b>Hoy</b> <span class="mu">no tienes clase con grupos.</span></div>`;
+ return `<div class="card"><h3 style="margin:0 0 8px">Tus clases de hoy</h3>${it.map(({k,g})=>{const e=estadoClase(g.id,hoy),fin=terminada(hoy,k),act=ax&&ax.k==k,ok=e.X||e.U,
+  est=ok?`<span class="pill o-ok">✔ ${[e.X?'xilófonos':'',e.U?'ukeleles':''].filter(Boolean).join(' y ')}</span>`:e.N?'<span class="pill">no se tocó</span>':fin?'<span class="pill o-a">¿se tocó?</span>':act?'<span class="pill">📍 ahora</span>':'<span class="pill">próxima</span>',
+  acc=ok?['X','U'].filter(f=>e[f]).map(f=>`<button class="b s" onclick="S.g='${g.id}';proyecta('${f}')">▶ Proyectar ${esc(nomF(f))}</button>`).join(''):fin?`<button class="b s" onclick="confirmaModal('${g.id}','${hoy}')">${e.N?'Cambiar':'Confirmar'}</button>`:D().tipos.filter(t=>t.key=='X'||t.key=='U').map(t=>`<button class="b s" onclick="S.g='${g.id}';proyecta('${t.key}')">Clase práctica de ${esc(nomF(t.key))}</button>`).join('');
+  return `<div class="hrow"><span><b>${PERIODS[k][0]} · ${esc(g.nombre)}</b> <span class="mu">${PERIODS[k][1]}–${PERIODS[k][2]}</span> ${est}</span><span class="acc">${acc}</span></div>`}).join('')}</div>`}
+function resumenSem(){const off=S.sem||0,isos=semIsos(off),seen=new Set(),por={};let tot=0,pr=0,nx=0,nu=0,no=0,pend=0;
+ for(let dw=0;dw<5;dw++){const iso=isos[dw];if(festivo(iso))continue;for(let k=0;k<6;k++){const s=(CF().horario||{})[dw+'-'+k];if(!s||!s.group||!terminada(iso,k))continue;const g=grupoPorNombre(s.group);if(!g||seen.has(iso+g.id))continue;seen.add(iso+g.id);tot++;const e=estadoClase(g.id,iso),p=por[s.group]||(por[s.group]={t:0,p:0});p.t++;
+  if(e.X||e.U){pr++;p.p++;if(e.X)nx++;if(e.U)nu++}else if(e.N)no++;else pend++}}
+ const av=D().incidencias.filter(n=>{const f=stFecha(n);return f>=isos[0]&&f<=isos[4]}),gv=av.filter(n=>grav(n)=='rotura').length,ol=CAM().filter(c=>c.motivo=='olvido'&&d10(c.fecha)>=isos[0]&&d10(c.fecha)<=isos[4]).length;
+ if(!tot&&!av.length&&!ol)return '';
+ return `<div class="card"><h3 style="margin:0 0 6px">Resumen de la semana</h3><div class="kp3" style="margin:0"><div class="kp"><b>${pr}<small style="font-size:16px;font-weight:400"> de ${tot}</small></b><span>Clases con práctica<br><small>${nx?nx+' de xilófonos':''}${nx&&nu?' · ':''}${nu?nu+' de ukeleles':''}${!nx&&!nu?'—':''}${no?' · '+no+' sin tocar':''}${pend?' · '+pend+' sin confirmar':''}</small></span></div><div class="kp ${av.length?'a':''}"><b>${av.length}</b><span>Averías nuevas<br><small>${gv?gv+' grave'+(gv>1?'s':''):'ninguna grave'}</small></span></div><div class="kp"><b>${ol}</b><span>Olvidos de flauta</span></div></div>
+ ${Object.keys(por).length?`<details style="margin-top:8px"><summary class="mu">Por grupo</summary><div style="margin-top:6px">${Object.entries(por).map(([g,v])=>`<span class="pill" style="margin:2px 4px 2px 0">${esc(g)} <b>${v.p}/${v.t}</b></span>`).join('')}</div></details>`:''}</div>`}
+function celdaSem(dw,k,iso,hoy,an){const s=(CF().horario||{})[dw+'-'+k]||{},now=an&&an.dw==dw&&an.k==k?' wk-now':'';
+ if(!s.group)return s.teacher?`<td class="wk-o${now}"><small>${esc(s.teacher)}</small><br><small class="mu">Optativa</small></td>`:`<td class="wk-e${now}"></td>`;
+ const g=grupoPorNombre(s.group),pal=groupPalette(s.group),fest=festivo(iso),fin=terminada(iso,k),e=g?estadoClase(g.id,iso):{},fl=S.wf||'todo',ok=e.X||e.U,pr=fl=='todo'?ok:!!e[fl],puede=g&&fin&&!fest&&puedeG(g);
+ let cls='wk-p',sub='',chips='';
+ if(fest){cls='wk-f';sub='no lectivo'}
+ else if(!fin){cls='wk-p';sub=iso==hoy?(now?'ahora':'hoy'):''}
+ else if(!primeraSes()||iso<primeraSes()){cls='wk-p'}
+ else if(pr){cls='wk-s';chips=['X','U'].filter(f=>e[f]&&(fl=='todo'||fl==f)).map(f=>`<span class="xu">${f}</span>`).join('');sub='se tocó '+['X','U'].filter(f=>e[f]&&(fl=='todo'||fl==f)).map(f=>nomF(f)).join(' y ')}
+ else if(e.N){cls='wk-n';sub='no se tocó'}
+ else if(ok){cls='wk-n';sub='se tocó '+['X','U'].filter(f=>e[f]).map(f=>nomF(f)).join(' y ')}
+ else{cls='wk-q';sub='¿se tocó?'}
+ return `<td class="${cls}${now}" style="--ga:${pal.accent}"${puede?` onclick="confirmaModal('${g.id}','${iso}')"`:''}>${chips?`<span class="xus">${chips}</span>`:''}<b class="lnk" onclick="event.stopPropagation();irGrupo('${esc(s.group)}')">${esc(s.group)}</b><br><small>${esc(s.teacher||'')}</small>${sub?`<br><small class="wk-sub">${esc(sub)}</small>`:''}</td>`}
+function semanaCard(){const off=S.sem||0,isos=semIsos(off),hoy=isoD(new Date()),an=off==0?ahoraIdx(0):null,fl=S.wf||'todo',ttl=off==0?'Esta semana':off==-1?'Semana pasada':off==1?'Próxima semana':'Semana del '+new Date(isos[0]+'T12:00').getDate()+' de '+MNOM[new Date(isos[0]+'T12:00').getMonth()],
+ cab=new Date(isos[0]+'T12:00').getDate()+' – '+new Date(isos[4]+'T12:00').getDate()+' de '+MNOM[new Date(isos[4]+'T12:00').getMonth()];
+ return `<div class="card"><div class="row"><b style="font-size:18px">${ttl}</b><span class="mu">${cab}</span><button class="b s" onclick="S.sem=(S.sem||0)-1;render()" title="Semana anterior">‹</button>${off?'<button class="b s" onclick="S.sem=0;render()">Hoy</button>':''}<button class="b s" onclick="S.sem=(S.sem||0)+1;render()" title="Semana siguiente">›</button><span style="flex:1"></span>${[['todo','Todo'],['X','Xilófonos'],['U','Ukeleles']].map(([k,t])=>`<button class="b ${fl==k?'':'s'}" onclick="S.wf='${k}';render()">${t}</button>`).join('')}<button class="b s" onclick="pdfHorario()">PDF</button></div>
+ <div class="tw"><table class="hz wk"><tr><th></th>${DAYS.map((x,i)=>`<th class="${isos[i]==hoy?'wk-hoy':''}">${x} ${new Date(isos[i]+'T12:00').getDate()}</th>`).join('')}</tr>${PERIODS.map((p,k)=>`${k==3?'<tr><th>Recreo<br><small>11:15–11:45</small></th><td colspan="5" class="hz-r">☕ Recreo</td></tr>':''}<tr><th>${p[0]}<br><small>${p[1]}–${p[2]}</small></th>${DAYS.map((_,dw)=>celdaSem(dw,k,isos[dw],hoy,an)).join('')}</tr>`).join('')}</table></div>
+ <div class="hz-leg"><span class="wk-s" style="--ga:var(--ac)">color fuerte + X/U: se tocó</span><span class="wk-n" style="--ga:var(--ac)">suave: hubo clase y no se tocó</span><span class="wk-q" style="--ga:var(--ac)">suave punteado: sin confirmar (pulsa)</span><span class="wk-p" style="--ga:var(--ac)">hoy / por venir</span></div></div>`}
+V.horario=()=>{const ah=grupoAhora(),pd=pendientes();return saludoCard()+(ah?ahoraCard(ah):'')+(pd.length?pendCard(pd):'')+hoyPanel()+resumenSem()+semanaCard()};
+
+// ===== Iconos propios, menú lateral e insignias =====
+const IC={
+ horario:'<svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="3.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4M7.5 14h3M13.5 14h3M7.5 17.5h3"/></svg>',
+ grupos:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.3"/><path d="M2.8 20c0-3.5 2.8-6.2 6.2-6.2s6.2 2.7 6.2 6.2"/><circle cx="17.2" cy="9.2" r="2.5"/><path d="M16.2 14.1c2.8.3 5 2.3 5 5.4"/></svg>',
+ inventario:'<svg viewBox="0 0 24 24"><path d="M12 2.8l8.2 4.2v10L12 21.2 3.8 17V7z"/><path d="M3.8 7L12 11.2 20.2 7M12 11.2v10"/></svg>',
+ incidencias:'<svg viewBox="0 0 24 24"><path d="M12 3.2l9.4 16.3H2.6z"/><path d="M12 10v4.6M12 17.6v.4"/></svg>',
+ estadisticas:'<svg viewBox="0 0 24 24"><rect x="3.5" y="11" width="4.2" height="9.5" rx="1.2"/><rect x="9.9" y="4" width="4.2" height="16.5" rx="1.2"/><rect x="16.3" y="8" width="4.2" height="12.5" rx="1.2"/></svg>',
+ profes:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7.6 8-7.6s8 3.2 8 7.6"/></svg>',
+ admin:'<svg viewBox="0 0 24 24"><path d="M4 6.5h9M17.5 6.5H20M4 12h3M11 12h9M4 17.5h11M19 17.5h1"/><circle cx="15.2" cy="6.5" r="2.2"/><circle cx="9" cy="12" r="2.2"/><circle cx="17" cy="17.5" r="2.2"/></svg>',
+ buscar:'<svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"/><path d="M20.5 20.5l-5.2-5.2"/></svg>',
+ luna:'<svg viewBox="0 0 24 24"><path d="M20 14.6A8.4 8.4 0 1 1 9.4 4a6.9 6.9 0 0 0 10.6 10.6z"/></svg>',
+ sol:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.3M12 19.2v2.3M2.5 12h2.3M19.2 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>',
+ salir:'<svg viewBox="0 0 24 24"><path d="M14.5 4H19a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4.5M10 8l-4 4 4 4M6 12h10"/></svg>'};
+const navBadge=k=>{if(k=='incidencias'){const n=((D()||{}).incidencias||[]).filter(x=>x.estado=='open'&&grav(x)=='rotura').length;return n?`<span class="nb r" title="${n} grave${n>1?'s':''} abierta${n>1?'s':''}">${n}</span>`:''}
+ if(k=='horario'){const n=pendientes().length;return n?`<span class="nb a" title="${n} clase${n>1?'s':''} sin confirmar">${n}</span>`:''}return ''};
+function theme(t){if(t==null)t=!document.body.classList.contains('dark');document.body.classList.toggle('dark',t);localStorage.setItem('gim_theme',t?'d':'l');document.querySelectorAll('.thbtn').forEach(b=>b.innerHTML=t?IC.sol:IC.luna)}
+function render(){const d=S.D,dark=document.body.classList.contains('dark');
+ $('#app').innerHTML=`<header><img src="${LOGO_GIM}" alt="GIM"><div><b>GIM · Instrumentos Musicales</b><small>IES INFANTA ELENA · DEPARTAMENTO DE MÚSICA</small><i class="by">by Manuel Esteve</i></div>${T?`<span class="pill">${esc(d?.curso.nombre)}</span>`:`<select onchange="S.cid=this.value;S.g=null;S.stC=null;S.stRows=null;cargar()">${opt(S.cursos.map(c=>[c.id,c.nombre]),S.cid)}</select>`}<span style="flex:1"></span>${d?`<button class="ib" onclick="buscar()" title="Buscar (Cmd/Ctrl+K)">${IC.buscar}</button>`:''}<button class="ib thbtn" onclick="theme()" title="Cambiar tema">${dark?IC.sol:IC.luna}</button><button class="ib" onclick="salir()" title="Salir">${IC.salir}</button></header>${T?`<div class="ban">Modo profesor/a · ${esc(d?.profesor)}</div>`:''}
+ <div class="shell${d?'':' one'}">${d?`<aside class="side"><nav>${nTabs().map(([k,n])=>`<button class="${S.tab==k?'on':''}" onclick="S.tab='${k}';S.ed=false;S.fade=1;render()"><i class="ic">${IC[k]}</i><span>${n}</span>${navBadge(k)}</button>`).join('')}</nav></aside>`:''}<main class="${S.fade?'fade':''}">${d?V[S.tab]():`<div class="card"><h2>Bienvenido/a</h2><p class="mu">Crea tu primer curso (con los grupos e instrumentos habituales) o importa la copia de la app anterior.</p><div class="row"><button class="b" onclick="nuevoCurso()">+ Crear curso</button><label class="b s">Importar copia (.json)<input type="file" accept=".json" hidden onchange="importar(this.files[0])"></label></div></div>`}</main></div>`;S.fade=0}
+
+// ===== Estadísticas: lo más útil arriba, más datos de clases prácticas, uso, olvidos y averías; informe del periodo =====
+const iniCurso=()=>D().curso.fecha_inicio||primeraSes()||'',iniReg=()=>primeraSes()||D().curso.fecha_inicio||'';
+// clases del horario ya pasadas (una por día y grupo), sin festivos, dentro del periodo elegido
+function clasesEsp(){const ini=iniReg(),out={};if(!ini)return out;const hoy=isoD(new Date()),h=CF().horario||{},seen=new Set();
+ for(let x=new Date(ini+'T12:00');isoD(x)<=hoy;x.setDate(x.getDate()+1)){const iso=isoD(x),dw=(x.getDay()+6)%7;if(dw>4||festivo(iso)||!perF(iso))continue;
+  for(let k=0;k<6;k++){const s=h[dw+'-'+k];if(!s||!s.group||!terminada(iso,k))continue;const key=iso+'|'+s.group;if(seen.has(key))continue;seen.add(key);(out[s.group]=out[s.group]||[]).push(iso)}}return out}
+function statsClases(){const d=D();if(!SESP().length&&!iniReg())return null;const esp=clasesEsp(),ss=SES().filter(s=>perF(d10(s.fecha))),hoy=isoD(new Date()),all=SESP();
+ const gr=d.grupos.map(g=>{const e=esp[g.nombre]||[],mine=ss.filter(s=>s.grupo_id==g.id),has=k=>new Set(mine.filter(s=>s.familia==k).map(s=>d10(s.fecha))),px=has('X'),pu=has('U'),pn=has('N'),
+  p=e.filter(f=>px.has(f)||pu.has(f)).length,x=e.filter(f=>px.has(f)).length,u=e.filter(f=>pu.has(f)).length,no=e.filter(f=>!px.has(f)&&!pu.has(f)&&pn.has(f)).length,last=all.filter(s=>s.grupo_id==g.id).map(s=>d10(s.fecha)).sort().pop()||'';
+  return {g,n:e.length,p,x,u,no,pend:e.length-p-no,last}}).filter(r=>r.n||r.p).sort((a,b)=>(b.p/(b.n||1))-(a.p/(a.n||1))||b.n-a.n),
+ N=gr.reduce((s,r)=>s+r.n,0),P=gr.reduce((s,r)=>s+r.p,0),sin=gr.filter(r=>r.n>=3&&(!r.last||dias(r.last,hoy)>=14)).map(r=>r.g.nombre+(r.last?' (hace '+Math.floor(dias(r.last,hoy)/7)+' sem.)':' (nunca)'));
+ if(!gr.length)return {t:'Clases prácticas del curso',i:1,h:'<span class="mu">Aún no hay clases registradas ni horario con grupos.</span>'};
+ return {t:'Clases prácticas del curso',i:1,h:`<p class="mu" style="font-size:12px;margin:0 0 6px">Clases con práctica entre las clases que había según el horario (sin festivos), contadas desde el ${fd(iniReg())}. En total: <b>${P} de ${N}</b>${N?' · '+Math.round(P/N*100)+'%':''}.</p>`+
+  gr.map(r=>{const pc=r.n?Math.round(r.p/r.n*100):0;return `<div class="bar-r"><span class="bl" style="width:64px">${esc(r.g.nombre)}</span><span class="bt"><i style="width:${Math.min(100,pc)}%;background:${groupPalette(r.g.nombre).accent}"></i></span><span style="min-width:190px;font-size:12.5px"><b>${r.p} de ${r.n}</b> · ${pc}% · X ${r.x} · U ${r.u}${r.pend>0?' · '+r.pend+' sin confirmar':''}</span></div>`}).join('')+
+  (sin.length?`<p style="margin:8px 0 0;font-size:13px"><b style="color:var(--wn)">Llevan semanas sin tocar:</b> ${esc(sin.join(', '))}</p>`:'')}}
+function statsSemanas(){const all=SESP();if(!all.length)return null;const par=new Set(all.map(s=>d10(s.fecha)+'|'+s.grupo_id)),filas=[];
+ for(let w=9;w>=0;w--){const l=lunes(-w),isos=semIsos(-w),n=[...par].filter(k=>{const f=k.split('|')[0];return f>=isos[0]&&f<=isos[4]}).length;filas.push([l.getDate()+' '+MNOM[l.getMonth()].slice(0,3),n])}
+ return {t:'Clases con práctica por semana',h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Últimas 10 semanas (una por día y grupo).</p>'+barras(filas)}}
+function statsCuando(){const all=SESP();if(!all.length)return null;const h=CF().horario||{},mat=PERIODS.map(()=>[0,0,0,0,0]),par=new Set(all.filter(s=>perF(d10(s.fecha))).map(s=>d10(s.fecha)+'|'+(G(s.grupo_id)||{}).nombre));
+ par.forEach(k=>{const[f,gn]=k.split('|'),dw=(new Date(f+'T12:00').getDay()+6)%7;if(dw>4)return;for(let p=0;p<6;p++){const s=h[dw+'-'+p];if(s&&s.group==gn)mat[p][dw]++}});const mx=Math.max(1,...mat.flat());
+ return {t:'Cuándo se toca',h:`<table style="border-collapse:separate;border-spacing:3px;font-size:11px"><tr><td></td>${['L','M','X','J','V'].map(x=>`<td style="text-align:center;color:#766b7c;font-weight:700">${x}</td>`).join('')}</tr>${mat.map((r,k)=>`<tr><td style="color:#766b7c;font-weight:700;padding-right:4px">${PERIODS[k][0]}</td>${r.map(v=>`<td style="width:30px;height:21px;text-align:center;border-radius:5px;background:${v?`rgba(22,121,75,${(.25+.75*v/mx).toFixed(2)})`:'#f1e7f4'};color:#fff;font-weight:700">${v||''}</td>`).join('')}</tr>`).join('')}</table><p class="mu" style="font-size:12px;margin:6px 0 0">Clases con práctica según el día y la hora del horario.</p>`}}
+// racha de días sin incidencias y clases prácticas seguidas sin avería por grupo
+function statsCuidado(todas){if(S.stC&&S.stC!=S.cid)return null;const fs=todas.map(stFecha).sort(),hoy=isoD(new Date()),ini=iniCurso()||fs[0];if(!ini)return null;
+ const ult=fs.length?fs[fs.length-1]:ini,dd=Math.max(0,dias(ult,hoy)),pts=[ini,...fs,hoy],rec=Math.max(...pts.slice(1).map((p,i)=>dias(pts[i],p))),all=SESP(),
+ gr=D().grupos.map(g=>{const ul=todas.filter(x=>x.grupo==g.nombre).map(stFecha).sort().pop()||'',n=new Set(all.filter(s=>s.grupo_id==g.id&&(!ul||d10(s.fecha)>ul)).map(s=>d10(s.fecha))).size;return [g.nombre,n]}).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,6);
+ return {t:'Cuidado del material',i:1,h:`<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><b style="font-size:42px;line-height:1;color:${dd>=30?'var(--ok)':'var(--ac)'}">${dd}</b><div>días sin incidencias${dd>=30?' <b style="color:var(--ok)">★ ¡un mes o más!</b>':''}<br><span class="mu" style="font-size:12.5px">Récord del curso: ${rec} días${fs.length?' · última incidencia: '+fd(ult):''}</span></div></div>`+(gr.length?`<p class="mu" style="font-size:12px;margin:10px 0 2px">Clases prácticas seguidas sin avería detectada en el grupo</p>`+barras(gr,l=>groupPalette(l).accent):'')}}
+function statsOlvidos(inf){const d=D(),ses=SES().filter(s=>s.familia=='X'&&perF(d10(s.fecha))),cam=CAM().filter(c=>c.familia=='X'&&c.motivo=='olvido'&&perF(d10(c.fecha)));if(!ses.length&&!cam.length)return null;
+ const fl=d.alumnos.filter(a=>a.activo&&a.modalidad=='flauta'),oblig=ses.reduce((s,x)=>s+fl.filter(a=>a.grupo_id==x.grupo_id).length,0),srt=(a,b)=>b[1]-a[1]||String(a[0]).localeCompare(String(b[0])),
+ mes=cuenta(cam,c=>d10(c.fecha).slice(0,7)).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>[new Date(k+'-15').toLocaleDateString('es-ES',{month:'short',year:'2-digit'}),v]),
+ tri=[1,2,3].map(k=>[k+'.ª evaluación',cam.filter(c=>stTri(d10(c.fecha))==k).length]),
+ por=fl.map(a=>({a,o:cam.filter(c=>c.alumno_id==a.id).length,r:rachaOlv(a.id)})).filter(x=>x.o>0).sort((x,y)=>y.o-x.o||y.r-x.r).slice(0,10),
+ pg=d.grupos.map(g=>{const f=fl.filter(a=>a.grupo_id==g.id).length,s=ses.filter(x=>x.grupo_id==g.id).length,o=cam.filter(c=>c.grupo_id==g.id).length;return {n:g.nombre,o,ob:f*s}}).filter(x=>x.o).sort((a,b)=>b.o/(b.ob||1)-a.o/(a.ob||1)),px=cuenta(cam,c=>c.uso).sort(srt).slice(0,6),
+ sub=t=>`<p class="mu" style="font-size:12px;margin:10px 0 2px">${t}</p>`;
+ return {t:'Flauta olvidada',i:1,h:`<b>${cam.length}</b> olvidos en <b>${ses.length}</b> clases de xilófono${oblig?` · <b>${Math.round(cam.length/oblig*100)}%</b> de las veces que había que traerla`:''}.`+
+  (mes.length?sub('Por mes')+barras(mes):'')+(cam.length?sub('Por evaluación')+barras(tri):'')+
+  (pg.length?sub('Clasificación de grupos (olvidos y % sobre las veces que había que traerla)')+pg.map(x=>`<div class="bar-r"><span class="bl" style="width:64px">${esc(x.n)}</span><span class="bt"><i style="width:${x.ob?Math.min(100,x.o/x.ob*100*4):50}%;background:${groupPalette(x.n).accent}"></i></span><span style="min-width:120px;font-size:12.5px"><b>${x.o}</b>${x.ob?' · '+Math.round(x.o/x.ob*100)+'%':''}</span></div>`).join(''):'')+
+  (!inf&&por.length?sub('Clasificación de alumnos')+por.map(x=>`<div class="ui"><b>${esc(nomNat(x.a.nombre))}</b> · ${esc((G(x.a.grupo_id)||{}).nombre||'')} ${olvPill(x.a.id)}</div>`).join(''):'')+
+  (px.length?sub('Xilófonos usados en esos casos: '+px.map(x=>esc(x[0])+' ×'+x[1]).join(' · ')):'')}}
+function usosInstr(){const d=D(),o={};SESP().filter(s=>perF(d10(s.fecha))).forEach(s=>{const ef=efectivos(s.grupo_id,s.familia,d10(s.fecha));Object.values(ef).forEach(e=>{if(/^[A-Z]-/.test(e.uso)){const u=o[e.uso]||(o[e.uso]={n:0,al:new Set()});u.n++;u.al.add(e.a.id)}})});return o}
+function statsUso(){const d=D();if(!SESP().length)return null;const u=usosInstr();
+ return {t:'Uso por instrumento',i:1,h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Clases prácticas registradas en las que se ha usado cada instrumento.</p>'+d.tipos.map(t=>{const l=d.instrumentos.filter(i=>i.tipo==t.key&&!i.retirado).sort((a,b)=>a.num-b.num).map(i=>({c:i.codigo,n:(u[i.codigo]||{n:0}).n,a:(u[i.codigo]||{al:new Set()}).al.size}));if(!l.length)return '';const mx=Math.max(1,...l.map(x=>x.n)),sin=l.filter(x=>!x.n).length,top=l.slice().sort((x,y)=>y.n-x.n)[0];
+  return `<div style="margin:8px 0 12px"><b>${esc(t.name)}</b> <span class="mu" style="font-size:12.5px">· más usado ${esc(top.c)} (${top.n})${sin?` · sin usar: ${sin}`:''}</span><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${l.map(x=>`<span title="${esc(x.c)}: ${x.n} usos · ${x.a} alumnos" style="display:inline-block;min-width:64px;text-align:center;padding:3px 6px;border-radius:8px;font-size:12px;background:rgba(116,58,131,${x.n?(.1+.5*x.n/mx).toFixed(2):'.04'});${x.n?'':'color:#9a8fa0'}"><b>${esc(x.c.replace(/^[A-Z]-/,''))}</b> ${x.n}</span>`).join('')}</div></div>`}).join('')}}
+function statsPor100(){const d=D();if(S.stC&&S.stC!=S.cid)return {t:'Incidencias por cada 100 usos',h:'<span class="mu">Solo se calcula para el curso actual.</span>'};const u=usosInstr(),tot=Object.values(u).reduce((s,x)=>s+x.n,0);
+ if(tot<100)return {t:'Incidencias por cada 100 usos',h:`<span class="mu">Se calcula cuando haya al menos 100 usos registrados (llevas ${tot}).</span>`};
+ const inc=cuenta(stFiltro(S.stRows||d.incidencias),x=>x.codigo),rows=inc.map(([c,n])=>({c,n,u:(u[c]||{n:0}).n})).filter(x=>x.u>=10).map(x=>({...x,r:x.n/x.u*100})).sort((a,b)=>b.r-a.r).slice(0,10);
+ return {t:'Incidencias por cada 100 usos',h:`<p class="mu" style="font-size:12px;margin:0 0 4px">Cuenta el desgaste real: un instrumento muy usado con pocas averías no es problemático.</p>`+(rows.length?`<table style="font-size:13px"><tr><th>Instrumento</th><th>Usos</th><th>Incid.</th><th>Por 100 usos</th></tr>${rows.map(x=>`<tr><td><b>${esc(x.c)}</b></td><td>${x.u}</td><td>${x.n}</td><td><b>${x.r.toFixed(1).replace('.',',')}</b></td></tr>`).join('')}</table>`:'<span class="mu">Ningún instrumento con incidencias y al menos 10 usos.</span>')}}
+function statsSecciones(inf){const d=D(),todas=S.stRows||d.incidencias,inc=stFiltro(todas),n=inc.length,nuevo=CF().instrNuevo||{},sel=S.stC||S.cid,hoy=new Date(),
+ ord=(a,b)=>b[1]-a[1]||String(a[0]).localeCompare(String(b[0])),R=[],grv=x=>grav(x)=='rotura',
+ chip=(x,txt)=>{const i=(!x.curso_id||x.curso_id==d.curso.id)?d.instrumentos.find(i=>i.codigo==x.codigo):null;return `<span style="display:inline-block;background:#f1e7f4;color:#51205d;border-radius:99px;padding:2px 11px;margin:3px 5px 3px 0;font-size:13px;font-weight:700;${i?'cursor:pointer':''}"${i?` onclick="fichaInst('${i.id}')"`:''}>${esc(x.codigo)} <small style="font-weight:400">${txt}</small></span>`},
+ abiertas=todas.filter(x=>x.estado=='open').sort((a,b)=>stFecha(a).localeCompare(stFecha(b))),
+ kpi=(tit,col,l)=>({wide:1,t:tit,h:`<div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap"><b style="font-size:46px;line-height:1;color:${col}">${l.length}</b><div style="flex:1;min-width:220px">${l.length?l.map(x=>chip(x,dias(stFecha(x),hoy)+' d')).join(''):'<span class="mu">Ninguna ✔</span>'}</div></div>`}),
+ add=x=>{if(x)R.push(x)};
+ // 1) lo que hay que atender ahora
+ if(!inf){R.push(kpi('Abiertas graves · no se pueden tocar','var(--er)',abiertas.filter(grv)));R.push(kpi('Abiertas leves · se pueden tocar','var(--wn)',abiertas.filter(x=>!grv(x))))}
+ // 2) clases prácticas y cuidado del material
+ add(statsClases());add(statsCuidado(todas));
+ if(!n){R.push({t:'Incidencias',h:'<span class="mu">No hay incidencias con estos filtros. Irán apareciendo aquí según las anotes.</span>'})}
+ else{
+  const rot=inc.filter(grv).length,pct=Math.round(rot/n*100),ab=inc.filter(x=>x.estado=='open').length,nom=T?d.curso.nombre:sel=='all'?'todos los cursos':(S.cursos.find(c=>c.id==sel)||{}).nombre,
+   meses=cuenta(inc,x=>stFecha(x).slice(0,7)).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>[new Date(k+'-15').toLocaleDateString('es-ES',{month:'short',year:'2-digit'}),v]),
+   vig=inc.filter(x=>!(nuevo[x.codigo]&&stFecha(x)<nuevo[x.codigo])),porIns=cuenta(vig,x=>x.codigo).sort(ord),pt=cuenta(inc,x=>tipoCod(x.codigo)).sort(ord),
+   tasa=!S.stC?d.tipos.map(t=>{const m=d.instrumentos.filter(i=>i.tipo==t.key).length,v=(pt.find(x=>x[0]==t.name)||[0,0])[1];return m?`${esc(t.name)} <b>${(v/m*10).toFixed(1).replace('.',',')}</b>`:''}).filter(Boolean).join(' · '):'';
+  if(!T&&!inf){const av={};inc.forEach(x=>{const nm=String((x.extra&&x.extra.studentReporter)||'').trim();if(!nm)return;const k=norm(nm)+'|'+(x.grupo||''),a=av[k]||(av[k]={nm,g:x.grupo||'',c:0,det:[]});a.c++;a.det.push(x)});
+   const rows=Object.values(av).sort((a,b)=>b.c-a.c||a.nm.localeCompare(b.nm)).slice(0,12);
+   R.push({t:'Alumnado que avisa',h:'<p class="mu" style="font-size:12px;margin:0 0 6px">Quien comunica una avería ayuda a cuidar el material.</p>'+(rows.length?rows.map(a=>`<div class="ui"><b>${esc(a.nm)}</b> · ${esc(a.g)} <span class="pill">${a.c}</span><br><span class="mu" style="font-size:12px">${a.det.slice(0,4).map(horaTxt).join(' · ')}</span></div>`).join(''):'<span class="mu">Aún no se ha anotado ningún alumno que avise.</span>')})}
+  R.push({t:'Incidencias por mes',i:1,h:barras(meses)});
+  R.push({t:'Tipos de daño',i:1,h:'<p class="mu" style="font-size:12px;margin:0 0 4px"><span style="color:var(--er)">● grave</span> · <span style="color:var(--wn)">● leve</span></p>'+barras(cuenta(inc,x=>x.tipo_dano).sort(ord),tp=>esRot(tp)?'var(--er)':GRAV.deterioro.includes(tp)?'var(--wn)':'var(--ac)',170)});
+  const tt=cuenta(inc,x=>x.tipo_dano).sort(ord).slice(0,5).map(x=>x[0]),ms=[...new Set(inc.map(x=>stFecha(x).slice(0,7)))].sort();
+  R.push({t:'Tipos de avería por mes',i:1,h:`<div class="tw"><table style="font-size:12.5px"><tr><th>Mes</th>${tt.map(x=>`<th>${esc(x)}</th>`).join('')}<th>Otros</th></tr>${ms.map(m=>{const l=inc.filter(x=>stFecha(x).startsWith(m)),c=tt.map(x=>l.filter(y=>y.tipo_dano==x).length);return `<tr><td><b>${new Date(m+'-15').toLocaleDateString('es-ES',{month:'short',year:'2-digit'})}</b></td>${c.map(v=>`<td>${v||'·'}</td>`).join('')}<td>${l.length-c.reduce((s,v)=>s+v,0)||'·'}</td></tr>`}).join('')}</table></div>`});
+  const rein=porIns.filter(x=>x[1]>1);
+  R.push({t:'Instrumentos con más incidencias',i:1,h:`<p class="mu" style="font-size:12px;margin:0 0 4px">Los que más se estropean${rein.length?': los que repiten (2 o más) merecen una mirada':''}.${vig.length<n?' No cuenta los sustituidos por uno nuevo.':''}</p>`+(vig.length?barras(porIns.slice(0,10)):'<span class="mu">Todas las incidencias de este periodo son de instrumentos que se sustituyeron por uno nuevo.</span>')});
+  R.push({t:'Reincidentes',i:1,h:rein.length?'<p class="mu" style="font-size:12px;margin:0 0 4px">Instrumentos con varias averías: ¿merece la pena repararlos de nuevo?</p>'+rein.map(([c,k])=>{const f=vig.filter(x=>x.codigo==c).map(stFecha).sort();return `<div class="ui"><b>${esc(c)}</b> · ${k} averías <span class="mu">(${f.map(fd).join(', ')}${f.length>1?' · cada '+Math.round(dias(f[0],f[f.length-1])/(f.length-1))+' días de media':''})</span></div>`}).join(''):'<span class="mu">Ningún instrumento ha vuelto a averiarse en este periodo.</span>'});
+  R.push({t:'Por grupo',i:1,h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Grupo en el que se detectó el desperfecto, no necesariamente el que lo causó.</p>'+barras(cuenta(inc,x=>x.grupo).sort(ord),l=>groupPalette(l).accent)});
+  R.push({t:'Por tipo de instrumento',h:barras(pt)+(tasa?`<p class="mu" style="font-size:12px">Incidencias por cada 10 instrumentos: ${tasa}</p>`:'')});
+  const conH=inc.filter(x=>x.extra&&x.extra.detectedAt&&x.extra.detectedAt.length>=16),mat=PERIODS.map(()=>[0,0,0,0,0]);let antes=0,desp=0;
+  conH.forEach(x=>{const[f,h]=x.extra.detectedAt.split('T'),m=+h.slice(0,2)*60+ +h.slice(3,5),wd=(new Date(f+'T12:00').getDay()+6)%7,k=PERIODS.findIndex(p=>{const[a,b]=p[1].split(':').map(Number),[c,e]=p[2].split(':').map(Number);return m>=a*60+b&&m<c*60+e});if(k>=0&&wd<5){mat[k][wd]++;k<3?antes++:desp++}});
+  const mx=Math.max(1,...mat.flat());
+  R.push({t:'Cuándo se detectan',h:`<table style="border-collapse:separate;border-spacing:3px;font-size:11px"><tr><td></td>${['L','M','X','J','V'].map(x=>`<td style="text-align:center;color:#766b7c;font-weight:700">${x}</td>`).join('')}</tr>${mat.map((r,k)=>`<tr><td style="color:#766b7c;font-weight:700;padding-right:4px">${PERIODS[k][0]}</td>${r.map(v=>`<td style="width:30px;height:21px;text-align:center;border-radius:5px;background:${v?`rgba(116,58,131,${(.25+.75*v/mx).toFixed(2)})`:'#f1e7f4'};color:#fff;font-weight:700">${v||''}</td>`).join('')}</tr>`).join('')}</table><p class="mu" style="font-size:12px;margin:6px 0 0">Antes del recreo <b>${antes}</b> · después del recreo <b>${desp}</b>${n-conH.length?` · ${n-conH.length} sin hora`:''}. Es cuándo se detectó, no cuándo ocurrió.</p>`});
+  R.push({t:'Resumen · '+esc(nom),i:1,h:`<div style="display:flex;align-items:center;gap:14px">${pieImg(pct)}<div><b>${n}</b> incidencias · <b>${ab}</b> abiertas · <b>${n-ab}</b> reparadas<br><span style="color:var(--er)">● Grave ${rot}</span> · <span style="color:var(--wn)">● Leve ${n-rot}</span></div></div>`})}
+ // 3) uso, olvidos y semanas
+ add(statsSemanas());add(statsCuando());
+ R.push({t:'Inventario hoy · '+esc(d.curso.nombre),i:1,h:d.tipos.map(t=>{const l=d.instrumentos.filter(i=>i.tipo==t.key),c={ok:0,rev:0,det:0,inc:0,ret:0,per:0};l.forEach(i=>c[estI(i)]++);
+  return `<div style="margin:6px 0 12px"><b>${esc(t.name)}</b> <span class="mu">(${l.length})</span><div style="display:flex;height:14px;border-radius:99px;overflow:hidden;background:#e5e5e5;margin:5px 0">${ESTK.map(k=>c[k]?`<i style="width:${c[k]/l.length*100}%;background:${ESTCOL[k]}"></i>`:'').join('')}</div><span style="font-size:12.5px">${ESTK.map(k=>`<span style="color:${ESTCOL[k]}">● ${EST_L[k]} <b>${c[k]}</b></span>`).join(' &nbsp; ')}</span></div>`}).join('')||'<span class="mu">Sin instrumentos.</span>'});
+ if(n){const cer=inc.filter(x=>x.estado=='closed'&&x.fecha_cierre),dd=x=>dias(stFecha(x),x.fecha_cierre),av=a=>a.length?(a.reduce((s,x)=>s+x,0)/a.length).toFixed(1).replace('.',','):'–',dl=cer.map(dd).sort((a,b)=>a-b);
+  R.push({t:'Tiempo de reparación',i:1,h:cer.length?`<b>${av(dl)}</b> días de media · mediana <b>${dl[Math.floor(dl.length/2)]}</b> · máximo <b>${dl[dl.length-1]}</b> <span class="mu">(${cer.length} reparadas)</span><br><span style="color:var(--er)">Graves ${av(cer.filter(grv).map(dd))} d</span> · <span style="color:var(--wn)">Leves ${av(cer.filter(x=>!grv(x)).map(dd))} d</span>`:'<span class="mu">Aún no hay incidencias reparadas en este periodo.</span>'})}
+ add(statsOlvidos(inf));add(statsUso());
+ const act=d.alumnos.filter(a=>a.activo);
+ R.push({t:'Instrumentos por grupo',h:'<p class="mu" style="font-size:12px;margin:0 0 4px">Un grupo sin asignar es un grupo que no usa ese instrumento (por ahora). Si un día lo tocan, hay que asignar un número a cada alumno.</p>'+d.tipos.map(t=>{const pg=d.grupos.map(g=>{const al=act.filter(a=>a.grupo_id==g.id&&!(t.key=='X'&&a.modalidad=='flauta'));return{g:g.nombre,n:al.length,as:al.filter(a=>cod(a,t.key)).length}}).filter(x=>x.n),usan=pg.filter(x=>x.as>0),no=pg.filter(x=>!x.as),pend=usan.filter(x=>x.as<x.n);
+  return `<div style="margin:6px 0 12px"><b>${esc(t.name)}</b>: lo usan <b>${usan.length}</b> grupos · sin asignar <b>${no.length}</b><br>${usan.map(x=>`<span style="display:inline-block;background:#f1e7f4;border-radius:99px;padding:1px 9px;margin:2px 4px 2px 0;font-size:12.5px">${esc(x.g)} <b>${x.as}/${x.n}</b></span>`).join('')}${pend.length?`<br><span style="color:var(--wn);font-size:12.5px">Faltan por asignar en grupos que sí lo usan: ${pend.map(x=>esc(x.g)+' ('+(x.n-x.as)+')').join(', ')}</span>`:''}${no.length?`<br><span class="mu" style="font-size:12.5px">Sin asignar: ${no.map(x=>esc(x.g)).join(', ')}</span>`:''}</div>`}).join('')});
+ R.push(statsPor100());
+ // 4) comparativa entre cursos (siempre la última; los profesores solo tienen su curso)
+ const TA=S.stAll,cs=[...S.cursos].sort((a,b)=>a.nombre.localeCompare(b.nombre)),g=TA?stFiltro(TA):[];
+ if(!T&&!inf)R.push({t:'Comparativa entre cursos',h:!TA?'<span class="mu">Cargando…</span>':cs.length<2?'<span class="mu">Cuando haya más de un curso podrás compararlos aquí.</span>':barras(cs.map(c=>[c.nombre,g.filter(x=>x.curso_id==c.id).length]))+`<p class="mu" style="font-size:12px">${cs.map(c=>{const r=g.filter(x=>x.curso_id==c.id);return esc(c.nombre)+': graves '+r.filter(x=>grav(x)=='rotura').length+' · leves '+r.filter(x=>grav(x)!='rotura').length}).join(' &nbsp;|&nbsp; ')}</p>`+(S.stP!='curso'?'<p class="mu" style="font-size:12px">Se aplica el periodo elegido a cada curso.</p>':'')});
+ return R}
+const perTxt=()=>({curso:'Todo el curso','1':'1.er trimestre (sep–dic)','2':'2.º trimestre (ene–mar)','3':'3.er trimestre (abr–ago)',custom:'Del '+(S.stD1||'…')+' al '+(S.stD2||'…')})[S.stP];
+const selTxt=()=>T?D().curso.nombre:S.stC=='all'?'Todos los cursos':(S.cursos.find(c=>c.id==(S.stC||S.cid))||{}).nombre;
+const secPdf=x=>`<div class="sec" style="margin:0 0 12px"><h3 style="margin:0 0 4px;color:#51205d;border-bottom:2px solid #c9a3d4;padding-bottom:2px;font-size:12pt">${x.t}</h3>${x.h}</div>`;
+function pdfStats(){if(!T&&!S.stAll)return toast('Espera un instante: se están cargando los datos de todos los cursos…',1);
+ pdf('Estadísticas',`<p style="font-size:10pt;margin:6px 0 12px"><b>Curso:</b> ${esc(selTxt())} · <b>Periodo:</b> ${esc(perTxt())}</p>${statsSecciones().map(secPdf).join('')}`)}
+// informe del periodo: resumen y las estadísticas clave, sin nombres de alumnado
+function pdfInforme(){if(!T&&!S.stAll)return toast('Espera un instante: se están cargando los datos de todos los cursos…',1);
+ const todas=S.stRows||D().incidencias,inc=stFiltro(todas),gv=inc.filter(x=>grav(x)=='rotura').length,esp=clasesEsp(),N=Object.values(esp).reduce((s,l)=>s+l.length,0),pr=SESP().filter(s=>perF(d10(s.fecha)));
+ const Pc=Object.entries(esp).reduce((s,[gn,l])=>{const g=grupoPorNombre(gn);return s+(g?l.filter(f=>pr.some(x=>x.grupo_id==g.id&&d10(x.fecha)==f)).length:0)},0),ol=CAM().filter(c=>c.motivo=='olvido'&&perF(d10(c.fecha))).length,k=(t,v)=>`<td style="padding:8px 12px;border:1px solid #e5d9e9;border-radius:8px;text-align:center"><div style="font-size:20pt;font-weight:700;color:#51205d">${v}</div><div style="font-size:8pt;color:#766b7c">${t}</div></td>`;
+ pdf('Informe · '+perTxt(),`<p style="font-size:10pt;margin:6px 0 10px"><b>Curso:</b> ${esc(selTxt())} · <b>Periodo:</b> ${esc(perTxt())}</p><table style="width:100%;border-spacing:6px;border-collapse:separate;margin-bottom:10px"><tr>${k('clases con práctica',N?Pc+' de '+N:Pc)}${k('incidencias',inc.length)}${k('graves',gv)}${k('olvidos de flauta',ol)}</tr></table>${statsSecciones(true).filter(x=>x.i).map(secPdf).join('')}`)}
+V.estadisticas=()=>{const todas=S.stRows||D().incidencias,inc=stFiltro(todas),n=inc.length,sel=S.stC||S.cid,
+ ctl=`<div class="card"><div class="row">${T?'':`<label>Curso <select onchange="stCurso(this.value)">${opt([...S.cursos.map(c=>[c.id,c.nombre]),['all','Todos los cursos']],sel)}</select></label>`}<label>Periodo <select onchange="S.stP=this.value;render()">${opt([['curso','Todo el curso'],['1','1.er trimestre (sep–dic)'],['2','2.º trimestre (ene–mar)'],['3','3.er trimestre (abr–ago)'],['custom','Personalizado…']],S.stP)}</select></label>${S.stP=='custom'?`<label>Desde <input type="date" value="${S.stD1}" onchange="S.stD1=this.value;render()"></label><label>Hasta <input type="date" value="${S.stD2}" onchange="S.stD2=this.value;render()"></label>`:''}<span class="mu">${n} de ${todas.length} incidencias</span><span style="margin-left:auto;display:flex;gap:8px"><button class="b" onclick="pdfInforme()" title="Resumen del periodo para actas y memoria">Informe PDF</button><button class="b s" onclick="pdfStats()">PDF completo</button></span></div></div>`;
+ if(!T&&!S.stAll&&!S.stBusy){S.stBusy=1;q(sb.from('gim2_incidencias').select('*')).then(r=>{S.stAll=r;S.stBusy=0;if(S.tab=='estadisticas')render()}).catch(()=>{S.stAll=[];S.stBusy=0})}
+ if(T&&S.stFalla)return `<div class="card"><h3>Estadísticas</h3><p class="mu">Las estadísticas todavía no están disponibles en este enlace. Avisa al jefe de departamento.</p></div>`;
+ return ctl+`<div class="st2">${statsSecciones().map(x=>`<div class="card sec${x.wide?' wide':''}"><h3>${x.t}</h3>${x.h}</div>`).join('')}</div>`};
 
 if(T)cargar().catch(()=>{$('#app').innerHTML='<main><div class="card"><h2>Enlace no válido</h2><p class="mu">Ha caducado o ha sido revocado. Pídele uno nuevo al jefe de departamento.</p></div></main>'});else cargar();
 </script><script>(function(){var U=['supabase.min.js','https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js','https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
